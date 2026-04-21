@@ -1,0 +1,231 @@
+/* Brainstorming theme: bright, playful, idea-forward.
+   Loaded in addition to style.css (base layout + sidebar). */
+
+:root {
+  --bb-sky: #dff4ff;
+  --bb-ink: #1b1f2a;
+  --bb-ink-soft: rgba(27, 31, 42, 0.72);
+  --bb-paper: rgba(255, 255, 255, 0.78);
+  --bb-paper-strong: rgba(255, 255, 255, 0.92);
+  --bb-stroke: rgba(27, 31, 42, 0.12);
+  --bb-glow: rgba(124, 111, 255, 0.18);
+
+  --bb-pink: #ff4fb3;
+  --bb-cyan: #2dd4ff;
+  --bb-lime: #39e58c;
+  --bb-orange: #ff9a3d;
+  --bb-purple: #7c6fff;
+}
+
+/* Keep the global light theme, but make brainstorming pages feel like a notebook. */
+body.bb {
+  background:
+    radial-gradient(900px 550px at 12% 16%, rgba(45, 212, 255, 0.35), transparent 55%),
+    radial-gradient(900px 550px at 85% 18%, rgba(255, 79, 179, 0.28), transparent 55%),
+    radial-gradient(900px 650px at 55% 88%, rgba(57, 229, 140, 0.24), transparent 60%),
+    linear-gradient(180deg, var(--bb-sky), #fbfdff 52%, #ffffff 100%);
+  color: var(--bb-ink);
+}
+
+body.bb .main {
+  position: relative;
+}
+
+body.bb .page-title {
+  letter-spacing: -0.02em;
+}
+
+/* Sidebar: lighter + friendlier on brainstorming pages */
+body.bb .sidebar {
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.72), rgba(255,255,255,0.56)),
+    radial-gradient(650px 300px at 25% 5%, rgba(45, 212, 255, 0.22), transparent 60%),
+    radial-gradient(650px 300px at 85% 18%, rgba(255, 79, 179, 0.18), transparent 60%);
+  border-right: 1px solid rgba(27, 31, 42, 0.1);
+  backdrop-filter: blur(12px);
+}
+
+body.bb .nav-section-label {
+  color: rgba(27, 31, 42, 0.55);
+}
+
+body.bb .nav-link {
+  color: rgba(27, 31, 42, 0.78);
+}
+
+body.bb .nav-link:hover {
+  background: rgba(124, 111, 255, 0.12);
+}
+
+body.bb .nav-link.active {
+  background: rgba(124, 111, 255, 0.18);
+  color: rgba(27, 31, 42, 0.92);
+  border: 1px solid rgba(124, 111, 255, 0.22);
+}
+
+/* Brainstorming board: turn the table into "idea cards" feel */
+body.bb .bb-intro {
+  background: var(--bb-paper);
+  border: 1px solid var(--bb-stroke);
+  border-radius: 16px;
+  padding: 0.9rem 1rem;
+  box-shadow: 0 16px 40px rgba(27, 31, 42, 0.08);
+}
+
+/* Board controls + cards */
+body.bb .bb-controls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.75rem 0 0.9rem;
+}
+
+body.bb .bb-sort-pill {
+  appearance: none;
+  border: 1px solid rgba(27, 31, 42, 0.14);
+  background: rgba(255, 255, 255, 0.75);
+  color: rgba(27, 31, 42, 0.86);
+  border-radius: 999px;
+  padding: 0.45rem 0.8rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  box-shadow: 0 12px 24px rgba(27, 31, 42, 0.06);
+  transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
+}
+
+body.bb .bb-sort-pill:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 16px 30px rgba(27, 31, 42, 0.09);
+}
+
+body.bb .bb-sort-pill[aria-sort="ascending"],
+body.bb .bb-sort-pill[aria-sort="descending"] {
+  background: rgba(124, 111, 255, 0.16);
+  border-color: rgba(124, 111, 255, 0.25);
+}
+
+body.bb .bb-sort-hint {
+  color: rgba(27, 31, 42, 0.62);
+  font-size: 0.86rem;
+  margin-left: 0.25rem;
+}
+
+body.bb .bb-card-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+@media (max-width: 1100px) {
+  body.bb .bb-card-grid { grid-template-columns: repeat(8, 1fr); }
+}
+@media (max-width: 760px) {
+  body.bb .bb-card-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+body.bb .bb-card {
+  grid-column: span 6;
+  background:
+    radial-gradient(650px 200px at 12% 20%, rgba(45, 212, 255, 0.18), transparent 60%),
+    radial-gradient(650px 200px at 92% 15%, rgba(255, 79, 179, 0.12), transparent 60%),
+    rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(27, 31, 42, 0.12);
+  border-radius: 18px;
+  padding: 0.95rem 1rem;
+  box-shadow: 0 18px 45px rgba(27, 31, 42, 0.10);
+  transform: translateY(0);
+  transition: transform 140ms ease, box-shadow 140ms ease, background 140ms ease;
+}
+
+body.bb .bb-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 24px 60px rgba(27, 31, 42, 0.14);
+}
+
+@media (max-width: 760px) {
+  body.bb .bb-card { grid-column: span 4; }
+}
+
+body.bb .bb-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+body.bb .bb-card-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  margin: 0;
+}
+
+body.bb .bb-card-title a {
+  color: rgba(27, 31, 42, 0.92);
+  text-decoration: none;
+}
+
+body.bb .bb-card-title a:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+body.bb .bb-card-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+body.bb .bb-card-meta {
+  margin-top: 0.55rem;
+  color: rgba(27, 31, 42, 0.66);
+  font-size: 0.92rem;
+  line-height: 1.35;
+}
+
+/* Make badges pop like stickers */
+body.bb .bb-badge {
+  border: 1px solid rgba(27, 31, 42, 0.12);
+  box-shadow: 0 10px 18px rgba(27, 31, 42, 0.06);
+}
+
+body.bb .bb-importance-low { background: rgba(45, 212, 255, 0.18); color: rgba(27, 31, 42, 0.84); }
+body.bb .bb-importance-medium { background: rgba(124, 111, 255, 0.18); color: rgba(27, 31, 42, 0.84); }
+body.bb .bb-importance-high { background: rgba(255, 154, 61, 0.22); color: rgba(27, 31, 42, 0.86); }
+body.bb .bb-importance-critical { background: rgba(255, 79, 179, 0.22); color: rgba(27, 31, 42, 0.86); }
+
+body.bb .bb-status-open { background: rgba(57, 229, 140, 0.20); color: rgba(27, 31, 42, 0.86); }
+body.bb .bb-status-closed { background: rgba(27, 31, 42, 0.10); color: rgba(27, 31, 42, 0.72); }
+
+/* Topic subpages */
+body.topic-page.bb .topic-desc {
+  color: var(--bb-ink-soft);
+}
+
+body.topic-page.bb .idea-list > li {
+  background: var(--bb-paper-strong);
+  border: 1px solid rgba(27, 31, 42, 0.10);
+  border-radius: 16px;
+  padding: 0.9rem 1rem;
+  margin: 0 0 0.8rem 0;
+  box-shadow: 0 14px 34px rgba(27, 31, 42, 0.08);
+}
+
+body.topic-page.bb .idea-list > li strong {
+  color: rgba(27, 31, 42, 0.92);
+}
+
+/* Make inline code look like sticky labels */
+body.bb code {
+  background: rgba(27, 31, 42, 0.06);
+  border: 1px solid rgba(27, 31, 42, 0.08);
+  border-radius: 10px;
+  padding: 0.1rem 0.35rem;
+}

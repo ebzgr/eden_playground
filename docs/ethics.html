@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Marketing for Betterment's playground — Ethics & Data Protection</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .content-section { margin-bottom: 2.5rem; }
+    .content-section p { margin-bottom: 0.75rem; }
+
+    ul.styled {
+      list-style: none;
+      margin: 0.75rem 0 1.25rem;
+    }
+    ul.styled li {
+      position: relative;
+      padding: 0.4rem 0 0.4rem 1.5rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+    ul.styled li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+    }
+
+    .ref-link {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px dotted var(--accent);
+    }
+    .ref-link:hover { border-bottom-style: solid; }
+
+    .callout {
+      display: flex;
+      gap: 0.75rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 8px 8px 0;
+      padding: 0.85rem 1rem;
+      margin: 1rem 0;
+      font-size: 0.87rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+    .callout.mission { border-left-color: #3dd68c; }
+    .callout.warn { border-left-color: #f5c842; }
+
+    strong { color: var(--text); }
+
+    .subhead {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin: 1.25rem 0 0.5rem;
+      color: var(--text);
+    }
+  </style>
+</head>
+<body>
+  <div id="wiki-sidebar-root"></div>
+
+  <main class="main">
+    <h1 class="page-title">Ethics & Data Protection</h1>
+
+    <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+      This page describes how we protect users, design interventions responsibly, and run experiments fairly. 
+      It complements the ethical guardrails in the 
+      <a href="conceptual.html" class="ref-link">Conceptual Layer</a> and the procedures in 
+      <a href="research-methodology.html" class="ref-link">Research Methodology</a>. 
+      Further detail (e.g. region-specific privacy law, full consent copy, and review checklists) can be added as the platform matures.
+    </p>
+
+    <!-- ========== PRIVACY ========== -->
+    <div class="content-section">
+      <h2>Privacy</h2>
+
+      <p>
+        We treat privacy as a <strong>design requirement</strong>, not an afterthought 
+        (<strong>privacy by design</strong>). The goal is to run rigorous research with the minimum data 
+        necessary and without building a conventional “account” around real-world identity.
+      </p>
+
+      <h3 class="subhead">What we do not collect for identity</h3>
+      <p>
+        We do <strong>not</strong> require or store identifiers such as <strong>email addresses</strong>, 
+        phone numbers, or real names for users to use the playground. We avoid collecting 
+        <strong>personally identifiable information (PII)</strong> for profiling or marketing in the 
+        commercial sense.
+      </p>
+
+      <h3 class="subhead">Return key and pseudonymous identifier</h3>
+      <p>
+        Users who wish to <strong>come back later and continue the narrative</strong> can 
+        <strong>download a key</strong> (or equivalent credential) generated for them. That key is the 
+        primary <strong>pseudonymous identifier</strong> our systems use to recognise a returning session 
+        and to link behaviour and research data to a stable random ID — <strong>not</strong> to a person’s 
+        legal identity. Users should store the key safely; without it, continuity may not be recoverable 
+        by design, which limits re-identification risk from our side.
+      </p>
+
+      <ul class="styled">
+        <li>
+          <strong>Data minimisation:</strong> Store only what the research and product experience require; 
+          default to aggregation where possible.
+        </li>
+        <li>
+          <strong>Purpose limitation:</strong> Use data only for stated research, safety, and improvement 
+          purposes.
+        </li>
+        <li>
+          <strong>Security:</strong> Protect stored data and keys in transit and at rest according to current 
+          best practices.
+        </li>
+        <li>
+          <strong>Transparency:</strong> Clear explanations at the point of use about what is recorded and why.
+        </li>
+      </ul>
+
+      <div class="callout mission">
+        <span>🔐</span>
+        <span>
+          Region-specific obligations (for example GDPR, where applicable) will be reflected in consent 
+          wording, retention limits, and user rights — documented alongside implementation, not only in this wiki.
+        </span>
+      </div>
+    </div>
+
+    <!-- ========== EMOTIONAL MANIPULATION & SAFETY ========== -->
+    <div class="content-section">
+      <h2>Emotional manipulation and participant safety</h2>
+
+      <p>
+        The playground studies manipulative marketing — which means we must be especially careful not to 
+        reproduce harm under the guise of research. We aim to keep <strong>interventions within safe 
+        intensity</strong>, aligned with the principle that we <strong>mirror common commercial patterns 
+        without escalating</strong> beyond what users might ordinarily encounter, while still making patterns 
+        visible for learning.
+      </p>
+
+      <h3 class="subhead">Safe interventions</h3>
+      <p>
+        Content and experiments go through <strong>human review</strong> before reaching users. We screen 
+        for undue distress, targeting of vulnerable groups without safeguards, and scenarios that would 
+        cross our <strong>intensity boundaries</strong>. Adaptive or automated systems that propose variants 
+        remain under <strong>human oversight</strong> so unsafe combinations are not deployed.
+      </p>
+
+      <h3 class="subhead">Metrics for well-being, society, and the planet</h3>
+      <p>
+        A core part of our mission is to improve not only commercial awareness but outcomes that matter 
+        beyond clicks. We therefore <strong>continuously develop and refine measurement</strong> related to 
+        <strong>mental health</strong>, <strong>societal impact</strong>, and <strong>planetary 
+        well-being</strong> — working with appropriate expertise where needed — so we can detect negative 
+        effects early and reward designs that genuinely help users and the public good.
+      </p>
+
+      <h3 class="subhead">Debriefing and understanding user status</h3>
+      <p>
+        <strong>Debriefing is built into the experience by design:</strong> after meaningful encounters, 
+        users receive explanations of what techniques appeared, why they matter, and how similar patterns 
+        show up online. In addition, we use <strong>carefully designed questions</strong> (surveys or 
+        in-flow prompts) to understand <strong>users’ status</strong> — for example stress, clarity, or 
+        perceived pressure — in ethical, voluntary ways. These inputs support both user reflection and our 
+        evaluation of whether interventions remain acceptable over time.
+      </p>
+
+      <p>
+        More on intervention formats appears under 
+        <a href="interventions.html" class="ref-link">Interventions</a>; metric definitions will live under 
+        <a href="metrics.html" class="ref-link">Metrics & Measurement</a> as they are specified.
+      </p>
+    </div>
+
+    <!-- ========== UNBIASED DESIGN & LEGAL RISK ========== -->
+    <div class="content-section">
+      <h2>Unbiased design and fair evaluation</h2>
+
+      <p>
+        In both <strong>product design</strong> and <strong>experimentation</strong>, we strive for 
+        <strong>unbiased evaluation</strong>: comparisons should reflect real differences in interventions 
+        or narratives, not hidden skew from measurement, assignment, or reporting. That includes pre-registered 
+        hypotheses where appropriate, transparent assignment (e.g. randomisation — see 
+        <a href="research-methodology.html" class="ref-link">Research Methodology</a>), guarding against 
+        selective reporting, and analysing <strong>heterogeneous effects</strong> so we do not optimise 
+        only for a narrow subgroup by default.
+      </p>
+
+      <h3 class="subhead">Measures to reduce legal risk (defamation, trademarks, and related issues)</h3>
+      <p>
+        We educate about manipulative patterns; we do not set out to attack identifiable real companies or 
+        individuals. The following practices reduce exposure to claims such as <strong>defamation</strong>, 
+        <strong>trademark infringement</strong>, or <strong>unfair competition</strong>, while preserving 
+        pedagogical clarity. They are operational commitments, not a substitute for jurisdiction-specific 
+        legal advice — we involve <strong>legal review</strong> when content approaches real-world brands or 
+        sensitive allegations.
+      </p>
+
+      <ul class="styled">
+        <li>
+          <strong>Fictional or composite brands:</strong> Prefer clearly fictional companies, products, and 
+          characters when illustrating techniques, unless we have a clear, reviewed basis for referencing 
+          real entities.
+        </li>
+        <li>
+          <strong>No false statements of fact:</strong> Avoid asserting that a specific real company engaged 
+          in wrongdoing; focus on <strong>generic patterns</strong> and educational framing.
+        </li>
+        <li>
+          <strong>Trademark discipline:</strong> Do not use third-party logos, names, or trade dress in ways 
+          that suggest endorsement or origin; use generic or original assets; obtain clearance or licence 
+          where a real mark must be discussed for research transparency.
+        </li>
+        <li>
+          <strong>Satire and clarity:</strong> Where irony or pastiche is used, make the fictional or 
+          illustrative nature obvious to reasonable users so intent is educational, not misleading.
+        </li>
+        <li>
+          <strong>Editorial and legal review:</strong> Maintain a checklist for releases that mention real 
+          sectors or brands; escalate borderline content for legal sign-off.
+        </li>
+        <li>
+          <strong>Documentation:</strong> Keep records of design rationale and approvals for high-visibility 
+          or sensitive scenarios.
+        </li>
+      </ul>
+
+      <div class="callout warn">
+        <span>⚖️</span>
+        <span>
+          These measures aim to align creative and research goals with lower litigation risk. They do not 
+          guarantee outcomes in every jurisdiction; formal policies and counsel should track the product as 
+          it scales.
+        </span>
+      </div>
+    </div>
+
+  </main>
+
+    <script src="js/sidebar.js" defer></script>
+  <script src="theme.js" defer></script>
+</body>
+</html>

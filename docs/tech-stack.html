@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Marketing for Betterment's playground — Tech Stack</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .content-section { margin-bottom: 2rem; }
+    .content-section p { margin-bottom: 0.75rem; color: var(--text-secondary); line-height: 1.65; }
+    .stack-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+      margin: 0.75rem 0 1rem;
+    }
+    .stack-table th,
+    .stack-table td {
+      border: 1px solid var(--border);
+      padding: 0.65rem 0.85rem;
+      text-align: left;
+      vertical-align: top;
+    }
+    .stack-table th {
+      background: var(--surface);
+      color: var(--text);
+      font-weight: 600;
+    }
+    .stack-table td { color: var(--text-secondary); }
+    ul.plain {
+      margin: 0.5rem 0 0 1.25rem;
+      color: var(--text-secondary);
+      line-height: 1.65;
+    }
+    ul.plain li { margin-bottom: 0.4rem; }
+    .flow-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      margin: 0.75rem 0;
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      font-family: ui-monospace, monospace;
+    }
+    .placeholder-block {
+      border: 1px dashed var(--border);
+      border-radius: 8px;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+    }
+    strong { color: var(--text); }
+  </style>
+</head>
+<body>
+  <div id="wiki-sidebar-root"></div>
+
+  <main class="main">
+    <h1 class="page-title">Tech Stack</h1>
+
+    <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+      This page states the <strong>requirements</strong> that shaped v1, then the <strong>architecture</strong> 
+      chosen to satisfy them. Product and research detail is in the 
+      <a href="conceptual.html" style="color: var(--accent);">Conceptual Layer</a>, 
+      <a href="worlds.html" style="color: var(--accent);">Worlds</a>, and 
+      <a href="research-methodology.html" style="color: var(--accent);">Research Methodology</a>. 
+      Jump to <a href="#requirements" style="color: var(--accent);">Requirements</a> or 
+      <a href="#architecture-principles" style="color: var(--accent);">Architecture principles</a>. 
+      Concrete language and framework choices live under 
+      <a href="#technologies" style="color: var(--accent);">Technologies</a> once decided.
+    </p>
+
+    <div class="content-section" id="requirements">
+      <h2>Requirements</h2>
+      <p>
+        The following are <strong>constraints and goals</strong> the system must support. They are the reason 
+        for the deployables and boundaries described later—not the other way around.
+      </p>
+
+      <h3 style="font-size: 0.95rem; font-weight: 600; margin: 1.25rem 0 0.5rem; color: var(--text);">Product and experience</h3>
+      <ul class="plain">
+        <li><strong>Journey across Worlds:</strong> Users need a single, coherent narrative arc with progress, tokens, and gating between Worlds (see <a href="worlds.html" style="color: var(--accent);">Worlds</a>).</li>
+        <li><strong>Versioned experiences:</strong> Worlds and narrative themes vary by version; the client must load the <strong>correct HTML/JS bundles</strong> for the assigned experiment arm.</li>
+        <li><strong>Static world delivery:</strong> Worlds are composed of static assets; the platform must resolve <strong>which versioned paths</strong> to serve without requiring a heavy “builder” runtime.</li>
+      </ul>
+
+      <h3 style="font-size: 0.95rem; font-weight: 600; margin: 1.25rem 0 0.5rem; color: var(--text);">Research and experimentation</h3>
+      <ul class="plain">
+        <li><strong>Randomised assignment:</strong> Users must be assigned to arms/versions in a way that supports causal inference (<a href="research-methodology.html" style="color: var(--accent);">Research Methodology</a>).</li>
+        <li><strong>Rich telemetry:</strong> Append-only capture of contextual, behavioural, and self-report events for analysis and guardrails.</li>
+        <li><strong>Offline / batch analysis:</strong> Statistical workflows (A/B, heterogeneity, optional adaptive proposals) must run <strong>without blocking</strong> the live user path.</li>
+        <li><strong>Reproducibility:</strong> Experiment definitions and content versions must be <strong>traceable</strong> from metrics and reports.</li>
+      </ul>
+
+      <h3 style="font-size: 0.95rem; font-weight: 600; margin: 1.25rem 0 0.5rem; color: var(--text);">Privacy, ethics, and access</h3>
+      <ul class="plain">
+        <li><strong>No email-first accounts:</strong> Pseudonymous continuity via a <strong>return key</strong>; minimise PII (<a href="ethics.html" style="color: var(--accent);">Ethics &amp; Data Protection</a>).</li>
+        <li><strong>Invite-only (v1):</strong> Access control for who can enter the playground at all.</li>
+        <li><strong>Human review:</strong> Sensitive or adaptive changes to what users see must be <strong>governable</strong> (queues, approvals), not only code deploys.</li>
+      </ul>
+
+      <h3 style="font-size: 0.95rem; font-weight: 600; margin: 1.25rem 0 0.5rem; color: var(--text);">Operations and scale (v1)</h3>
+      <ul class="plain">
+        <li><strong>Low traffic, small team:</strong> Prefer <strong>simplicity and operability</strong> over premature scale-out; avoid many microservices until there is clear pain.</li>
+        <li><strong>Observable research:</strong> Researchers and operators need to see <strong>experiment health</strong> and outcomes without a separate data engineering org at the start.</li>
+      </ul>
+
+      <h3 style="font-size: 0.95rem; font-weight: 600; margin: 1.25rem 0 0.5rem; color: var(--text);">From requirements to design</h3>
+      <p>
+        Those needs map directly to: one <strong>authoritative backend</strong> (auth, progress, assignment, ingest), 
+        <strong>static hosting</strong> for world bundles, <strong>batch analysis</strong> for stats and aggregates, 
+        and <strong>internal dashboards</strong> backed by the same API with strong role separation—not a large 
+        fleet of independent services on day one.
+      </p>
+      <table class="stack-table" style="margin-top: 1rem;">
+        <thead>
+          <tr>
+            <th>Requirement area</th>
+            <th>Primary architectural response</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Journey, versioning, static Worlds</td>
+            <td>Platform API (progress, assignment, manifest) + <strong>static asset hosts</strong> for versioned bundles.</td>
+          </tr>
+          <tr>
+            <td>Experiments, telemetry, reproducibility</td>
+            <td>Experiment config and <strong>append-only event ingest</strong> in the Platform API + DB; <strong>batch Python jobs</strong> for analysis and aggregates.</td>
+          </tr>
+          <tr>
+            <td>Privacy, return keys, invite-only</td>
+            <td>Identity and session semantics in the Platform API; <strong>admin dashboard</strong> for invites and governance.</td>
+          </tr>
+          <tr>
+            <td>Research and operator visibility</td>
+            <td><strong>Research metrics dashboard</strong> and admin UI as frontends on <strong>internal JSON routes</strong>, not separate metric backends at v1.</td>
+          </tr>
+          <tr>
+            <td>Simplicity at modest scale</td>
+            <td><strong>One backend deployable</strong> with clear modules; defer extra microservices until needed.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="content-section" id="architecture-principles">
+      <h2>Architecture principles (v1)</h2>
+      <p>
+        The architecture below implements the requirements in the previous section. In short: prefer 
+        <strong>few running services</strong> over premature microservices. Worlds ship as 
+        <strong>versioned static bundles</strong> (HTML, JS, assets); a single <strong>Platform API</strong> 
+        handles auth, progress, experiments, telemetry, and internal JSON endpoints for dashboards. 
+        Analysis runs as <strong>batch jobs</strong> (Python) over the operational database or exports.
+      </p>
+    </div>
+
+    <div class="content-section">
+      <h2>Deployables</h2>
+      <table class="stack-table">
+        <thead>
+          <tr>
+            <th>Deployable</th>
+            <th>Role</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Platform API</strong> (single backend)</td>
+            <td>Return-key / session auth; journey and progress; experiment assignment; event ingest; world manifest and version resolution; JSON APIs for research metrics and admin (separate route groups, role-based auth).</td>
+          </tr>
+          <tr>
+            <td><strong>Static asset hosts</strong></td>
+            <td>Versioned world bundles and, if applicable, the public shell app separate from internal dashboards.</td>
+          </tr>
+          <tr>
+            <td><strong>Operational database</strong></td>
+            <td>Sessions, progress, assignments, raw events, experiment definitions, admin configuration.</td>
+          </tr>
+          <tr>
+            <td><strong>Batch jobs (Python)</strong></td>
+            <td>Scheduled analysis, aggregates for dashboards, exports; optional adaptive proposals as reviewable artefacts (not auto-applied without human review).</td>
+          </tr>
+          <tr>
+            <td><strong>Research metrics dashboard</strong> (web UI)</td>
+            <td>Per-experiment views: enrolment, arms, KPIs, guardrails, funnel and behaviour summaries; reads aggregates and experiment metadata via the Platform API (or read replicas / materialised views).</td>
+          </tr>
+          <tr>
+            <td><strong>Admin dashboard</strong> (web UI)</td>
+            <td>Invite codes; experiment create/update and status; content version pointers; feature flags; human-review queues; support actions that respect pseudonymity (see <a href="ethics.html" style="color: var(--accent);">Ethics &amp; Data Protection</a>).</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="content-section">
+      <h2>Dashboards</h2>
+      <p>
+        Dashboards are <strong>not</strong> separate backend services. Ship two UI surfaces (or one app with two 
+        authenticated areas): <strong>research metrics</strong> and <strong>admin</strong>. Both are static or 
+        server-rendered frontends that call the Platform API on internal routes (for example 
+        <code style="font-size: 0.85em;">/api/internal/metrics/…</code>, 
+        <code style="font-size: 0.85em;">/api/admin/…</code>) with <strong>role-based authentication</strong> 
+        (researcher vs operator). Splitting admin APIs into another deployable is optional later for compliance 
+        or blast-radius, not required at the start.
+      </p>
+    </div>
+
+    <div class="content-section">
+      <h2>Platform API modules</h2>
+      <p>Logical modules live inside the single backend until a split is justified by scale or policy:</p>
+      <ul class="plain">
+        <li>Identity and return-key validation</li>
+        <li>Journey and progress (authoritative cross-world state)</li>
+        <li>Experiment configuration and assignment</li>
+        <li>Telemetry ingest (append-only)</li>
+        <li>Experience resolver (world id to static base URL or manifest)</li>
+        <li>Internal read models for dashboard queries (SQL views or thin handlers)</li>
+      </ul>
+    </div>
+
+    <div class="content-section">
+      <h2>Data flow</h2>
+      <p><strong>Production path:</strong> browser to Platform API to database; events appended immutably.</p>
+      <p><strong>Analytics path:</strong> database to batch Python jobs to aggregates, snapshot tables, or files; dashboards read aggregated data.</p>
+      <p>
+        Avoid bidirectional sync between separate “research” and “production” data stores; v1 may use 
+        <strong>one database</strong> with clear schemas plus batch exports for heavier analysis.
+      </p>
+      <div class="flow-box">
+        Player app ──► Platform API ──► DB<br>
+        Research dashboard ──► Platform API ──┐<br>
+        Admin dashboard ──► Platform API ─────┤<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;▼<br>
+        Player app ──► Static world files<br>
+        DB ──► Python batch jobs ──► DB / files (aggregates)
+      </div>
+    </div>
+
+    <div class="content-section">
+      <h2>Deferred for later</h2>
+      <ul class="plain">
+        <li>Dedicated <strong>world-builder</strong> microservice (authoring stays repo, CI, static deploy, manifest).</li>
+        <li>Dedicated <strong>collaboration</strong> service (team tools; real-time multi-user worlds only if product requires).</li>
+        <li>Standalone <strong>metrics platform</strong> product (dashboards plus aggregates plus Python jobs until scale demands more).</li>
+        <li>Optional <strong>LLM / adaptive</strong> loop as a separate concern; when introduced, proposals pass human review before promotion to experiment config (see <a href="brainstorming.html" style="color: var(--accent);">Brainstorming Board</a> and research methodology).</li>
+      </ul>
+    </div>
+
+    <div class="content-section" id="technologies">
+      <h2>Technologies</h2>
+      <p style="margin-bottom: 0;">
+        Languages, runtimes, frameworks, and hosting choices for each deployable will be recorded here.
+      </p>
+      <div class="placeholder-block">
+        <em>To be filled in: stacks for Platform API, static hosting, database, batch jobs, and dashboard frontends.</em>
+      </div>
+    </div>
+
+  </main>
+
+    <script src="js/sidebar.js" defer></script>
+  <script src="theme.js" defer></script>
+</body>
+</html>

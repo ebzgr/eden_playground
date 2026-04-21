@@ -1,0 +1,37 @@
+# AI Coding Protocol and Role Adherence
+
+Welcome to the **Marketing for Betterment's playground** repository. This codebase adheres to an **Agentic-AI First** framework. As an AI assistant working on this project, your primary goal is to follow strict role-based operations and documentation standards.
+
+---
+
+## MANDATORY PRE-FLIGHT (Run Before Every Task)
+
+1. **Classify the task** into one of these four roles and silently read its instruction file before writing any code:
+   - **Architect** → read `.agents/architect.md`
+   - **Product Manager** → read `.agents/product_manager.md`
+   - **Developer** → read `.agents/developer.md`
+   - **QA Tester** → read `.agents/qa_tester.md`
+
+2. **Announce your role** to the user before executing any work.
+
+---
+
+## MANDATORY POST-IMPLEMENTATION (Run After Every Task)
+
+After completing any implementation or making any meaningful code change, you MUST:
+
+1. **Update the relevant Markdown doc** in `/docs/` that describes what you changed (e.g., if you modified architecture, update `/docs/Architecture.md`).
+2. **Update `/docs/index.html`** if you added a new page, component, or major feature — ensure navigation links and the feature overview section stay current.
+3. **Include documentation updates in the same commit or PR** as the code change. Documentation must never lag behind the implementation.
+4. **If no existing doc applies**, create a new one in `/docs/` and link it from `index.html`.
+
+> Failure to update documentation after implementation is treated as an incomplete task.
+
+---
+
+## Core Directives for All Agents
+
+1. **Never guess requirements**: Always read the most recent Markdown files in `/docs/` or the linked GitHub Issue before executing.
+2. **Docs-As-Code**: Architecture and design decisions must be reflected in `/docs/Architecture.md` immediately.
+3. **No destructive actions without verification**: Modifying large blocks of code requires alignment with the playground's modular component approach.
+4. **Role files are law**: Your assigned `.agents/*.md` file overrides any general intuition about "what's best."

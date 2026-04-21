@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Marketing for Betterment's playground — Research Methodology</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .content-section { margin-bottom: 2.5rem; }
+    .content-section p { margin-bottom: 0.75rem; }
+
+    ul.styled {
+      list-style: none;
+      margin: 0.75rem 0 1.25rem;
+    }
+    ul.styled li {
+      position: relative;
+      padding: 0.4rem 0 0.4rem 1.5rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+    ul.styled li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+    }
+
+    .ref-link {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px dotted var(--accent);
+    }
+    .ref-link:hover { border-bottom-style: solid; }
+
+    .callout {
+      display: flex;
+      gap: 0.75rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 8px 8px 0;
+      padding: 0.85rem 1rem;
+      margin: 1rem 0;
+      font-size: 0.87rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+    .callout.mission { border-left-color: #f5c842; }
+    .callout.warn { border-left-color: #f5c842; }
+
+    strong { color: var(--text); }
+
+    /* WORKFLOW */
+    .workflow {
+      margin: 1.5rem 0 2rem;
+      position: relative;
+    }
+
+    .workflow-step {
+      position: relative;
+      padding: 1.25rem 1.5rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 0.75rem;
+      transition: border-color 0.2s;
+    }
+
+    .workflow-step:hover { border-color: rgba(124,111,255,0.3); }
+
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .step-number {
+      width: 1.75rem;
+      height: 1.75rem;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .step-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .step-body {
+      padding-left: 2.5rem;
+      color: var(--text-secondary);
+      font-size: 0.88rem;
+      line-height: 1.6;
+    }
+
+    .step-body ul {
+      list-style: none;
+      margin: 0.4rem 0 0;
+    }
+
+    .step-body ul li {
+      position: relative;
+      padding: 0.2rem 0 0.2rem 1.25rem;
+    }
+
+    .step-body ul li::before {
+      content: '•';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+    }
+
+    /* CONNECTOR LINE */
+    .workflow-step + .workflow-step::before {
+      content: '';
+      position: absolute;
+      top: -0.75rem;
+      left: 2.35rem;
+      width: 2px;
+      height: 0.75rem;
+      background: var(--border);
+    }
+
+    /* VARIABLE CARD */
+    .var-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .var-card h4 {
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.4rem;
+    }
+
+    .var-card p {
+      font-size: 0.87rem;
+      color: var(--text-secondary);
+      margin-bottom: 0.35rem;
+    }
+
+    .var-tag {
+      display: inline-block;
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    .var-tag.context { background: rgba(124,111,255,0.12); color: #7c6fff; }
+    .var-tag.behavioral { background: rgba(0,229,201,0.12); color: #00e5c9; }
+    .var-tag.self-report { background: rgba(245,200,66,0.12); color: #f5c842; }
+  </style>
+</head>
+<body>
+  <div id="wiki-sidebar-root"></div>
+
+  <main class="main">
+    <h1 class="page-title">Research Methodology</h1>
+
+    <!-- ========== RESEARCH OBJECTIVE ========== -->
+    <div class="content-section">
+      <h2>Research Objective</h2>
+      <p>
+        Our goal is to measure the <strong>causal effect</strong> of different interventions on individual
+        behaviour and to understand their broader <strong>individual, societal, and planetary implications</strong>.
+        Beyond estimating average effects, we aim to uncover the <strong>underlying mechanisms</strong> through
+        which each intervention operates and to identify its <strong>heterogeneous impact across different
+        user segments</strong>.
+      </p>
+
+      <div class="callout mission">
+        <span>⚠️</span>
+        <span>
+          All research is conducted through the lens of consumer, societal, and planetary well-being.
+          We study marketing effectiveness not to maximise profit, but to understand influence well enough
+          to build effective awareness, inform policy, and create demand for responsible practices.
+        </span>
+      </div>
+    </div>
+
+    <!-- ========== INTERVENTIONS ========== -->
+    <div class="content-section">
+      <h2>Interventions</h2>
+
+      <p>
+        An intervention is any controlled change introduced into the user experience whose effect
+        we wish to measure. Interventions fall into three broad categories:
+      </p>
+
+      <ul class="styled">
+        <li>
+          <strong>Business-oriented marketing interventions:</strong> Techniques commonly used in commercial
+          platforms — pricing strategies, discount framing, urgency cues, social proof elements, and other
+          persuasive design patterns.
+        </li>
+        <li>
+          <strong>Awareness-creation interventions:</strong> Educational or decision-support mechanisms designed
+          to help users recognise and resist manipulation — such as pre-decision messages, debriefing screens,
+          or contextual warnings.
+        </li>
+        <li>
+          <strong>Environmental factor changes:</strong> Modifications to the interaction environment itself —
+          colours, layout, emotional cues, tone of language, timing of prompts — that may influence behaviour
+          without explicit persuasive messaging.
+        </li>
+      </ul>
+
+      <p>
+        Interventions are <strong>designed, tested, and optimised using automated techniques</strong> (such as
+        <a href="https://en.wikipedia.org/wiki/Multi-armed_bandit" class="ref-link">adaptive optimisation algorithms like LOLA</a>)
+        under <strong>human supervision</strong>. No intervention is deployed to users without prior human review.
+        This ensures that all interventions remain controlled, ethical, and within the intensity boundaries
+        defined in our <a href="ethics.html" class="ref-link">Ethics & Data Protection</a> framework.
+      </p>
+
+      <p>
+        For details on how specific interventions are structured and versioned within Worlds, see
+        <a href="interventions.html" class="ref-link">Interventions</a>.
+      </p>
+    </div>
+
+    <!-- ========== IDENTIFICATION STRATEGY ========== -->
+    <div class="content-section">
+      <h2>Identification Strategy</h2>
+
+      <p>
+        Causal identification is achieved through <strong>random assignment</strong>. Users entering a World are
+        randomly assigned to different intervention versions. By comparing outcomes across randomly assigned
+        groups, we isolate the causal effect of each intervention from confounding factors.
+      </p>
+
+      <p>
+        This experimental approach is complemented by observational tracking: we continuously record behavioural,
+        self-reported, and contextual data to support additional modelling, segmentation, and mechanism analysis.
+      </p>
+    </div>
+
+    <!-- ========== VARIABLES & METRICS ========== -->
+    <div class="content-section">
+      <h2>Variables & Metrics</h2>
+
+      <p>
+        We measure a range of variables throughout each user interaction. These serve as inputs to our
+        models and as outcome measures for evaluating intervention effects. Variables fall into three categories:
+      </p>
+
+      <div class="var-card">
+        <span class="var-tag context">CONTEXTUAL</span>
+        <h4>Contextual Information</h4>
+        <p>
+          Data related to the context of each interaction — not directly produced by user behaviour, but
+          describing the circumstances under which the interaction occurs.
+        </p>
+        <p><strong>Examples:</strong> Date and time of visit, the campaign or channel through which the user
+          arrived at the platform, the experimental condition (e.g., which version of a World the user is
+          assigned to), device type, geographic region.</p>
+      </div>
+
+      <div class="var-card">
+        <span class="var-tag behavioral">BEHAVIOURAL</span>
+        <h4>Behavioural Information</h4>
+        <p>
+          Data gathered through the user's direct interaction with platform elements. This captures what
+          users actually <em>do</em> rather than what they report.
+        </p>
+        <p><strong>Includes:</strong></p>
+        <ul class="styled">
+          <li><strong>Event data:</strong> Clicks, scrolls, hovers, page transitions, time spent on elements, navigation paths.</li>
+          <li><strong>Choice data:</strong> Decisions made within the interaction — product selections, opt-in/out actions, funnel progression, and any other response to persuasive prompts.</li>
+        </ul>
+      </div>
+
+      <div class="var-card">
+        <span class="var-tag self-report">SELF-REPORTED</span>
+        <h4>Self-Report Data</h4>
+        <p>
+          Information users voluntarily share with us, with informed consent, for research purposes.
+        </p>
+        <p><strong>Examples:</strong> Demographic information, tastes and preferences, emotional state
+          assessments, perceived pressure or autonomy, satisfaction ratings, and any other subjective
+          measures embedded within the experience.</p>
+      </div>
+    </div>
+
+    <!-- ========== MODELLING & ANALYSIS ========== -->
+    <div class="content-section">
+      <h2>Modelling & Analysis</h2>
+
+      <p>
+        The collected data feeds into our modelling pipeline, where we apply <strong>causal estimation
+        and experimentation tools</strong> to answer our research questions. Our methodology toolkit includes:
+      </p>
+
+      <ul class="styled">
+        <li><strong>Randomised experiments (A/B/n testing):</strong> Primary identification strategy for estimating average treatment effects of interventions.</li>
+        <li><strong>Heterogeneous treatment effect estimation:</strong> Methods to detect which user segments experience disproportionately strong or weak effects — including divergence-based approaches for identifying vulnerable subgroups.</li>
+        <li><strong>Adaptive optimisation algorithms:</strong> Systems (e.g., LOLA) that propose new intervention variants, test them, and learn from observed outcomes in a closed loop under human supervision.</li>
+        <li><strong>Mechanism analysis:</strong> Statistical and behavioural models to understand <em>why</em> an intervention works — which psychological, contextual, or design factors mediate its effect.</li>
+      </ul>
+
+      <div class="callout">
+        <span>🔧</span>
+        <span>
+          The modelling toolkit is not fixed. We define new models and expand our estimation methods as
+          the project evolves. Each experiment may introduce specialised analytical approaches depending
+          on the research question.
+        </span>
+      </div>
+    </div>
+
+    <!-- ========== RESEARCH WORKFLOW ========== -->
+    <div class="content-section">
+      <h2>Research Workflow</h2>
+
+      <p>
+        Every experiment follows a structured five-step workflow. This ensures rigour, reproducibility,
+        and ethical compliance across all research activities.
+      </p>
+
+      <div class="workflow">
+
+        <div class="workflow-step">
+          <div class="step-header">
+            <div class="step-number">1</div>
+            <div class="step-title">Definition</div>
+          </div>
+          <div class="step-body">
+            Define the experiment and build the hypothesis. This phase produces a formal experiment
+            specification document that includes:
+            <ul>
+              <li>Research question and hypothesis</li>
+              <li>Descriptive evidence supporting the hypothesis</li>
+              <li>Intervention design — what is being tested and how it differs across conditions</li>
+              <li>Metrics to be gathered — primary outcomes, secondary outcomes</li>
+              <li>Guardrail metrics — safety thresholds that must not be violated during the experiment</li>
+              <li>Regulatory and ethical constraints — reviewed against the <a href="ethics.html" class="ref-link">Ethics framework</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="workflow-step">
+          <div class="step-header">
+            <div class="step-number">2</div>
+            <div class="step-title">Pre-Experiment Analysis</div>
+          </div>
+          <div class="step-body">
+            Before launching, conduct preparatory analysis to ensure the experiment is well-powered
+            and compliant:
+            <ul>
+              <li>Power analysis — determine required sample size for detecting the expected effect</li>
+              <li>Initial data gathering — collect baseline data if needed for pre/post comparisons</li>
+              <li>Constraint check — verify that all ethical, regulatory, and guardrail conditions are met</li>
+              <li>Technical validation — ensure telemetry, randomisation, and version assignment work correctly</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="workflow-step">
+          <div class="step-header">
+            <div class="step-number">3</div>
+            <div class="step-title">Experiment Launch</div>
+          </div>
+          <div class="step-body">
+            Deploy the experiment to live users. During the live phase:
+            <ul>
+              <li>Monitor guardrail metrics in real time</li>
+              <li>Track data collection quality and completeness</li>
+              <li>Maintain human oversight of adaptive optimisation loops</li>
+              <li>Be prepared to halt the experiment if guardrails are breached</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="workflow-step">
+          <div class="step-header">
+            <div class="step-number">4</div>
+            <div class="step-title">Data Analysis</div>
+          </div>
+          <div class="step-body">
+            After sufficient data is gathered, run the analysis pipeline:
+            <ul>
+              <li>Automatic execution of pre-registered statistical analyses</li>
+              <li>Hypothesis testing — evaluate primary and secondary outcomes</li>
+              <li>Heterogeneity analysis — identify differential effects across user segments</li>
+              <li>Stopping decision — determine whether the experiment has reached statistical significance or should continue</li>
+              <li>Guardrail review — confirm no safety thresholds were violated during the experiment</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="workflow-step">
+          <div class="step-header">
+            <div class="step-number">5</div>
+            <div class="step-title">Information Dissemination</div>
+          </div>
+          <div class="step-body">
+            Communicate findings transparently. This phase produces a public-facing summary that includes:
+            <ul>
+              <li>The problem statement — what we set out to understand</li>
+              <li>The intervention — what was tested</li>
+              <li>The findings — what we learned, including effect sizes and heterogeneity</li>
+              <li>Implications — what this means for awareness, policy, or platform design</li>
+              <li>A dedicated page in this wiki documenting the full experiment and results</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+    <script src="js/sidebar.js" defer></script>
+  <script src="theme.js" defer></script>
+</body>
+</html>

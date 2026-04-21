@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Marketing for Betterment's playground — Conceptual Layer</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .content-section { margin-bottom: 2.5rem; }
+    .content-section p { margin-bottom: 0.75rem; }
+    
+    ul.styled {
+      list-style: none;
+      margin: 0.75rem 0 1.25rem;
+    }
+    ul.styled li {
+      position: relative;
+      padding: 0.4rem 0 0.4rem 1.5rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+    ul.styled li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+    }
+
+    .ref-link {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px dotted var(--accent);
+    }
+    .ref-link:hover {
+      border-bottom-style: solid;
+    }
+
+    .callout {
+      display: flex;
+      gap: 0.75rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 8px 8px 0;
+      padding: 0.85rem 1rem;
+      margin: 1rem 0;
+      font-size: 0.87rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+    .callout.mission { border-left-color: #f5c842; }
+    .callout.warn { border-left-color: #f5c842; }
+
+    strong { color: var(--text); }
+  </style>
+</head>
+<body>
+  <div id="wiki-sidebar-root"></div>
+
+  <main class="main">
+    <h1 class="page-title">Conceptual Layer</h1>
+
+    <!-- ========== MISSION ========== -->
+    <div class="content-section">
+      <h2>Mission & Purpose</h2>
+
+      <p>
+        <strong>Marketing for Betterment's playground</strong> is a core initiative under the 
+        <strong>Marketing for Betterment</strong> project. Its mission is threefold:
+      </p>
+
+      <ul class="styled">
+        <li>
+          <strong>Raise awareness.</strong> Help individuals recognise and understand the manipulative marketing 
+          techniques they encounter in everyday digital environments. We seek to understand what methods of 
+          awareness-building are most effective — what actually helps people get manipulated less and gives them a 
+          lasting understanding of the techniques being used on them.
+        </li>
+        <li>
+          <strong>Create demand for social responsibility.</strong> By making manipulation visible and giving 
+          people the tools to recognise it, we intend to create public demand for more responsible marketing practices. 
+          When consumers can identify manipulative design, the competitive advantage of using it erodes — companies 
+          are incentivised to adopt transparent, ethical approaches instead.
+        </li>
+        <li>
+          <strong>Advance scientific research.</strong> The playground provides a controlled, modular research environment 
+          where hypotheses about persuasion, awareness, and adaptive optimisation can be tested rigorously. 
+          It fills a critical gap: most commercial platforms do not allow external researchers to run experiments, 
+          observe design variations, or access behavioural data. This platform does.
+        </li>
+      </ul>
+
+      <div class="callout mission">
+        <span>⚠️</span>
+        <span>
+          All research conducted here is carried out through the lens of <strong>consumer, societal, 
+          and planetary well-being</strong>. This is a foundational principle of the Marketing for Betterment 
+          initiative. Even questions about how marketing techniques evolve and become more effective are 
+          pursued for awareness and public benefit — never for for-profit business optimisation.
+        </span>
+      </div>
+    </div>
+
+    <!-- ========== PLATFORM CONCEPT ========== -->
+    <div class="content-section">
+      <h2>Platform Concept</h2>
+
+      <h3 style="font-size: 0.95rem; font-weight: 600; margin: 1.25rem 0 0.5rem; color: var(--text);">
+        Journey, worlds, and narrative themes
+      </h3>
+      <p>
+        The overall experience is a <strong>journey</strong>: users move through a sequence of interactive 
+        modules called <strong>Worlds</strong>, each with its own mission and role in the arc. The <strong>whole 
+        narrative</strong> can take different <strong>themes</strong> (fantasy, sci-fi, mythic guide, and others); 
+        how each World looks, sounds, and speaks shifts with the active theme. Those <strong>narrative and theme 
+        choices are reflected in our versioning</strong> — different versions of the journey can run in parallel 
+        for research, and users may be assigned to a specific narrative strand so we can compare outcomes fairly.
+      </p>
+
+      <h3 style="font-size: 0.95rem; font-weight: 600; margin: 1.25rem 0 0.5rem; color: var(--text);">
+        Missions, tokens, and completion
+      </h3>
+      <p>
+        The journey invites users to visit Worlds in order, complete the <strong>mission</strong> in each, and 
+        earn that World’s <strong>final token</strong>. Users who collect <strong>all tokens</strong> receive 
+        the <strong>final gift</strong>: early access to the <strong>Shield of Eden</strong> and recognition as 
+        an <strong>ambassador</strong> of the playground — a visible milestone that rewards completion and 
+        signals commitment to the project’s mission.
+      </p>
+
+      <div class="callout mission">
+        <span>🌍</span>
+        <span>
+          <strong>Example — mythic theme:</strong> The user is invited by <strong>Gaia</strong>, a divine 
+          personification of Earth, on a hero’s journey. On the landing page they meet Gaia; after a short 
+          exchange, they are sent through Worlds to gather <strong>orbs</strong> (e.g. orb of wisdom, orb of 
+          vision, orb of patience). Collecting all orbs, they become the <strong>knight of Gaia</strong> and 
+          receive the <strong>Shield of Eden</strong>.
+        </span>
+      </div>
+
+      <div class="callout">
+        <span>🚀</span>
+        <span>
+          <strong>Example — sci-fi theme:</strong> The same structural journey can appear as a <strong>space 
+          voyage</strong>: travelling between planets to gather resources that <strong>activate the Shield</strong>, 
+          becoming Gaia’s <strong>intergalactic ambassador</strong>. The mechanics (missions, tokens, completion) 
+          stay aligned; only the narrative skin changes.
+        </span>
+      </div>
+
+      <h3 style="font-size: 0.95rem; font-weight: 600; margin: 1.25rem 0 0.5rem; color: var(--text);">
+        Worlds and research
+      </h3>
+      <p>
+        Each World centres on a <strong>coherent cluster of marketing techniques</strong> (for example pricing 
+        psychology or gamification), presented through story, puzzles, and interventions — but the real world of 
+        marketing mixes levers, so a World may still contain elements that echo other techniques. Worlds are 
+        modular and adaptive: new Worlds can be added as techniques evolve, and each World evolves through 
+        <strong>versioning</strong>; users are assigned versions so we can measure what works and for whom.
+      </p>
+
+      <p>
+        For how Worlds are defined, how themes map to versions, and how in-world and cross-cutting interventions 
+        fit together, see 
+        <a href="worlds.html" class="ref-link">Worlds</a> and 
+        <a href="research-methodology.html" class="ref-link">Research Methodology</a>.
+      </p>
+    </div>
+
+    <!-- ========== RESEARCH DIRECTIONS ========== -->
+    <div class="content-section">
+      <h2>Research Directions</h2>
+
+      <p>The playground pursues two complementary research directions:</p>
+
+      <h3 style="font-size: 0.95rem; font-weight: 600; margin: 1.25rem 0 0.5rem; color: var(--text);">
+        I. Understanding How Optimised Marketing Techniques Evolve
+      </h3>
+      <p>
+        We study how marketing techniques that undergo adaptive optimisation change over time. Which 
+        approaches become more effective? Which stagnate or decline? How do different techniques 
+        escalate or converge? A particular focus is on the <strong>heterogeneity of effects</strong> — 
+        understanding that the same technique can affect different user segments very differently. 
+        Some individuals may be more susceptible, while others may be resistant. Identifying these 
+        differences is essential for understanding who is most harmed by optimised manipulation.
+      </p>
+
+      <h3 style="font-size: 0.95rem; font-weight: 600; margin: 1.25rem 0 0.5rem; color: var(--text);">
+        II. Creating Awareness and Reducing Effectiveness of Manipulation
+      </h3>
+      <p>
+        We investigate how to create effective awareness through immersive experiences — stories, games, 
+        and scenario-based interactions. By designing different versions of awareness interventions and 
+        continually improving them through adaptive testing, we work toward understanding how to optimise 
+        platform content so that manipulative techniques become less effective on informed users.
+      </p>
+
+      <div class="callout mission">
+        <span>🔬</span>
+        <span>
+          Even in the first research direction, our goal is fundamentally educational. We study how 
+          manipulation evolves not to make it more powerful, but to understand it well enough to build 
+          effective countermeasures and inform policy. This is research for awareness, not for profit.
+        </span>
+      </div>
+
+      <p>
+        For implementation details on how adaptive testing is conducted, including metrics, variables,
+        and the research workflow, see 
+        <a href="research-methodology.html" class="ref-link">Research Methodology</a>.
+      </p>
+    </div>
+
+    <!-- ========== DESIGN PHILOSOPHY ========== -->
+    <div class="content-section">
+      <h2>Design Philosophy & Principles</h2>
+
+      <h3 style="font-size: 0.95rem; font-weight: 600; margin: 1.25rem 0 0.5rem; color: var(--text);">
+        Playground, Not Classroom
+      </h3>
+      <p>
+        The experience is designed as a playground, not a classroom. Users learn through immersion, exploration, 
+        and emotional connection — not through lectures or abstract definitions. Research shows that 
+        simply knowing about a manipulative technique does not protect people from it. Awareness 
+        delivered as information remains disconnected from everyday life. We invite people to 
+        <em>experience</em> influence directly, making it intuitive and memorable.
+      </p>
+
+      <h3 style="font-size: 0.95rem; font-weight: 600; margin: 1.25rem 0 0.5rem; color: var(--text);">
+        Art and Creativity Over Fear and Guilt
+      </h3>
+      <p>
+        Unlike the very techniques we study, we do <strong>not</strong> use urgency, fear, guilt, 
+        or shame to grab attention. Instead, we rely on <strong>art and creativity</strong> as our 
+        primary engagement instruments. We motivate users through:
+      </p>
+      <ul class="styled">
+        <li><strong>Curiosity</strong> — making people want to explore and discover.</li>
+        <li><strong>Empowerment</strong> — giving users a sense of growing competence and control.</li>
+        <li><strong>Humor</strong> — using wit and irony to make the experience enjoyable and shareable.</li>
+        <li><strong>Storytelling</strong> — using narrative to create emotional connection and memorability.</li>
+      </ul>
+
+      <h3 style="font-size: 0.95rem; font-weight: 600; margin: 1.25rem 0 0.5rem; color: var(--text);">
+        Breaking the Normality
+      </h3>
+      <p>
+        One of the deepest challenges in combating manipulative marketing is that many harmful techniques — 
+        confirmshaming, artificial urgency, guilt-based nudges — have become so commonplace that they are 
+        accepted as normal. Users do not question them because they encounter them everywhere. 
+        We use art and creativity to <strong>break this normality.</strong> By dramatizing and 
+        personifying these techniques, we make the invisible visible and the normalised feel strange again. 
+        When something feels strange, people start to question it.
+      </p>
+
+      <h3 style="font-size: 0.95rem; font-weight: 600; margin: 1.25rem 0 0.5rem; color: var(--text);">
+        Interventive Messaging
+      </h3>
+      <p>
+        Throughout the experience, users receive <strong>interventive messages</strong> — brief, 
+        contextual insights that help them understand what just happened and why. These messages serve 
+        a dual purpose: they support better decision-making within the platform, and they act as 
+        <strong>portable interventions</strong> — mental models and heuristics that users can carry 
+        into their daily digital lives.
+      </p>
+
+      <p>
+        For details on how interventions are designed and versioned, see 
+        <a href="interventions.html" class="ref-link">Interventions</a>.
+      </p>
+    </div>
+
+    <!-- ========== ETHICAL GUARDRAILS ========== -->
+    <div class="content-section">
+      <h2>Ethical Guardrails</h2>
+
+      <p>
+        Because this platform intentionally exposes users to real manipulative techniques for research and 
+        educational purposes, we hold ourselves to strict ethical standards:
+      </p>
+
+      <ul class="styled">
+        <li><strong>Privacy by design:</strong> We do not require email addresses or similar conventional PII. Users may use a <strong>downloaded return key</strong> as a pseudonymous identifier; research data is tied to that key, not to legal identity. See <a href="ethics.html" class="ref-link">Ethics & Data Protection</a>.</li>
+        <li><strong>Informed consent</strong> is obtained before any data is saved. Users know they are interacting with a research platform.</li>
+        <li><strong>Pre-notification:</strong> Users are informed beforehand that they may encounter persuasive design elements and that some content may be algorithmically adapted.</li>
+        <li><strong>Debriefing is built into the narrative.</strong> After encountering techniques, users receive explanations of what was used, why, and how similar techniques appear in real digital environments.</li>
+        <li><strong>Human review</strong> is mandatory for every content version before it is served to users, ensuring nothing is harmful to sensitive groups.</li>
+        <li><strong>Intensity boundaries:</strong> Manipulative techniques never exceed what users would ordinarily encounter on common commercial platforms. We mirror reality; we do not amplify it.</li>
+      </ul>
+
+      <p>
+        For the full ethics and data protection framework, see 
+        <a href="ethics.html" class="ref-link">Ethics & Data Protection</a>.
+      </p>
+    </div>
+
+    <!-- ========== AGENT-FIRST PRINCIPLES ========== -->
+    <div class="content-section">
+      <h2>Agent-First Development Principles</h2>
+
+      <p>
+        The project follows an <strong>agentic-AI-first development model.</strong> This means that AI agents — 
+        not just human developers — are primary contributors to the codebase. Human team members act as 
+        supervisors, reviewers, and strategic decision-makers, while AI agents handle implementation, 
+        testing, and documentation maintenance.
+      </p>
+
+      <p>
+        To enable this workflow, the repository contains structured instruction files that AI agents must 
+        read before performing any task:
+      </p>
+
+      <ul class="styled">
+        <li><strong><code>.cursorrules</code> / <code>.antigravityrules</code></strong> — Master instruction files that enforce the pre-flight (read your role) and post-flight (update documentation) mandates.</li>
+        <li><strong><code>.agents/</code> directory</strong> — Role-specific constraints for Product Manager, Architect, Developer, and QA Tester agents.</li>
+        <li><strong><code>/docs/</code> directory</strong> — This documentation hub. Every page here should be treated as a living document. After any meaningful implementation, agents must update the relevant documentation pages.</li>
+      </ul>
+
+      <div class="callout warn">
+        <span>⚠️</span>
+        <span>
+          <strong>Documentation is never optional.</strong> Agents must include documentation updates in the 
+          same commit or pull request as any code change. A task is not considered complete until the relevant 
+          <code>/docs/</code> pages reflect the current state of the codebase.
+        </span>
+      </div>
+
+      <p>
+        For the full agent workflow, role definitions, and rules, see 
+        <a href="brainstorming.html" class="ref-link">Brainstorming Board</a>.
+      </p>
+    </div>
+
+  </main>
+
+    <script src="js/sidebar.js" defer></script>
+  <script src="theme.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+{
+  "topics": [
+    {
+      "id": "advertising",
+      "title": "Brainstorming the \"Advertising\" world narrative",
+      "href": "brainstorming/brainstorming-advertising.html",
+      "importance": "medium",
+      "status": "open"
+    },
+    {
+      "id": "deal",
+      "title": "Brainstorming the \"Deal\" world narrative",
+      "href": "brainstorming/brainstorming-deal.html",
+      "importance": "medium",
+      "status": "open"
+    },
+    {
+      "id": "gamification",
+      "title": "Brainstorming the \"Gamification\" world narrative",
+      "href": "brainstorming/brainstorming-gamification.html",
+      "importance": "medium",
+      "status": "open"
+    },
+    {
+      "id": "social",
+      "title": "Brainstorming the \"Social\" world narrative",
+      "href": "brainstorming/brainstorming-social.html",
+      "importance": "medium",
+      "status": "open"
+    },
+    {
+      "id": "urgency",
+      "title": "Brainstorming the \"Urgency\" world narrative",
+      "href": "brainstorming/brainstorming-urgency.html",
+      "importance": "medium",
+      "status": "open"
+    },
+    {
+      "id": "gaia-invitation",
+      "title": "The invitation by Gaia narrative",
+      "href": "brainstorming/brainstorming-gaia-invitation.html",
+      "importance": "medium",
+      "status": "open"
+    },
+    {
+      "id": "intervention-social-effectiveness",
+      "title": "Intervention and social effectiveness idea",
+      "href": "brainstorming/brainstorming-market-fight.html",
+      "importance": "medium",
+      "status": "open"
+    }
+  ]
+}

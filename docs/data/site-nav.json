@@ -1,0 +1,91 @@
+{
+  "brand": "Marketing for Betterment's playground",
+  "primary": [
+    { "href": "index.html", "label": "Overview" },
+    { "href": "conceptual.html", "label": "Conceptual Layer" },
+    { "href": "tech-stack.html", "label": "Tech Stack" },
+    { "href": "brainstorming.html", "label": "Brainstorming Board" }
+  ],
+  "relatedByPage": {
+    "index.html": [
+      { "href": "conceptual.html", "label": "Conceptual Layer" },
+      { "href": "worlds.html", "label": "Worlds" },
+      { "href": "tech-stack.html", "label": "Tech Stack" }
+    ],
+    "conceptual.html": [
+      { "href": "ethics.html", "label": "Ethics & Data Protection" },
+      { "href": "worlds.html", "label": "Worlds" },
+      { "href": "research-methodology.html", "label": "Research Methodology" }
+    ],
+    "tech-stack.html": [
+      { "href": "conceptual.html", "label": "Conceptual Layer" },
+      { "href": "worlds.html", "label": "Worlds" },
+      { "href": "research-methodology.html", "label": "Research Methodology" }
+    ],
+    "brainstorming.html": [
+      { "href": "worlds.html", "label": "Worlds" },
+      { "href": "conceptual.html", "label": "Conceptual Layer" },
+      { "href": "tech-stack.html", "label": "Tech Stack" }
+    ],
+    "worlds.html": [
+      { "href": "conceptual.html", "label": "Conceptual Layer" },
+      { "href": "research-methodology.html", "label": "Research Methodology" },
+      { "href": "interventions.html", "label": "Interventions" }
+    ],
+    "research-methodology.html": [
+      { "href": "metrics.html", "label": "Metrics & Measurement" },
+      { "href": "ethics.html", "label": "Ethics & Data Protection" },
+      { "href": "worlds.html", "label": "Worlds" }
+    ],
+    "metrics.html": [
+      { "href": "research-methodology.html", "label": "Research Methodology" },
+      { "href": "tech-stack.html", "label": "Tech Stack" },
+      { "href": "interventions.html", "label": "Interventions" }
+    ],
+    "interventions.html": [
+      { "href": "worlds.html", "label": "Worlds" },
+      { "href": "research-methodology.html", "label": "Research Methodology" },
+      { "href": "ethics.html", "label": "Ethics & Data Protection" }
+    ],
+    "ethics.html": [
+      { "href": "conceptual.html", "label": "Conceptual Layer" },
+      { "href": "research-methodology.html", "label": "Research Methodology" },
+      { "href": "interventions.html", "label": "Interventions" }
+    ],
+    "brainstorming-advertising.html": [
+      { "href": "brainstorming.html", "label": "Brainstorming Board" },
+      { "href": "worlds.html", "label": "Worlds" },
+      { "href": "conceptual.html", "label": "Conceptual Layer" }
+    ],
+    "brainstorming-deal.html": [
+      { "href": "brainstorming.html", "label": "Brainstorming Board" },
+      { "href": "worlds.html", "label": "Worlds" },
+      { "href": "tech-stack.html", "label": "Tech Stack" }
+    ],
+    "brainstorming-gamification.html": [
+      { "href": "brainstorming.html", "label": "Brainstorming Board" },
+      { "href": "worlds.html", "label": "Worlds" },
+      { "href": "research-methodology.html", "label": "Research Methodology" }
+    ],
+    "brainstorming-social.html": [
+      { "href": "brainstorming.html", "label": "Brainstorming Board" },
+      { "href": "worlds.html", "label": "Worlds" },
+      { "href": "ethics.html", "label": "Ethics & Data Protection" }
+    ],
+    "brainstorming-urgency.html": [
+      { "href": "brainstorming.html", "label": "Brainstorming Board" },
+      { "href": "worlds.html", "label": "Worlds" },
+      { "href": "metrics.html", "label": "Metrics & Measurement" }
+    ],
+    "brainstorming-gaia-invitation.html": [
+      { "href": "brainstorming.html", "label": "Brainstorming Board" },
+      { "href": "worlds.html", "label": "Worlds" },
+      { "href": "conceptual.html", "label": "Conceptual Layer" }
+    ],
+    "brainstorming-market-fight.html": [
+      { "href": "brainstorming.html", "label": "Brainstorming Board" },
+      { "href": "worlds.html", "label": "Worlds" },
+      { "href": "research-methodology.html", "label": "Research Methodology" }
+    ]
+  }
+}

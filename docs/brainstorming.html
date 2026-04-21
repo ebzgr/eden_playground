@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Marketing for Betterment's playground — Brainstorming Board</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="brainstorming.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bb">
+  <div id="wiki-sidebar-root"></div>
+
+  <main class="main">
+    <h1 class="page-title">Brainstorming Board</h1>
+
+    <div class="bb-intro">
+      <strong>Adding a new board:</strong> Copy an existing topic page in <code style="font-size: 0.82em;">docs/</code>,
+      add a matching entry to <code style="font-size: 0.82em;">data/brainstorming-topics.json</code> (title, href,
+      importance, status), and keep <strong>closed</strong> topics at the bottom of the list when editing the JSON.
+      Importance: <span class="bb-badge bb-importance-low">Low</span>
+      <span class="bb-badge bb-importance-medium">Medium</span>
+      <span class="bb-badge bb-importance-high">High</span>
+      <span class="bb-badge bb-importance-critical">Critical</span>. Status:
+      <span class="bb-badge bb-status-open">Open</span> or
+      <span class="bb-badge bb-status-closed">Closed</span>. The table below is built from that JSON.
+    </div>
+
+    <p style="color: rgba(27,31,42,0.72); margin-bottom: 0.75rem; max-width: 64rem;">
+      A playful scratchpad for narrative + interaction ideas. The goal is not to be “correct” — it’s to be
+      <strong style="color: rgba(27,31,42,0.92);">sharp, surprising, and transferable</strong> to real-world recognition.
+      When an idea solidifies, graduate it into a tracked implementation issue.
+    </p>
+
+    <h2 style="margin-top: 1.5rem;">Topics</h2>
+    <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.75rem;">
+      Default sort is by <strong style="color: var(--text-secondary);">importance</strong> (highest first), then open before closed, then title.
+      Click a column header to sort; click again to reverse.
+    </p>
+
+    <div class="bb-controls" role="toolbar" aria-label="Sort topics">
+      <button type="button" class="bb-sort bb-sort-pill" data-sort="importance" aria-label="Sort by importance">
+        Importance
+      </button>
+      <button type="button" class="bb-sort bb-sort-pill" data-sort="status" aria-label="Sort by status">
+        Status
+      </button>
+      <button type="button" class="bb-sort bb-sort-pill" data-sort="topic" aria-label="Sort by topic">
+        Topic
+      </button>
+      <span class="bb-sort-hint" id="bb-sort-hint">Click again to reverse.</span>
+    </div>
+
+    <div class="bb-card-grid" id="bb-topics-cards" aria-live="polite"></div>
+  </main>
+
+  <script src="js/sidebar.js?v=20260414" defer></script>
+  <script src="js/brainstorming-board.js?v=20260414" defer></script>
+  <script src="theme.js?v=20260414" defer></script>
+</body>
+</html>
