@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <title>MVP1 Feature List — Eden Playground</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0e0e16;
+      --surface: #16161f;
+      --surface-2: #1c1c28;
+      --border: rgba(255,255,255,0.07);
+      --accent: #7c6fff;
+      --accent-dim: rgba(124,111,255,0.12);
+      --green: #3dd68c;
+      --green-dim: rgba(61,214,140,0.12);
+      --yellow: #f5c842;
+      --yellow-dim: rgba(245,200,66,0.12);
+      --red: #f56262;
+      --red-dim: rgba(245,98,98,0.12);
+      --orange: #f5943a;
+      --orange-dim: rgba(245,148,58,0.12);
+      --text: #e8e8f0;
+      --text-secondary: #9090aa;
+      --text-muted: #5a5a72;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1.75;
+      padding: 3.5rem 1.5rem 6rem;
+    }
+
+    .page { max-width: 900px; margin: 0 auto; }
+
+    .eyebrow {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.6rem;
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.2;
+      margin-bottom: 0.75rem;
+    }
+
+    .doc-meta {
+      display: flex;
+      gap: 1.5rem;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .subtitle {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      max-width: 680px;
+      line-height: 1.65;
+      margin-bottom: 3rem;
+    }
+
+    h2 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text);
+      margin: 3rem 0 0.85rem;
+      padding-bottom: 0.45rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    h2 .section-num {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    h3 {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 1.8rem 0 0.6rem;
+    }
+
+    p { color: var(--text-secondary); margin-bottom: 0.8rem; }
+    strong { color: var(--text); }
+
+    /* CALLOUT */
+    .callout {
+      display: flex;
+      gap: 0.85rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      padding: 0.9rem 1.1rem;
+      margin: 1rem 0;
+      font-size: 0.86rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+    .callout .icon { flex-shrink: 0; margin-top: 0.05rem; }
+    .callout.green  { border-left-color: var(--green);  background: var(--green-dim); }
+    .callout.yellow { border-left-color: var(--yellow); background: var(--yellow-dim); }
+    .callout.red    { border-left-color: var(--red);    background: var(--red-dim); }
+    .callout.orange { border-left-color: var(--orange); background: var(--orange-dim); }
+
+    /* BADGES */
+    .badge {
+      display: inline-block;
+      padding: 0.15rem 0.55rem;
+      border-radius: 999px;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+    }
+    .badge.in       { background: var(--green-dim);   color: var(--green);   }
+    .badge.design   { background: var(--accent-dim);  color: var(--accent);  }
+    .badge.open     { background: var(--orange-dim);  color: var(--orange);  }
+    .badge.out      { background: var(--red-dim);     color: var(--red);     }
+    .badge.tbd      { background: rgba(255,255,255,0.05); color: var(--text-muted); }
+
+    /* FEATURE TABLE */
+    .feature-group { margin: 0.5rem 0 2rem; }
+
+    .feature-row {
+      display: grid;
+      grid-template-columns: 1fr 2fr 1.2fr auto;
+      gap: 0;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 0.6rem;
+      background: var(--surface);
+    }
+
+    .feature-row:hover { background: var(--surface-2); }
+
+    .f-name {
+      padding: 0.8rem 1rem;
+      font-size: 0.86rem;
+      font-weight: 600;
+      color: var(--text);
+      border-right: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      min-width: 0;
+    }
+
+    .f-desc {
+      padding: 0.8rem 1rem;
+      font-size: 0.83rem;
+      color: var(--text-secondary);
+      line-height: 1.55;
+      border-right: 1px solid var(--border);
+      min-width: 0;
+    }
+
+    .f-why {
+      padding: 0.8rem 1rem;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      font-style: italic;
+      border-right: 1px solid var(--border);
+      min-width: 0;
+    }
+
+    .f-status {
+      padding: 0.8rem 1rem;
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-end;
+      min-width: 120px;
+    }
+
+    .feature-header {
+      display: grid;
+      grid-template-columns: 1fr 2fr 1.2fr auto;
+      gap: 0;
+      padding: 0.4rem 1rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .feature-header span {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .feature-header span:last-child {
+      min-width: 120px;
+      text-align: right;
+    }
+
+    /* OUT OF SCOPE TABLE */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.84rem;
+      margin: 0.9rem 0 1.1rem;
+    }
+    th, td {
+      border: 1px solid var(--border);
+      padding: 0.65rem 0.9rem;
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      background: var(--surface);
+      color: var(--text);
+      font-weight: 600;
+      font-size: 0.8rem;
+    }
+    td { color: var(--text-secondary); }
+
+    /* QUESTION */
+    .question {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--orange);
+      border-radius: 0 10px 10px 0;
+      padding: 1rem 1.2rem;
+      margin: 0.85rem 0;
+    }
+    .question .q-num {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 0.4rem;
+    }
+    .question .q-text {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.35rem;
+      line-height: 1.5;
+    }
+    .question .q-context {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+    .answer-slot {
+      margin-top: 0.65rem;
+      padding: 0.55rem 0.8rem;
+      background: rgba(255,255,255,0.02);
+      border: 1px dashed rgba(255,255,255,0.08);
+      border-radius: 6px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    ul.plain { list-style: none; margin: 0.5rem 0 1rem; }
+    ul.plain li {
+      position: relative;
+      padding: 0.22rem 0 0.22rem 1.4rem;
+      color: var(--text-secondary);
+      font-size: 0.86rem;
+    }
+    ul.plain li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+    }
+
+    /* SCOPE BOX */
+    .scope-box {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.8rem;
+      margin: 1rem 0;
+    }
+    .scope-panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem 1.2rem;
+    }
+    .scope-panel .sp-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+    }
+    .scope-panel.in-scope .sp-label  { color: var(--green); }
+    .scope-panel.out-scope .sp-label { color: var(--red); }
+    .scope-panel ul { list-style: none; }
+    .scope-panel ul li {
+      font-size: 0.83rem;
+      color: var(--text-secondary);
+      padding: 0.18rem 0 0.18rem 1.2rem;
+      position: relative;
+    }
+    .scope-panel.in-scope  ul li::before { content: '✓'; position: absolute; left: 0; color: var(--green); }
+    .scope-panel.out-scope ul li::before { content: '✗'; position: absolute; left: 0; color: var(--red); }
+
+    @media (max-width: 700px) {
+      .feature-row { grid-template-columns: 1fr; }
+      .f-name, .f-desc, .f-why { border-right: none; border-bottom: 1px solid var(--border); }
+      .feature-header { display: none; }
+      .scope-box { grid-template-columns: 1fr; }
+    }
+
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="eyebrow">Eden Playground · MVP1</div>
+  <h1>MVP1 Feature List</h1>
+  <div class="doc-meta">
+    <span>Audience: Product, Co-founders</span>
+    <span>Last reviewed: April 2026</span>
+    <span>Phase: Pre-build · Feature definition</span>
+  </div>
+  <p class="subtitle">
+    Every feature we need to build for MVP1 — and nothing we don't. This document is the line
+    between what goes into the first real user cohort and what waits for later. If a feature
+    isn't here, it doesn't get built yet.
+  </p>
+
+  <div class="callout green">
+    <span class="icon">✓</span>
+    <span>
+      <strong>MVP1 definition:</strong> A real user (university student) can receive an invitation,
+      complete Gaia Invitation, play through one content World, receive a debrief, earn a token,
+      and return to continue — while generating valid, research-quality experiment data throughout.
+      That is the whole scope. Everything else is Phase 2.
+    </span>
+  </div>
+
+
+  <!-- SCOPE SUMMARY -->
+  <h2><span class="section-num">01</span> What's in and what's out</h2>
+
+  <div class="scope-box">
+    <div class="scope-panel in-scope">
+      <div class="sp-label">In MVP1</div>
+      <ul>
+        <li>Invite / entry flow</li>
+        <li>Consent — woven into narrative</li>
+        <li>Return-key identity (pseudonymous)</li>
+        <li>Gaia Invitation World (full)</li>
+        <li>1 content World — Deal or Urgency (TBD)</li>
+        <li>Experiment arm assignment (A/B)</li>
+        <li>Token earn on World completion</li>
+        <li>Debrief experience</li>
+        <li>Journey pause and resume</li>
+        <li>Wellbeing / opt-out checkpoint</li>
+        <li>Basic event logging for research</li>
+        <li>Invite code generation (minimal)</li>
+      </ul>
+    </div>
+    <div class="scope-panel out-scope">
+      <div class="sp-label">Not in MVP1</div>
+      <ul>
+        <li>Shield of Eden (needs all Worlds)</li>
+        <li>Ambassador / sharing flow</li>
+        <li>Worlds 3–6 (Social, Gamification, Advertising, …)</li>
+        <li>Second narrative theme (Sci-fi)</li>
+        <li>Research dashboard</li>
+        <li>Admin dashboard</li>
+        <li>Adaptive content (LOLA algorithm)</li>
+        <li>Automated analysis / batch jobs</li>
+        <li>Social login or third-party auth</li>
+        <li>Multilingual support (pending decision)</li>
+        <li>Public landing page / SEO</li>
+        <li>Notification or email system</li>
+      </ul>
+    </div>
+  </div>
+
+
+  <!-- FEATURE GROUPS -->
+  <h2><span class="section-num">02</span> Identity and access</h2>
+  <p>How a user gets in and how they get back. No email, no account. One downloadable key.</p>
+
+  <div class="feature-group">
+    <div class="feature-header">
+      <span>Feature</span>
+      <span>What it does</span>
+      <span>Why it's in MVP1</span>
+      <span>Status</span>
+    </div>
+
+    <div class="feature-row">
+      <div class="f-name">Invite code entry</div>
+      <div class="f-desc">User arrives with an invite code (from a university channel, email link, or QR). Entering it starts the journey. No account creation — just the code as the gate.</div>
+      <div class="f-why">Controls who enters in the first student cohort. Keeps sample quality high. Required before any consent or data collection begins.</div>
+      <div class="f-status"><span class="badge design">to design</span></div>
+    </div>
+
+    <div class="feature-row">
+      <div class="f-name">Return key generation</div>
+      <div class="f-desc">On first entry, user is given a unique pseudonymous key — presented as their "traveller's token." They are prompted to download or copy it before proceeding. This key is their only identity on the platform.</div>
+      <div class="f-why">Core privacy-by-design principle. No email or PII. The key ties all their events, progress, and experiment assignment together without identifying them.</div>
+      <div class="f-status"><span class="badge design">to design</span></div>
+    </div>
+
+    <div class="feature-row">
+      <div class="f-name">Return key re-entry</div>
+      <div class="f-desc">Returning user pastes or types their key to resume their journey exactly where they left off — same World, same arm, same progress.</div>
+      <div class="f-why">The multi-World journey requires multiple sessions. Without reliable return, every user is effectively a new user after session 1. Journey completion is impossible without this.</div>
+      <div class="f-status"><span class="badge design">to design</span></div>
+    </div>
+
+    <div class="feature-row">
+      <div class="f-name">Key loss recovery</div>
+      <div class="f-desc">If a user loses their key, they have one recovery option — to be determined. Options: optional email backup (consent-gated), manual admin recovery, or no recovery (key-loss = restart).</div>
+      <div class="f-why">Key-loss is the highest structural risk to journey completion. Needs a defined policy before build, even if the policy is "no recovery" — that has product and research implications.</div>
+      <div class="f-status"><span class="badge open">open — needs decision</span></div>
+    </div>
+
+  </div>
+
+
+  <h2><span class="section-num">03</span> Consent and onboarding</h2>
+  <p>Informed consent before any data is saved — woven into the narrative, not a separate screen.</p>
+
+  <div class="feature-group">
+    <div class="feature-header">
+      <span>Feature</span>
+      <span>What it does</span>
+      <span>Why it's in MVP1</span>
+      <span>Status</span>
+    </div>
+
+    <div class="feature-row">
+      <div class="f-name">Narrative consent gate</div>
+      <div class="f-desc">Before any data is collected, the user is told — in Gaia's voice, in the narrative register — that they will encounter real persuasive design techniques, that their choices may be observed, and that they are pseudonymous. They actively continue to proceed. This is the consent moment.</div>
+      <div class="f-why">Non-negotiable ethics requirement. Also sets the emotional register correctly: users arrive knowing this is a deliberate experience, which makes the debrief land harder. Cannot be skipped or abbreviated.</div>
+      <div class="f-status"><span class="badge design">to design</span></div>
+    </div>
+
+    <div class="feature-row">
+      <div class="f-name">Consent record</div>
+      <div class="f-desc">The moment of consent is logged against the user's key — timestamp, version of the consent text shown, and explicit confirmation action. This record is immutable.</div>
+      <div class="f-why">Required for research validity and ethics committee compliance. Without a logged record of consent, no data collected in that session can be used in research outputs.</div>
+      <div class="f-status"><span class="badge in">confirmed in</span></div>
+    </div>
+
+    <div class="feature-row">
+      <div class="f-name">Opt-out at any point</div>
+      <div class="f-desc">A persistent, low-friction way to stop participating and request data deletion — available throughout the entire experience. Not hidden. Not buried. Mentioned in the consent flow so users know it exists before they start.</div>
+      <div class="f-why">Ethics requirement. Informed consent is only meaningful if withdrawal is genuinely available and easy. Must be accessible in every World, not just at the end.</div>
+      <div class="f-status"><span class="badge in">confirmed in</span></div>
+    </div>
+
+  </div>
+
+
+  <h2><span class="section-num">04</span> Gaia Invitation World</h2>
+  <p>The entry narrative. Sets the mission, establishes Gaia's voice, and earns the user's investment before they reach the first technique World.</p>
+
+  <div class="feature-group">
+    <div class="feature-header">
+      <span>Feature</span>
+      <span>What it does</span>
+      <span>Why it's in MVP1</span>
+      <span>Status</span>
+    </div>
+
+    <div class="feature-row">
+      <div class="f-name">Gaia's invitation scene</div>
+      <div class="f-desc">The opening experience: Gaia addresses the user directly. Establishes who Gaia is, what the manipulation crisis means, and why the user has been chosen. Sets emotional stakes. This is not a tutorial — it is a story that happens to explain the journey.</div>
+      <div class="f-why">First impression. The narrative framing either hooks the user here or loses them. No content World can work without this existing first.</div>
+      <div class="f-status"><span class="badge design">to design</span></div>
+    </div>
+
+    <div class="feature-row">
+      <div class="f-name">Journey map reveal</div>
+      <div class="f-desc">After the invitation, the user sees the full journey ahead — the Worlds they will travel through, rendered as destinations on a map, a star chart, or equivalent. Worlds beyond MVP1 can be shown as locked/distant. The user sees where they are going.</div>
+      <div class="f-why">Creates commitment and anticipation. Users who see the full arc are more likely to return after World 1. The map is also the navigation state — it shows progress at every return.</div>
+      <div class="f-status"><span class="badge design">to design</span></div>
+    </div>
+
+    <div class="feature-row">
+      <div class="f-name">First token moment</div>
+      <div class="f-desc">Completing Gaia Invitation earns the first token — the "Orb of Beginning" or equivalent. This is the moment the token mechanic becomes real and tangible for the user before they reach any technique content.</div>
+      <div class="f-why">Establishes the reward loop before the research content begins. If the first token feels good, users know what they are working toward in World 1.</div>
+      <div class="f-status"><span class="badge design">to design</span></div>
+    </div>
+
+    <div class="feature-row">
+      <div class="f-name">Experiment arm assignment</div>
+      <div class="f-desc">At the point of World entry, the user is silently assigned to an experiment arm. The assignment is logged and sticky — they see the same version on every return. For MVP1, this is a simple A/B split (e.g., two versions of the invitation narrative or consent phrasing).</div>
+      <div class="f-why">Research integrity. Without logged, sticky assignment, the experiment is invalid. Must happen at first entry, before any content is shown.</div>
+      <div class="f-status"><span class="badge in">confirmed in</span></div>
+    </div>
+
+  </div>
+
+
+  <h2><span class="section-num">05</span> World 1 — Content World (Deal or Urgency)</h2>
+  <p>The first technique World. Users encounter real manipulative patterns embedded in a narrative mission. They do not know the debrief is coming.</p>
+
+  <div class="callout yellow">
+    <span class="icon">◈</span>
+    <span>
+      <strong>Which World goes first is still open.</strong> Deal World (pricing psychology) or
+      Urgency World (artificial scarcity and countdowns). The features below apply to whichever
+      is chosen — the structure is identical. The content is different. See open questions.
+    </span>
+  </div>
+
+  <div class="feature-group">
+    <div class="feature-header">
+      <span>Feature</span>
+      <span>What it does</span>
+      <span>Why it's in MVP1</span>
+      <span>Status</span>
+    </div>
+
+    <div class="feature-row">
+      <div class="f-name">Narrative mission frame</div>
+      <div class="f-desc">The World presents a narrative context — a market stall, a festival gate, a timed auction — within which the manipulative techniques are embedded. The user has a mission to complete. The techniques are the obstacles and temptations, not the stated subject.</div>
+      <div class="f-why">The techniques must be experienced, not described. The narrative frame is what makes the experience real rather than a simulation. Without it, the debrief has nothing to reveal.</div>
+      <div class="f-status"><span class="badge design">to design</span></div>
+    </div>
+
+    <div class="feature-row">
+      <div class="f-name">Live technique embedding</div>
+      <div class="f-desc">Real manipulative techniques — at real-world intensity, not amplified — are woven into the World's choices and environment. Users make decisions. The techniques act on them. Their choices are logged as behavioural events.</div>
+      <div class="f-why">The core product mechanism. This is the thing no other awareness platform does. Users feel the technique before they understand it.</div>
+      <div class="f-status"><span class="badge design">to design</span></div>
+    </div>
+
+    <div class="feature-row">
+      <div class="f-name">Experiment arm variants</div>
+      <div class="f-desc">The World has at least two versions (A and B), differing in one specific way: a different technique version, a different intervention, or a different framing. Users see only their assigned version. Both versions are complete experiences.</div>
+      <div class="f-why">Research validity. One version is not science. Two versions with random assignment and logged outcomes is the minimum for a publishable finding.</div>
+      <div class="f-status"><span class="badge design">to design</span></div>
+    </div>
+
+    <div class="feature-row">
+      <div class="f-name">Mission completion condition</div>
+      <div class="f-desc">A clear, achievable success state for the World — reaching a destination, completing a transaction, making the right call. Completion triggers the debrief and token. Failure has a defined outcome too (retry, or proceed to debrief without token).</div>
+      <div class="f-why">Without a completion condition, there is no token, no debrief trigger, and no journey progression. The research data also needs a defined success event to analyse against.</div>
+      <div class="f-status"><span class="badge design">to design</span></div>
+    </div>
+
+    <div class="feature-row">
+      <div class="f-name">Behavioural event logging</div>
+      <div class="f-desc">Every meaningful user action within the World is logged: decisions made, time spent, paths taken, choices accepted or rejected. Logged against the user's key and experiment arm. Append-only, no PII.</div>
+      <div class="f-why">This is the research data. Without it, the experiment produces no output. Must be running from the first user's first session.</div>
+      <div class="f-status"><span class="badge in">confirmed in</span></div>
+    </div>
+
+    <div class="feature-row">
+      <div class="f-name">Wellbeing checkpoint</div>
+      <div class="f-desc">At natural pause points within the World — and always available via a low-friction persistent control — users can check in on how they are feeling and exit cleanly if needed. This is not an interruption; it is a door that is always unlocked.</div>
+      <div class="f-why">Ethics guardrail. Technique intensity mirrors real-world commercial platforms, but some users may still find it activating. The checkpoint must exist before any technique content runs.</div>
+      <div class="f-status"><span class="badge in">confirmed in</span></div>
+    </div>
+
+  </div>
+
+
+  <h2><span class="section-num">06</span> The debrief</h2>
+  <p>The moment the World reveals what just happened. This is the core awareness mechanism — the reason the whole platform exists.</p>
+
+  <div class="feature-group">
+    <div class="feature-header">
+      <span>Feature</span>
+      <span>What it does</span>
+      <span>Why it's in MVP1</span>
+      <span>Status</span>
+    </div>
+
+    <div class="feature-row">
+      <div class="f-name">The reveal moment</div>
+      <div class="f-desc">After the mission resolves, the World pauses and — in Gaia's voice or the World's narrative register — names what just happened. The technique is identified. The mechanism is explained. A real-world parallel is given. This is storytelling, not a screen of facts.</div>
+      <div class="f-why">Without the debrief, the experience is manipulation without awareness. The debrief is the product's entire value proposition. It cannot be a summary paragraph — it must land emotionally.</div>
+      <div class="f-status"><span class="badge design">to design</span></div>
+    </div>
+
+    <div class="feature-row">
+      <div class="f-name">The portable mental model</div>
+      <div class="f-desc">After the reveal, the user receives one concise, memorable frame for the technique — something they can carry with them and apply in daily life. A question to ask, a phrase to remember, a pattern to look for. Designed for retention, not comprehensiveness.</div>
+      <div class="f-why">The product's impact extends beyond the platform only if something transferable is given. "You were anchored" is awareness. "Next time you see a crossed-out price, ask: what was that price anchored to?" is a tool.</div>
+      <div class="f-status"><span class="badge design">to design</span></div>
+    </div>
+
+    <div class="feature-row">
+      <div class="f-name">Debrief comprehension check</div>
+      <div class="f-desc">One or two optional self-report questions after the debrief: did the user understand what technique they encountered, did the reveal feel surprising, how are they feeling. Low friction. Not a test. Labelled as voluntary.</div>
+      <div class="f-why">Research guardrail and quality signal. If comprehension scores are low, the debrief design is failing. This is the most direct measurement of whether the awareness mechanism works.</div>
+      <div class="f-status"><span class="badge in">confirmed in</span></div>
+    </div>
+
+    <div class="feature-row">
+      <div class="f-name">Token award ceremony</div>
+      <div class="f-desc">After the debrief, the token is formally awarded. In the mythic theme: an orb materialises and joins the user's collection. The name of the token reflects what was learned (Orb of Clarity, Orb of Patience, etc.). Brief, satisfying, meaningful.</div>
+      <div class="f-why">Closes the emotional arc of the World. The token represents understanding earned — not just time spent. It must feel like it means something, not like a pop-up badge.</div>
+      <div class="f-status"><span class="badge design">to design</span></div>
+    </div>
+
+  </div>
+
+
+  <h2><span class="section-num">07</span> Journey state and return</h2>
+  <p>How the journey persists between sessions and how users navigate back into it.</p>
+
+  <div class="feature-group">
+    <div class="feature-header">
+      <span>Feature</span>
+      <span>What it does</span>
+      <span>Why it's in MVP1</span>
+      <span>Status</span>
+    </div>
+
+    <div class="feature-row">
+      <div class="f-name">Progress persistence</div>
+      <div class="f-desc">All user progress — Worlds completed, tokens earned, experiment assignment, event history — is tied to the return key and persists indefinitely. Returning with the key resumes exactly where the user left off.</div>
+      <div class="f-why">The journey is multi-session by design. Without persistence, every return is a cold start and journey completion is structurally impossible. This is table stakes, not a feature.</div>
+      <div class="f-status"><span class="badge in">confirmed in</span></div>
+    </div>
+
+    <div class="feature-row">
+      <div class="f-name">Journey home / map state</div>
+      <div class="f-desc">On returning, the user lands on a journey view — a map or equivalent — that shows what they have completed, what token(s) they have earned, and what is next. Their current position in the journey is always visible.</div>
+      <div class="f-why">Orientation on return. Without this, users returning after days ask "where was I?" and the answer is not obvious. The map is the product's navigation and motivation state combined.</div>
+      <div class="f-status"><span class="badge design">to design</span></div>
+    </div>
+
+  </div>
+
+
+  <h2><span class="section-num">08</span> Research and operational basics</h2>
+  <p>The minimum infrastructure to run a valid experiment and invite the first cohort. Deliberately thin — we add tooling only after it is proven necessary.</p>
+
+  <div class="feature-group">
+    <div class="feature-header">
+      <span>Feature</span>
+      <span>What it does</span>
+      <span>Why it's in MVP1</span>
+      <span>Status</span>
+    </div>
+
+    <div class="feature-row">
+      <div class="f-name">Event log</div>
+      <div class="f-desc">Append-only log of every meaningful user event — consent given, World entered, choices made, debrief reached, token earned, session ended. Tagged with key (pseudonymous), timestamp, World, and experiment arm. The raw research data.</div>
+      <div class="f-why">Without this nothing can be analysed. Must be live from the first user's first action. No event log = no research = no product.</div>
+      <div class="f-status"><span class="badge in">confirmed in</span></div>
+    </div>
+
+    <div class="feature-row">
+      <div class="f-name">Invite code system</div>
+      <div class="f-desc">Ability to generate a batch of single-use or limited-use invite codes, share them with the university recruitment coordinator, and track which codes have been used. Manual or very minimal UI — this does not need to be a dashboard.</div>
+      <div class="f-why">Controls who enters MVP1. Without this, the first cohort is ungated and sample composition is unknown. Must exist before recruitment begins.</div>
+      <div class="f-status"><span class="badge design">to design</span></div>
+    </div>
+
+    <div class="feature-row">
+      <div class="f-name">Data export</div>
+      <div class="f-desc">Ability to export the event log and self-report responses for offline analysis. A file download is sufficient for MVP1. No dashboard, no visualisations, no automated analysis.</div>
+      <div class="f-why">The researcher needs to get at the data after the first cohort runs. If there is no export, Phase 1 produces no research output. Manual export is fine — it just needs to exist.</div>
+      <div class="f-status"><span class="badge in">confirmed in</span></div>
+    </div>
+
+  </div>
+
+
+  <!-- EXPLICITLY OUT OF SCOPE -->
+  <h2><span class="section-num">09</span> Explicitly out of MVP1 scope — and why</h2>
+
+  <p>
+    These are features that have been discussed, are on the product vision, and will be built —
+    but not in MVP1. Listing them explicitly prevents them from creeping into the first build.
+  </p>
+
+  <table>
+    <thead>
+      <tr><th>Feature</th><th>Why it waits</th><th>When it becomes relevant</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Shield of Eden + ambassador flow</strong></td>
+        <td>Requires all Worlds to be complete. Cannot exist until the full journey exists. Building the ceremony before the journey is finished is pure waste.</td>
+        <td>After all Worlds are built and the journey is completable end-to-end.</td>
+      </tr>
+      <tr>
+        <td><strong>Second narrative theme (Sci-fi)</strong></td>
+        <td>Theme is a research variable — you need Theme 1 working and producing data before you add Theme 2 as a comparison arm. Adding two themes in MVP1 doubles the design work for zero additional research value at this stage.</td>
+        <td>After Theme 1 produces its first complete experiment result.</td>
+      </tr>
+      <tr>
+        <td><strong>Adaptive content (LOLA algorithm)</strong></td>
+        <td>Adaptive optimisation requires a baseline of behavioural data to adapt against. Running it in MVP1 with 50 users produces noise, not signal. Human review requirements also mean it needs a content review pipeline first.</td>
+        <td>After Phase 1 produces enough data to train against meaningfully — likely 500+ sessions minimum.</td>
+      </tr>
+      <tr>
+        <td><strong>Research metrics dashboard</strong></td>
+        <td>Manual export is sufficient for the first cohort and the first analysis. A dashboard is operational convenience — it is not what makes the research valid. Build it when the manual process is too slow, not before.</td>
+        <td>When cohort size makes manual export unworkable — probably Phase 2.</td>
+      </tr>
+      <tr>
+        <td><strong>Admin dashboard</strong></td>
+        <td>Invite code generation and experiment configuration can be handled manually or through simple scripts at MVP1 scale. A dashboard UI is overhead that delays the actual product.</td>
+        <td>When operational complexity makes manual management a bottleneck.</td>
+      </tr>
+      <tr>
+        <td><strong>Public landing page / open access</strong></td>
+        <td>MVP1 is invite-only for a controlled student cohort. A public page invites uncontrolled traffic before the experiment is ready for it. Open access is Phase 2.</td>
+        <td>When moving from student cohort to general public — Phase 2 launch.</td>
+      </tr>
+      <tr>
+        <td><strong>Multilingual support</strong></td>
+        <td>Pending a decision on whether the MVP1 student cohort requires multiple languages. If English-only works for the first cohort, localisation waits. If not, it must come in — but it needs to be decided now, not discovered mid-build.</td>
+        <td>Pending open question 5 below.</td>
+      </tr>
+    </tbody>
+  </table>
+
+
+  <!-- OPEN QUESTIONS -->
+  <h2><span class="section-num">10</span> Open questions blocking feature decisions</h2>
+
+  <p>
+    These questions are blocking specific feature design choices. They need answers before
+    those features can be specced or built.
+  </p>
+
+  <div class="question">
+    <div class="q-num">Question 1 — Which World goes first</div>
+    <div class="q-text">Deal World or Urgency World — and why, specifically for a student cohort that already knows these techniques academically?</div>
+    <div class="q-context">The narrative design, technique embedding, debrief writing, and experiment arms are completely different for each World. This is the decision that unlocks all of Section 05. It cannot be deferred.</div>
+    <div class="answer-slot">Answer here…</div>
+  </div>
+
+  <div class="question">
+    <div class="q-num">Question 2 — Key loss recovery policy</div>
+    <div class="q-text">What happens when a student loses their return key? Three options: (a) optional institutional email backup at consent, gated by explicit opt-in; (b) manual admin recovery via the university coordinator; (c) no recovery — key loss means starting over as a new user. Which is it?</div>
+    <div class="q-context">Option (a) solves the problem most elegantly but adds a data field. Option (b) adds an operational burden. Option (c) is clean but risks making journey completion impossible for students who lose their key between sessions — which students commonly do. The decision changes the identity feature design in Section 02.</div>
+    <div class="answer-slot">Answer here…</div>
+  </div>
+
+  <div class="question">
+    <div class="q-num">Question 3 — What the experiment arms test in MVP1</div>
+    <div class="q-text">For each World (Gaia Invitation and the content World), what are the two things being compared in the A/B split? Different narrative tones? Different intervention timings? Different technique intensities? This needs to be defined as a research hypothesis before the World can be designed.</div>
+    <div class="q-context">Without defined arms, there is no experiment — just a product. The arms must be defined by the research question, not retrofitted after the World is built. Each arm is a complete version of the World; both must be designed together.</div>
+    <div class="answer-slot">Answer here…</div>
+  </div>
+
+  <div class="question">
+    <div class="q-num">Question 4 — The debrief format</div>
+    <div class="q-text">What does the reveal moment look and feel like? Is it Gaia speaking? A visual transformation of the World? A character stepping out of the narrative to explain? Text-only or visual? Does it include audio?</div>
+    <div class="q-context">The debrief is the most important moment in the entire product. Its format determines the emotional impact of the awareness mechanism. This needs a creative decision — not a spec — before any design work begins.</div>
+    <div class="answer-slot">Answer here…</div>
+  </div>
+
+  <div class="question">
+    <div class="q-num">Question 5 — Language scope for the student cohort</div>
+    <div class="q-text">Is the MVP1 student cohort English-speaking, or does it include French-speaking or other students who would need a non-English experience? ESSEC has an international student body.</div>
+    <div class="q-context">If English-only is sufficient for Phase 1, this is not in scope and waits for Phase 2. If the first cohort includes non-English speakers, multilingual support is an MVP1 requirement — and it changes the scope significantly. Needs a decision now.</div>
+    <div class="answer-slot">Answer here…</div>
+  </div>
+
+  <div class="question">
+    <div class="q-num">Question 6 — Features you want that aren't listed here</div>
+    <div class="q-text">Is there anything you imagine in the MVP1 experience — a moment, a feeling, a capability — that isn't captured in this list?</div>
+    <div class="q-context">This list was built from the existing documentation and strategic context. There may be features that exist in your head but not yet in any document. This is the place to name them.</div>
+    <div class="answer-slot">Answer here…</div>
+  </div>
+
+</div>
+</body>
+</html>

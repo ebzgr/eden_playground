@@ -1,0 +1,1519 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <title>Product Strategy — Eden Playground</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0e0e16;
+      --surface: #16161f;
+      --surface-2: #1c1c28;
+      --border: rgba(255,255,255,0.07);
+      --accent: #7c6fff;
+      --accent-dim: rgba(124,111,255,0.12);
+      --green: #3dd68c;
+      --green-dim: rgba(61,214,140,0.12);
+      --yellow: #f5c842;
+      --yellow-dim: rgba(245,200,66,0.12);
+      --red: #f56262;
+      --red-dim: rgba(245,98,98,0.12);
+      --orange: #f5943a;
+      --orange-dim: rgba(245,148,58,0.12);
+      --text: #e8e8f0;
+      --text-secondary: #9090aa;
+      --text-muted: #5a5a72;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1.75;
+      padding: 3.5rem 1.5rem 6rem;
+    }
+
+    .page { max-width: 840px; margin: 0 auto; }
+
+    /* HEADER */
+    .doc-header { margin-bottom: 3.5rem; }
+
+    .eyebrow {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.6rem;
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.2;
+      margin-bottom: 0.75rem;
+    }
+
+    .doc-meta {
+      display: flex;
+      gap: 1.5rem;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+
+    .subtitle {
+      color: var(--text-secondary);
+      font-size: 0.96rem;
+      max-width: 640px;
+      line-height: 1.65;
+    }
+
+    /* SECTION */
+    h2 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text);
+      margin: 3rem 0 0.85rem;
+      padding-bottom: 0.45rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    h2 .section-num {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+    }
+
+    h3 {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 1.6rem 0 0.5rem;
+    }
+
+    p { color: var(--text-secondary); margin-bottom: 0.8rem; }
+    strong { color: var(--text); }
+
+    /* CARDS */
+    .card-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 0.8rem;
+      margin: 1rem 0;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.1rem 1.2rem;
+    }
+
+    .card-label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.4rem;
+    }
+
+    .card-title {
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.35rem;
+    }
+
+    .card-body {
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* CALLOUT */
+    .callout {
+      display: flex;
+      gap: 0.85rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      padding: 0.9rem 1.1rem;
+      margin: 1rem 0;
+      font-size: 0.86rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+    .callout .icon { flex-shrink: 0; margin-top: 0.05rem; }
+    .callout.green  { border-left-color: var(--green);  background: var(--green-dim); }
+    .callout.yellow { border-left-color: var(--yellow); background: var(--yellow-dim); }
+    .callout.red    { border-left-color: var(--red);    background: var(--red-dim); }
+    .callout.orange { border-left-color: var(--orange); background: var(--orange-dim); }
+
+    /* TABLE */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.84rem;
+      margin: 0.9rem 0 1.1rem;
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 0.65rem 0.9rem;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--surface);
+      color: var(--text);
+      font-weight: 600;
+      font-size: 0.8rem;
+    }
+
+    td { color: var(--text-secondary); }
+
+    /* BADGES */
+    .badge {
+      display: inline-block;
+      padding: 0.15rem 0.55rem;
+      border-radius: 999px;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+    .badge.done       { background: var(--green-dim);  color: var(--green);  }
+    .badge.active     { background: var(--accent-dim); color: var(--accent); }
+    .badge.open       { background: rgba(255,255,255,0.05); color: var(--text-muted); }
+    .badge.risk       { background: var(--red-dim);    color: var(--red);    }
+    .badge.decision   { background: var(--orange-dim); color: var(--orange); }
+    .badge.p0         { background: var(--orange-dim); color: var(--orange); }
+    .badge.p1         { background: var(--accent-dim); color: var(--accent); }
+    .badge.p2         { background: rgba(255,255,255,0.05); color: var(--text-muted); }
+
+    /* LIST */
+    ul.plain { list-style: none; margin: 0.5rem 0 1rem; }
+    ul.plain li {
+      position: relative;
+      padding: 0.22rem 0 0.22rem 1.4rem;
+      color: var(--text-secondary);
+      font-size: 0.86rem;
+    }
+    ul.plain li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+    }
+
+    /* STEP */
+    .steps { margin: 0.8rem 0 1.2rem; }
+    .step {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 0.75rem;
+      align-items: flex-start;
+    }
+    .step-num {
+      min-width: 1.65rem;
+      height: 1.65rem;
+      border-radius: 50%;
+      background: var(--accent-dim);
+      border: 1px solid rgba(124,111,255,0.3);
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.72rem;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+    }
+    .step-body { font-size: 0.86rem; color: var(--text-secondary); padding-top: 0.2rem; }
+
+    /* DIVIDER */
+    hr { border: none; border-top: 1px solid var(--border); margin: 3rem 0; }
+
+    /* METRICS */
+    .metric-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 0.8rem;
+      margin: 1rem 0;
+    }
+    .metric-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem;
+      text-align: center;
+    }
+    .metric-value {
+      font-size: 1.55rem;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1.2;
+      margin-bottom: 0.3rem;
+    }
+    .metric-value.tbd { font-size: 0.9rem; color: var(--text-muted); }
+    .metric-label { font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; }
+    .metric-sublabel { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.3rem; font-style: italic; }
+
+    /* QUESTION */
+    .question {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--orange);
+      border-radius: 0 10px 10px 0;
+      padding: 1rem 1.2rem;
+      margin: 0.85rem 0;
+    }
+    .question .q-num {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 0.4rem;
+    }
+    .question .q-text {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.35rem;
+      line-height: 1.5;
+    }
+    .question .q-context {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+    .answer-slot {
+      margin-top: 0.65rem;
+      padding: 0.55rem 0.8rem;
+      background: rgba(255,255,255,0.02);
+      border: 1px dashed rgba(255,255,255,0.08);
+      border-radius: 6px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    /* STATUS BLOCK */
+    .status-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+      gap: 0.8rem;
+      margin: 1rem 0;
+    }
+    .status-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem 1.1rem;
+    }
+    .status-card .sc-label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.35rem;
+    }
+    .status-card .sc-value {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .status-card .sc-note {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 0.2rem;
+    }
+
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ─── HEADER ─── -->
+  <div class="doc-header">
+    <div class="eyebrow">Marketing for Betterment · Product Strategy</div>
+    <h1>Eden Playground</h1>
+    <div class="doc-meta">
+      <span>Audience: Product, Strategy, Co-founders</span>
+      <span>Last reviewed: April 2026</span>
+      <span>Status: Pre-build · Planning phase</span>
+    </div>
+    <p class="subtitle">
+      The strategic overview for Eden Playground — what it is, who it's for, why it matters,
+      how it works, what success looks like, and the open decisions that still need answers.
+      This is the document you read before making any product decision.
+    </p>
+  </div>
+
+
+  <!-- ─── 1. THE PROBLEM ─── -->
+  <h2><span class="section-num">01</span> The problem we exist to solve</h2>
+
+  <p>
+    Manipulative marketing is not on the fringe — it is the default. Artificial urgency,
+    manufactured social proof, dark patterns, guilt nudges, gamified compulsion loops.
+    Brands and platforms spend billions refining these techniques. Most people encounter
+    them dozens of times a day and have no vocabulary, no mental model, and no defences.
+  </p>
+
+  <p>
+    The standard response — policy papers, academic warnings, regulatory action — operates
+    too far from the individual to change behaviour. You cannot resist what you cannot name.
+    And you cannot name what you have never been shown.
+  </p>
+
+  <div class="card-row">
+    <div class="card">
+      <div class="card-label">The asymmetry</div>
+      <div class="card-title">Billions vs. nothing</div>
+      <div class="card-body">
+        Brands have decades of optimised persuasion science. Consumers have occasional news
+        articles. There is no countervailing infrastructure — no platform built for the
+        other side.
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-label">Why education fails</div>
+      <div class="card-title">Knowing is not enough</div>
+      <div class="card-body">
+        Research consistently shows that being told about a manipulation technique does not
+        protect you from it. Experience-based learning — feeling it, then understanding it —
+        creates much more durable immunity.
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-label">The research gap</div>
+      <div class="card-title">No controlled ground</div>
+      <div class="card-body">
+        Science on persuasion and awareness largely relies on surveys or observational data.
+        There is no consented, controlled platform built to run causal experiments on what
+        actually makes awareness stick.
+      </div>
+    </div>
+  </div>
+
+  <div class="callout yellow">
+    <span class="icon">◈</span>
+    <span>
+      <strong>Why now:</strong> Awareness of manipulative design is rising — regulation is moving
+      (DSA, dark patterns legislation), public sentiment is shifting, and there is a growing
+      community of advocates, researchers, and designers who want something to point people to.
+      The window to become the canonical platform for this is open. It will not stay open indefinitely.
+    </span>
+  </div>
+
+
+  <!-- ─── 2. WHAT WE ARE BUILDING ─── -->
+  <h2><span class="section-num">02</span> What we are building</h2>
+
+  <p>
+    <strong>Eden Playground</strong> is an immersive awareness platform. Users are invited on
+    a journey through a series of interactive <strong>Worlds</strong> — each one a narrative
+    environment built around a real cluster of manipulative marketing techniques. Users
+    <em>experience</em> the techniques directly, then receive a debrief that names and explains
+    what just happened to them.
+  </p>
+
+  <p>
+    The result is not just awareness within the platform. The interventions are designed as
+    <strong>portable mental models</strong> — vocabulary and pattern-recognition that users carry
+    into their daily digital lives and apply in real commercial environments.
+  </p>
+
+  <div class="callout">
+    <span class="icon">→</span>
+    <span>
+      The one-line pitch: <strong>We let people experience manipulation in a safe environment
+      so they can recognise and resist it everywhere else.</strong>
+    </span>
+  </div>
+
+  <h3>Three things this product does simultaneously</h3>
+
+  <div class="card-row">
+    <div class="card">
+      <div class="card-label">For users</div>
+      <div class="card-title">Raise individual awareness</div>
+      <div class="card-body">
+        Immersive experience creates lasting pattern-recognition. Not a lecture — a memory.
+        Users leave knowing the name of what was done to them, how it works, and how to
+        spot it in the wild.
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-label">For society</div>
+      <div class="card-title">Create market pressure</div>
+      <div class="card-body">
+        When enough consumers can name a manipulative design pattern, it loses competitive
+        value. Informed users erode the ROI of manipulation, which creates incentives
+        for ethical design — without waiting for regulation.
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-label">For science</div>
+      <div class="card-title">Advance research</div>
+      <div class="card-body">
+        A consented, modular, randomised experiment platform that commercial platforms
+        will never allow external researchers to build. Studies what works, who it affects
+        most, and what actually builds durable immunity.
+      </div>
+    </div>
+  </div>
+
+  <p>
+    These three goals are not in tension — they are the same product. The research rigor
+    makes the awareness claims credible. The awareness mission keeps the research ethically
+    grounded. The social demand goal is what scales both.
+  </p>
+
+
+  <!-- ─── 3. WHO WE ARE BUILDING IT FOR ─── -->
+  <h2><span class="section-num">03</span> Who we are building it for</h2>
+
+  <p>
+    The platform has a clear two-phase user strategy, with students as the confirmed first
+    cohort and the general public as the growth phase. These are not the same user — and
+    designing for one without being clear about the other creates drift.
+  </p>
+
+  <h3>Phase 1 user — the marketing-aware student</h3>
+
+  <p>
+    Business and marketing students, recruited through the university. They are not naive about
+    manipulation — they have studied it in class. That is precisely the point. Knowing the name
+    of a technique does not protect you from it. These users will discover, firsthand, that
+    their academic knowledge is not immunity. That realisation is the hook, and it is uniquely
+    powerful for this cohort.
+  </p>
+
+  <table>
+    <thead>
+      <tr><th>Dimension</th><th>What we know</th><th>Status</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Core situation</strong></td>
+        <td>"I study this. I know what anchoring and social proof are. I should be able to spot them." — and then they can't, in real time.</td>
+        <td><span class="badge done">confirmed cohort</span></td>
+      </tr>
+      <tr>
+        <td><strong>Why this is the right first cohort</strong></td>
+        <td>High baseline literacy means the debrief hits harder. They are also research-literate, consent-familiar, and fast to give quality feedback. Their academic context is the recruitment channel.</td>
+        <td><span class="badge done">confirmed</span></td>
+      </tr>
+      <tr>
+        <td><strong>The risk with this cohort</strong></td>
+        <td>Students are a convenience sample. They are analytically oriented and younger than the eventual public user. Results may not generalise directly. This is a known limitation, not a blocker — but it must be documented in research outputs.</td>
+        <td><span class="badge active">manage, not fix</span></td>
+      </tr>
+      <tr>
+        <td><strong>Narrative tone fit</strong></td>
+        <td>Does the mythic Gaia / quest framing land with business school students? Their self-image is analytical and sceptical. They may love the contrast — or find it at odds with their register. This is the most urgent thing to test with this cohort before full build.</td>
+        <td><span class="badge decision">must test early</span></td>
+      </tr>
+      <tr>
+        <td><strong>Session behaviour</strong></td>
+        <td>Students have structured schedules. Each World should complete in a single sitting: 15–30 min. Multi-session journeys must survive gap periods of days or weeks.</td>
+        <td><span class="badge active">assumed, test in Phase 1</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Phase 2 user — the general public awareness seeker</h3>
+
+  <p>
+    A digitally literate adult who has a vague, nagging sense that something is being done
+    to them online — but lacks the vocabulary to name it. Less analytically primed than the
+    student cohort. More emotionally driven. They are not looking for research findings;
+    they are looking for a feeling of agency returned to them.
+  </p>
+
+  <div class="callout">
+    <span class="icon">→</span>
+    <span>
+      The student cohort and the public cohort will respond differently to the same content.
+      Phase 1 is not just user acquisition — it is the research that tells us how to redesign
+      the experience for Phase 2. Treat Phase 1 as a calibration, not a launch.
+    </span>
+  </div>
+
+  <h3>Third user — the researcher and advocate</h3>
+
+  <p>
+    Academics, NGO analysts, policymakers. They do not go through the Worlds — they use the
+    experiment data and read the dissemination outputs. The founder's own research agenda
+    is the first instance of this user: the platform is simultaneously a product and a
+    research infrastructure for academic publication.
+  </p>
+
+  <div class="callout green">
+    <span class="icon">✓</span>
+    <span>
+      <strong>Confirmed:</strong> Phase 1 user cohort is university students, recruited through
+      the academic institution. This determines the consent model, the ethics review pathway,
+      the research protocol, and the tone calibration work needed before full build.
+    </span>
+  </div>
+
+
+  <!-- ─── 4. THE EXPERIENCE ─── -->
+  <h2><span class="section-num">04</span> How the experience works</h2>
+
+  <p>
+    The experience is a <strong>Journey</strong> — a sequenced series of Worlds, wrapped in
+    an overarching narrative that makes completing the whole thing feel meaningful. The
+    journey has a beginning, a climax, and an ending. Completing it means something.
+  </p>
+
+  <h3>The journey arc</h3>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <strong>Invitation.</strong> User is called into the world by Gaia — a mythic personification of
+        the natural order that commercial manipulation is slowly eroding. The invitation sets the
+        stakes and the emotional register: this is a quest, not a tutorial.
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <strong>Consent.</strong> Before any data is saved, users understand what they're entering —
+        that they will encounter real manipulative techniques, that content may be algorithmically
+        adapted, that they are pseudonymous. Consent is woven into the narrative, not bolted on.
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <strong>World play.</strong> Each World is a self-contained narrative environment built around
+        a technique cluster. Users make real decisions within it. The techniques are live — not
+        described, but experienced. The user does not know the debrief is coming.
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <strong>Debrief.</strong> The World reveals what just happened. Technique named. Mechanism
+        explained. Real-world parallel given. The debrief is part of the narrative — not a
+        separate screen. Users leave with a mental model, not just a feeling.
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <strong>Token earned.</strong> Completing the World's mission earns its token — an orb in the
+        mythic theme, a resource in the sci-fi theme. Tokens are the tangible record of what the
+        user has understood and survived.
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">6</div>
+      <div class="step-body">
+        <strong>Shield of Eden.</strong> Collecting all tokens unlocks the Shield of Eden. The user is
+        recognised as an ambassador — someone who has faced the manipulation and can name it.
+        They can now bring others in.
+      </div>
+    </div>
+  </div>
+
+  <h3>Narrative themes — the same journey, different skin</h3>
+
+  <p>
+    The entire journey can be experienced through different <strong>narrative themes</strong>.
+    The underlying structure — Worlds, missions, tokens, Shield — never changes. Only the
+    aesthetic and character layer changes. This is a research variable, not just a design choice.
+    Different themes may produce different completion rates, different emotional responses,
+    different awareness outcomes.
+  </p>
+
+  <div class="card-row">
+    <div class="card">
+      <div class="card-label">Theme 1 — Active</div>
+      <div class="card-title">Mythic · Gaia's quest</div>
+      <div class="card-body">
+        Gaia calls the user as her Knight. Tokens are orbs of wisdom, vision, patience.
+        The Shield of Eden grants the title Knight of Eden. Letters from Gaia arrive
+        between Worlds. Tone: epic, hopeful, earthy.
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-label">Theme 2 — Planned</div>
+      <div class="card-title">Sci-fi · Space voyage</div>
+      <div class="card-body">
+        User travels between planets as an intergalactic ambassador. Resources gathered
+        per World. The Galaxy Federation issues missions. Tone: curious, expansive, cool.
+        Same mechanics — different universe.
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-label">Theme 3+</div>
+      <div class="card-title">Future · To be designed</div>
+      <div class="card-body">
+        The architecture supports any number of additional themes without altering World
+        content or research logic. New themes can be added as the platform grows.
+      </div>
+    </div>
+  </div>
+
+  <h3>Design principles — how we engage without manipulating</h3>
+
+  <p>
+    This product studies manipulation. It will not use it. The engagement model is built
+    on four principles that are the deliberate opposite of the techniques we study:
+  </p>
+
+  <div class="card-row">
+    <div class="card">
+      <div class="card-label">Principle 1</div>
+      <div class="card-title">Curiosity, not urgency</div>
+      <div class="card-body">
+        No countdown timers. No artificial scarcity. No "last chance" copy. Users move at
+        their own pace. The draw is the desire to understand — not the fear of missing out.
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-label">Principle 2</div>
+      <div class="card-title">Empowerment, not guilt</div>
+      <div class="card-body">
+        No shame for being manipulated. No guilt about past behaviour. The tone is
+        consistently: "now you know, you are stronger for it." Competence grows;
+        self-blame doesn't.
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-label">Principle 3</div>
+      <div class="card-title">Wit, not fear</div>
+      <div class="card-body">
+        Irony and humour are primary tools. Making the familiar feel strange is more
+        powerful than making it feel dangerous. When a dark pattern feels absurd, it
+        loses its grip.
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-label">Principle 4</div>
+      <div class="card-title">Narrative, not lectures</div>
+      <div class="card-body">
+        Debriefs are part of the story, not separate screens. Understanding arrives as
+        revelation, not instruction. Users remember what they felt — not what they were told.
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ─── 5. THE WORLDS ─── -->
+  <h2><span class="section-num">05</span> The Worlds</h2>
+
+  <p>
+    Each World is a self-contained narrative environment built around one primary cluster of
+    manipulative marketing techniques. Together they form the full journey. Below is the
+    current set, with a provisional prioritisation — this order should be revisited once
+    the target user profile is confirmed and acquisition channels are known.
+  </p>
+
+  <table>
+    <thead>
+      <tr><th>World</th><th>What users encounter</th><th>What they leave knowing</th><th>Priority</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Gaia Invitation</strong></td>
+        <td>The opening narrative — how the platform presents itself, sets stakes, and earns consent</td>
+        <td>Why this journey exists and what they are agreeing to</td>
+        <td><span class="badge p0">P0 — must go first</span></td>
+      </tr>
+      <tr>
+        <td><strong>Deal World</strong></td>
+        <td>Pricing psychology: anchoring, decoy pricing, discount framing, the illusion of a bargain</td>
+        <td>How price presentation manipulates perceived value, regardless of the actual number</td>
+        <td><span class="badge p1">P1</span></td>
+      </tr>
+      <tr>
+        <td><strong>Urgency World</strong></td>
+        <td>Artificial scarcity, countdown timers, "act now" copy, manufactured FOMO</td>
+        <td>How time pressure is fabricated and how to recognise when a deadline isn't real</td>
+        <td><span class="badge p1">P1</span></td>
+      </tr>
+      <tr>
+        <td><strong>Social World</strong></td>
+        <td>Fake consensus, fabricated testimonials, follower counts, bandwagon mechanics</td>
+        <td>How popularity signals are constructed and what questions to ask before trusting them</td>
+        <td><span class="badge p2">P2</span></td>
+      </tr>
+      <tr>
+        <td><strong>Gamification World</strong></td>
+        <td>Streak mechanics, progress bars, variable reward loops, achievement systems</td>
+        <td>How game-like structures are used to create compulsion without conscious consent</td>
+        <td><span class="badge p2">P2</span></td>
+      </tr>
+      <tr>
+        <td><strong>Advertising World</strong></td>
+        <td>Native advertising, sponsored content, blurred editorial/commercial lines, attention capture</td>
+        <td>How advertising disguises itself as content and where to look for the disclosure</td>
+        <td><span class="badge p2">P2</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <span class="icon">→</span>
+    <span>
+      <strong>Prioritisation rationale:</strong> Deal and Urgency are the techniques users encounter
+      most frequently and feel most viscerally. They are also the cleanest for first experiments —
+      the behavioural signals are clear and the debrief writes itself. P2 Worlds require the
+      platform to be proven before we invest in their design.
+    </span>
+  </div>
+
+  <p>
+    Every World follows a shared structure: a narrative mission, embedded marketing interventions,
+    a completion condition, a debrief, and a token. The content varies — the architecture is identical.
+    This modularity is what makes the research possible.
+  </p>
+
+
+  <!-- ─── 6. THE RESEARCH ─── -->
+  <h2><span class="section-num">06</span> The research mission</h2>
+
+  <p>
+    Eden Playground is not just a product. It is the only consented, controlled, experience-based
+    research platform for studying manipulative marketing and its countermeasures. That is a
+    genuine scientific contribution — and a significant competitive moat.
+  </p>
+
+  <h3>Two research directions that feed each other</h3>
+
+  <div class="card-row">
+    <div class="card">
+      <div class="card-label">Direction 1</div>
+      <div class="card-title">How techniques evolve and who they affect</div>
+      <div class="card-body">
+        Which manipulative techniques become more effective over time? Which user segments
+        are most vulnerable? What environmental factors amplify or dampen their effect?
+        This is the "understand the enemy" track.
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-label">Direction 2</div>
+      <div class="card-title">What builds lasting awareness</div>
+      <div class="card-body">
+        Which awareness interventions actually work? Does narrative framing matter?
+        Does timing of debrief change retention? Which mental models persist? This
+        is the "build the defence" track.
+      </div>
+    </div>
+  </div>
+
+  <p>
+    These two directions are not competing. Insights from Direction 1 (how techniques work
+    on whom) directly inform the design of Direction 2 interventions (who needs what kind
+    of awareness support). The platform is the infrastructure for both.
+  </p>
+
+  <h3>What makes this research credible</h3>
+
+  <ul class="plain">
+    <li><strong>Random assignment</strong> — users are assigned to versions of a World, not self-selected. Causal claims are defensible.</li>
+    <li><strong>Pre-registered hypotheses</strong> — experiments are defined before data is collected. No p-hacking or retrospective framing.</li>
+    <li><strong>Heterogeneous effect analysis</strong> — results broken down by user segment. We are not optimising for the average; we are finding who is most affected.</li>
+    <li><strong>Guardrail metrics</strong> — experiments can be stopped if emotional safety thresholds are crossed. Participant wellbeing is a live instrument, not an afterthought.</li>
+    <li><strong>Public dissemination</strong> — every experiment produces a plain-language summary: what we tested, what we found, what it means.</li>
+  </ul>
+
+  <h3>Ethical design as a competitive advantage</h3>
+
+  <p>
+    The ethics framework is not a constraint on the research — it is what makes the research
+    trustworthy. We study manipulation without amplifying it. We collect data without
+    identifying users. We run experiments without deceiving participants about the nature
+    of the experience. This is the thing commercial platforms cannot credibly claim.
+  </p>
+
+  <div class="callout green">
+    <span class="icon">✓</span>
+    <span>
+      <strong>Non-negotiables (these do not get traded off for speed or scope):</strong>
+      No PII or email required. Informed consent before any data is stored. Technique intensity
+      never exceeds real-world commercial norms. Every content version passes human review
+      before users see it. Debrief is built into every technique encounter — always.
+    </span>
+  </div>
+
+
+  <!-- ─── 7. SUCCESS ─── -->
+  <h2><span class="section-num">07</span> What success looks like</h2>
+
+  <p>
+    We are pre-launch. Success targets are working hypotheses — they should be replaced with
+    real numbers after the first user cohort completes a World.
+  </p>
+
+  <div class="metric-row">
+    <div class="metric-card">
+      <div class="metric-value tbd">To define</div>
+      <div class="metric-label">North star</div>
+      <div class="metric-sublabel">% of users who correctly identify a technique post-debrief, unprompted</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-value tbd">To define</div>
+      <div class="metric-label">Journey completion</div>
+      <div class="metric-sublabel">% of users who reach Shield of Eden</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-value tbd">To define</div>
+      <div class="metric-label">World-to-World retention</div>
+      <div class="metric-sublabel">% who enter World N+1 after completing World N</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-value tbd">To define</div>
+      <div class="metric-label">Experiments shipped</div>
+      <div class="metric-sublabel">Completed experiments with publishable findings per year</div>
+    </div>
+  </div>
+
+  <h3>The MVP success condition</h3>
+
+  <p>
+    Before we set annual targets, we need a proof-of-concept moment: a real user cohort going
+    through at least one World, generating valid experiment data. That is the minimum to
+    confirm the model works. Everything else — additional Worlds, themes, scale — follows
+    only after this is proven.
+  </p>
+
+  <div class="callout green">
+    <span class="icon">✓</span>
+    <span>
+      <strong>MVP condition:</strong> 50 users complete Gaia Invitation + 1 content World.
+      Experiment arms assigned. Debrief comprehension measured. Enough signal to run a
+      basic analysis. This is the gate to Phase 2.
+    </span>
+  </div>
+
+  <h3>Things we must not break (guardrail metrics)</h3>
+
+  <ul class="plain">
+    <li>User distress rate — sessions triggering the wellbeing check must stay below a defined threshold</li>
+    <li>Consent completion — 100% of users must complete informed consent before any data is stored, always</li>
+    <li>Technique intensity — no World may exceed the intensity users encounter on normal commercial platforms</li>
+    <li>Debrief reach — every user who encounters a technique must receive the debrief, with no exceptions</li>
+  </ul>
+
+
+  <!-- ─── 8. MARKET & POSITIONING ─── -->
+  <h2><span class="section-num">08</span> Market position and differentiation</h2>
+
+  <p>
+    There is no direct competitor. That is an opportunity — and a risk. It means we are
+    building a category, not entering one. Category creation requires more activation energy
+    but produces more durable positions.
+  </p>
+
+  <table>
+    <thead>
+      <tr><th>What exists</th><th>Why it falls short</th><th>What we do differently</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Academic research on persuasion</strong></td>
+        <td>Published in journals that consumers never read. No product. No behaviour change.</td>
+        <td>We translate research into lived experience. Findings become debriefs. Science becomes awareness.</td>
+      </tr>
+      <tr>
+        <td><strong>Media literacy programmes</strong></td>
+        <td>Curriculum-based, lecture-led, school-age focused. Doesn't reach adults in their context.</td>
+        <td>Experience-based, narrative-led, self-directed. Adults choose to enter. No syllabus smell.</td>
+      </tr>
+      <tr>
+        <td><strong>Dark patterns awareness content</strong></td>
+        <td>Articles, Twitter threads, browser extensions. Raises awareness in the abstract. Not embodied.</td>
+        <td>You feel the pattern before you name it. The debrief lands because the experience is real.</td>
+      </tr>
+      <tr>
+        <td><strong>Ethical design advocacy</strong></td>
+        <td>Targets designers and companies. Doesn't arm consumers. Slow and structural.</td>
+        <td>We target the demand side. When consumers resist, companies change. Faster feedback loop.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <span class="icon">→</span>
+    <span>
+      <strong>Our position:</strong> The place where awareness becomes embodied.
+      Not content about manipulation — an experience of it. Not a classroom — a world you enter.
+      Not research for researchers — research that reaches the people being studied.
+    </span>
+  </div>
+
+
+  <!-- ─── 9. GO TO MARKET ─── -->
+  <h2><span class="section-num">09</span> How we reach users</h2>
+
+  <p>
+    The go-to-market strategy is sequenced in two distinct phases: a controlled academic
+    launch that validates the model, followed by a public growth phase seeded by the
+    ambassador flywheel. Phase 1 is confirmed. Phase 2 is designed but not yet activated.
+  </p>
+
+  <h3>Phase 1 — University launch (confirmed)</h3>
+
+  <p>
+    The first user cohort is recruited through the academic institution. This is not a
+    compromise channel — it is strategically ideal for Phase 1. Students arrive
+    understanding research participation. The ethics review process is familiar. The
+    consent model fits cleanly. And word of mouth within a student cohort is fast,
+    horizontal, and trust-based.
+  </p>
+
+  <div class="callout green">
+    <span class="icon">✓</span>
+    <span>
+      <strong>Confirmed channel:</strong> University student recruitment via the academic
+      institution. This activates the ethics committee pathway, the academic consent
+      model, and the institutional credibility that makes the research publishable.
+    </span>
+  </div>
+
+  <p>
+    The strategic risk of starting with students is sample homogeneity — they are younger,
+    more analytically oriented, and more marketing-literate than the eventual public user.
+    This must be documented as a limitation in research outputs. It is not a reason to
+    delay; it is a reason to design Phase 2 as a deliberate extension, not an assumption
+    that the same experience will land the same way.
+  </p>
+
+  <h3>Phase 2 — Public growth (designed, not yet activated)</h3>
+
+  <table>
+    <thead>
+      <tr><th>Channel</th><th>Why it fits</th><th>The trade-off</th><th>Status</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Ambassador flywheel</strong></td>
+        <td>Every Knight of Eden has a story and credentials to show. Peer-to-peer recruitment is the most mission-aligned growth mechanism that exists — users who completed the journey bring in people they trust.</td>
+        <td>Only compounds after completion rates are meaningful. Requires a seeded critical mass from Phase 1.</td>
+        <td><span class="badge active">built into the product</span></td>
+      </tr>
+      <tr>
+        <td><strong>Advocacy organisation partnerships</strong></td>
+        <td>Consumer rights groups, digital literacy NGOs, ethical tech communities. Their audiences arrive pre-motivated. One partner relationship unlocks a concentrated, high-quality cohort.</td>
+        <td>Dependent on relationship-building. Volume capped by partner reach. Slow to initiate.</td>
+        <td><span class="badge decision">open — identify targets</span></td>
+      </tr>
+      <tr>
+        <td><strong>Content-led social discovery</strong></td>
+        <td>The premise is inherently shareable: "I got manipulated and understood why." Shareable moments from inside Worlds could drive organic discovery at scale.</td>
+        <td>Harder to control sample quality for research. Viral growth creates pressure to scale before the research model is ready.</td>
+        <td><span class="badge decision">open — Phase 2 only</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>The ambassador model — the long-term growth engine</h3>
+
+  <p>
+    The Shield of Eden is not just a reward mechanic. It is the growth model. A user who
+    earns the Shield has a story — they faced the manipulation, understood it, and completed
+    the journey. That is a social credential. When they bring someone else in, it arrives with
+    peer trust and narrative context that no paid channel can replicate.
+  </p>
+
+  <p>
+    This flywheel is what makes the product self-sustaining over time. But it only starts
+    spinning when completion rates are real. Phase 1 seeds it. Phase 2 uses it.
+  </p>
+
+
+  <!-- ─── 10. BUSINESS MODEL ─── -->
+  <h2><span class="section-num">10</span> Sustainability and business model</h2>
+
+  <p>
+    The user-facing product is free by design. Charging users for awareness access would contradict
+    the mission. Sustainability must come from elsewhere.
+  </p>
+
+  <table>
+    <thead>
+      <tr><th>Model</th><th>How it works</th><th>Mission alignment</th><th>Status</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Grants</strong></td>
+        <td>Research funding from consumer rights foundations, digital ethics bodies, academic grants. Strong precedent for this kind of public interest work.</td>
+        <td>High — cleanest alignment with mission</td>
+        <td><span class="badge decision">open</span></td>
+      </tr>
+      <tr>
+        <td><strong>Institutional research partnerships</strong></td>
+        <td>Academic institutions pay for access to the experiment platform and anonymised data. Custom research modules built for specific research questions.</td>
+        <td>High — funds the platform, doesn't compromise users</td>
+        <td><span class="badge decision">open</span></td>
+      </tr>
+      <tr>
+        <td><strong>NGO / foundation partnerships</strong></td>
+        <td>Organisations like consumer advocacy bodies, digital rights groups co-fund in exchange for research access and public attribution.</td>
+        <td>High — natural partners already exist</td>
+        <td><span class="badge decision">open</span></td>
+      </tr>
+      <tr>
+        <td><strong>Freemium research tier</strong></td>
+        <td>Public journey free; custom experiment tooling and research API licensed to academic and policy partners.</td>
+        <td>Medium — introduces a commercial dynamic but ring-fences it from the user side</td>
+        <td><span class="badge decision">open</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout red">
+    <span class="icon">✗</span>
+    <span>
+      <strong>Revenue sources that are permanently off the table:</strong> advertising,
+      brand sponsorship, selling or licensing user data to commercial entities, any
+      arrangement that creates a financial incentive to keep users unaware or
+      engaged through manipulation.
+    </span>
+  </div>
+
+
+  <!-- ─── 11. ASSUMPTIONS & RISKS ─── -->
+  <h2><span class="section-num">11</span> Core assumptions and risks</h2>
+
+  <p>
+    These are the bets the product is built on. If any of these turn out to be wrong,
+    the strategy needs to change. They should be treated as live hypotheses, not
+    background facts.
+  </p>
+
+  <table>
+    <thead>
+      <tr><th>Assumption</th><th>What breaks if it's wrong</th><th>How to test it</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Experience-based learning creates more durable awareness than reading about techniques</strong></td>
+        <td>The entire platform format. If a well-written article does the same job, we are building a very expensive one.</td>
+        <td>Pre/post awareness test in first experiment. Compare to a "reading" control arm. Two-week follow-up survey.</td>
+      </tr>
+      <tr>
+        <td><strong>Users will engage with a narrative frame seriously, not treat it as a game to be gamed</strong></td>
+        <td>Debrief comprehension scores are meaningless. Research data is invalid. The whole immersive approach fails.</td>
+        <td>5–10 usability sessions before launch. Comprehension check built into the debrief. Watch for skip behaviour.</td>
+      </tr>
+      <tr>
+        <td><strong>Users will complete the full multi-World journey, not drop after World 1</strong></td>
+        <td>The ambassador flywheel never starts. Research data skews to early-journey users only. Shield of Eden has no value.</td>
+        <td>Measure World N→N+1 conversion from day one. Instrument every exit point. Iterate on inter-World hooks.</td>
+      </tr>
+      <tr>
+        <td><strong>The pseudonymous return-key model is acceptable to users</strong></td>
+        <td>Key-loss rate is high. Users cannot return to their journey. Retention collapses before World 2.</td>
+        <td>Track download rate, return rate, and key-loss reports. Consider optional email backup with explicit opt-in.</td>
+      </tr>
+      <tr>
+        <td><strong>Referral partners will actively send users to the platform</strong></td>
+        <td>No users at launch. Experiments are underpowered. Phase 1 stalls. Ambassador flywheel never seeds.</td>
+        <td>Lock 2–3 confirmed partner commitments before the platform is built. Not after.</td>
+      </tr>
+      <tr>
+        <td><strong>The mythic narrative theme (Gaia, quests, orbs) resonates with the target user</strong></td>
+        <td>High bounce after onboarding. Tone mismatch. The emotional register we're betting on doesn't work for this audience.</td>
+        <td>Test narrative tone in lightweight format (landing page variants, short concept videos) before full build.</td>
+      </tr>
+    </tbody>
+  </table>
+
+
+  <!-- ─── 12. OPEN DECISIONS ─── -->
+  <h2><span class="section-num">12</span> Current state of decisions</h2>
+
+  <div class="status-row">
+    <div class="status-card">
+      <div class="sc-label">Mission</div>
+      <div class="sc-value">Locked</div>
+      <div class="sc-note">Awareness + social demand + science. Not for negotiation.</div>
+    </div>
+    <div class="status-card">
+      <div class="sc-label">Design principles</div>
+      <div class="sc-value">Locked</div>
+      <div class="sc-note">Curiosity, empowerment, wit, narrative. These are non-negotiable.</div>
+    </div>
+    <div class="status-card">
+      <div class="sc-label">Ethics framework</div>
+      <div class="sc-value">Locked</div>
+      <div class="sc-note">Privacy by design, intensity limits, mandatory debrief, human review.</div>
+    </div>
+    <div class="status-card">
+      <div class="sc-label">Experience structure</div>
+      <div class="sc-value">Locked</div>
+      <div class="sc-note">Journey → Worlds → missions → tokens → Shield. Themes as research variable.</div>
+    </div>
+    <div class="status-card">
+      <div class="sc-label">World catalogue</div>
+      <div class="sc-value">Brainstormed</div>
+      <div class="sc-note">6 Worlds identified. None formally specced. P0/P1 priority provisional.</div>
+    </div>
+    <div class="status-card">
+      <div class="sc-label">Phase 1 user</div>
+      <div class="sc-value">Confirmed</div>
+      <div class="sc-note">University students via academic institution. Phase 2 public user profile still needs validation.</div>
+    </div>
+    <div class="status-card">
+      <div class="sc-label">Phase 1 acquisition</div>
+      <div class="sc-value">Confirmed</div>
+      <div class="sc-note">University channel. Phase 2 channels (advocacy orgs, ambassador flywheel) designed but not yet activated.</div>
+    </div>
+    <div class="status-card">
+      <div class="sc-label">Business model</div>
+      <div class="sc-value">Open</div>
+      <div class="sc-note">Principles clear (no ads, no data sales). Positive model not yet decided.</div>
+    </div>
+    <div class="status-card">
+      <div class="sc-label">Success targets</div>
+      <div class="sc-value">Open</div>
+      <div class="sc-note">No numeric targets. Awaiting first user cohort for baseline.</div>
+    </div>
+  </div>
+
+
+  <!-- ─── 13. OPEN QUESTIONS ─── -->
+  <h2><span class="section-num">13</span> Questions that need your answers</h2>
+
+  <p>
+    These are the decisions this document cannot make without you. Each one is product-defining
+    and blocks work downstream. Answer them and this document gets completed.
+  </p>
+
+  <!-- ANSWERED -->
+  <div class="question" style="border-left-color: var(--green); background: var(--green-dim);">
+    <div class="q-num" style="color: var(--green);">✓ Answered — Question 1 · Phase 1 user cohort</div>
+    <div class="q-text">Who arrives first, and through what channel?</div>
+    <div class="answer-slot" style="border-color: rgba(61,214,140,0.2); color: var(--text-secondary);">
+      University students, recruited through the academic institution. Phase 1 is a controlled university launch. General public is Phase 2.
+    </div>
+  </div>
+
+  <!-- OPEN QUESTIONS -->
+
+  <div class="question">
+    <div class="q-num">Question 2 — The student experience of the narrative</div>
+    <div class="q-text">Have you shown the Gaia / mythic quest framing to a business school student and watched their reaction? Did it land — or did it feel out of register with how they see themselves?</div>
+    <div class="q-context">This is now the most urgent design question. Students have an analytical, sceptical self-image. The mythic framing is a deliberate creative contrast — but it can easily tip from "surprising and intriguing" to "not for me." A five-minute concept test with three students will tell you more than six months of debate.</div>
+    <div class="answer-slot">Answer here…</div>
+  </div>
+
+  <div class="question">
+    <div class="q-num">Question 3 — The bridge from students to the public</div>
+    <div class="q-text">What is the explicit plan for moving from a university cohort to a general public user base? Is that a year away, two years, or contingent on a specific milestone?</div>
+    <div class="q-context">Phase 1 is students. Phase 2 is everyone else. But without a trigger condition — "when we have X completions" or "after the first paper is published" — Phase 2 never gets planned for. Define the gate now, even if the date is uncertain.</div>
+    <div class="answer-slot">Answer here…</div>
+  </div>
+
+  <div class="question">
+    <div class="q-num">Question 4 — What the six-month goal is</div>
+    <div class="q-text">One number. One outcome. What would you point to in six months and say "that means it's working"?</div>
+    <div class="q-context">Without a target there is no prioritisation. "More students engaged" and "research progressing" are not targets. Pick one: a number of completions, a paper submitted, a specific awareness lift measured. The right number is the one that proves the core hypothesis — not just that the product works, but that the awareness mechanism works.</div>
+    <div class="answer-slot">Answer here…</div>
+  </div>
+
+  <div class="question">
+    <div class="q-num">Question 5 — Funding and runway</div>
+    <div class="q-text">Is the current phase funded through the academic institution (as part of research activity), self-funded, or is there an active effort to secure external grants or investment?</div>
+    <div class="q-context">The university context changes this picture significantly. If this lives inside an academic research budget, the MVP definition and timeline are set by grant cycles and ethics approvals — not by product sprints. If it is running alongside the academic role but separately funded, the constraints are different. The build sequence depends entirely on which it is.</div>
+    <div class="answer-slot">Answer here…</div>
+  </div>
+
+  <div class="question">
+    <div class="q-num">Question 6 — Which World goes first (for students)</div>
+    <div class="q-text">After Gaia Invitation, which single World is built for the MVP student cohort — Deal World or Urgency World — and why is it the right first choice for a marketing-literate audience?</div>
+    <div class="q-context">For a student cohort that has studied these techniques, the choice changes. Deal World (pricing psychology) might feel more intellectually provocative — they know anchoring theory, but have they ever been anchored without noticing? Urgency World might land harder emotionally — everyone has clicked a countdown timer. The choice for students is not the same choice you'd make for a general public cohort.</div>
+    <div class="answer-slot">Answer here…</div>
+  </div>
+
+  <div class="question">
+    <div class="q-num">Question 7 — The ethics committee pathway</div>
+    <div class="q-text">Has the research protocol been submitted to an ethics committee (IRB or equivalent)? What are the conditions, and is there anything in the current design that might require reworking to get approval?</div>
+    <div class="q-context">For student recruitment through a university, ethics approval is not optional — it is the gate. If approval is pending, it sets the timeline. If there are conditions (e.g., debriefing requirements, opt-out mechanisms, intensity limits), they should be designed into the product now, not retrofitted later. The earlier this is locked, the less rework.</div>
+    <div class="answer-slot">Answer here…</div>
+  </div>
+
+  <div class="question">
+    <div class="q-num">Question 8 — Team and decision ownership</div>
+    <div class="q-text">Who else is working on this, and in what capacity? When a product decision conflicts with a research decision, who has the final call?</div>
+    <div class="q-context">In a founder-researcher model, both hats sit on the same head — which works until it creates internal conflict. "Ship faster" vs. "run the experiment correctly" is the most common tension. Having a named tie-breaker, even if it's always the same person, makes the conflict visible and resolvable rather than quietly corrosive.</div>
+    <div class="answer-slot">Answer here…</div>
+  </div>
+
+  <div class="question">
+    <div class="q-num">Question 9 — The return-key model for students</div>
+    <div class="q-text">In a university context, students have institutional email addresses. Is the pseudonymous return-key model still the right choice for Phase 1, or does the student context create room for a lighter identity layer that improves return rates?</div>
+    <div class="q-context">The return-key model was designed for a fully anonymous general public. Students have institutional identity. An opt-in institutional email backup might dramatically improve return rates and journey completion without compromising the privacy principles that matter for Phase 2. This is worth deciding before building the identity model.</div>
+    <div class="answer-slot">Answer here…</div>
+  </div>
+
+  <div class="question">
+    <div class="q-num">Question 10 — Language and geography</div>
+    <div class="q-text">ESSEC has an international student body. Does the MVP need to work in multiple languages, or is English sufficient for the first cohort?</div>
+    <div class="q-context">This is a scoping question with large build implications. A multilingual MVP is significantly more complex — not just translation, but narrative voice, cultural resonance of the Gaia framing, and technique relevance across markets. If the first cohort is primarily English-speaking, ship English first and treat localisation as a Phase 2 decision. But decide now so it doesn't become a surprise mid-build.</div>
+    <div class="answer-slot">Answer here…</div>
+  </div>
+
+  <hr>
+
+  <!-- ─── 14. BUSINESS ANALYST REVIEW ─── -->
+  <h2><span class="section-num">14</span> Business analyst review</h2>
+
+  <div class="doc-meta" style="margin-bottom: 1.2rem;">
+    <span>Reviewed: April 2026</span>
+    <span>Perspective: External business analyst</span>
+  </div>
+
+  <div class="callout">
+    <span class="icon">→</span>
+    <span>
+      <strong>Overall verdict:</strong> Exceptionally clear strategic thinking on the "what" and "why."
+      Significant gaps on funding, team structure, and gating constraints. Several open questions are
+      not preferences — they are blockers. The strategy is sound; the execution readiness is not yet established.
+    </span>
+  </div>
+
+  <h3>What is working</h3>
+
+  <div class="card-row">
+    <div class="card">
+      <div class="card-label">Problem definition</div>
+      <div class="card-title">The asymmetry is real and well-framed</div>
+      <div class="card-body">
+        "Billions vs. nothing" is accurate and resonant. The distinction between <em>knowing</em> about
+        a technique and being <em>protected</em> from it is a defensible and important claim — and the
+        product is built on it correctly.
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-label">Strategic coherence</div>
+      <div class="card-title">Three goals that depend on each other</div>
+      <div class="card-body">
+        Most products claim social benefit alongside commercial gain. Here the three goals — user
+        awareness, market pressure, scientific research — are structurally interdependent. The
+        research rigor makes the awareness claims credible. This is genuinely unusual.
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-label">Competitive moat</div>
+      <div class="card-title">Not replicable by commercial platforms</div>
+      <div class="card-body">
+        The claim of being the only consented, controlled, experience-based platform for studying
+        manipulative marketing countermeasures is defensible. Commercial platforms cannot credibly
+        build this. That is a real and durable moat.
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-label">Ethics framework</div>
+      <div class="card-title">First-class, not bolted on</div>
+      <div class="card-body">
+        Mandatory debrief, intensity caps, human content review, no PII required — and explicitly
+        non-tradeable. This is the right architecture. Ethical rigour is both the constraint and
+        the credibility mechanism.
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-label">Growth model</div>
+      <div class="card-title">Ambassador flywheel is mission-congruent</div>
+      <div class="card-body">
+        Peer referral from someone who has completed the journey carries trust and narrative context
+        that no paid channel can replicate. Growth through the experience itself — not through
+        attention capture or manufactured virality.
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-label">MVP scope</div>
+      <div class="card-title">Correctly small</div>
+      <div class="card-body">
+        50 users through Gaia Invitation plus one content World is appropriately scoped. It tests
+        the core hypothesis without over-investing. The temptation in projects like this is to
+        build everything before testing anything. This MVP resists that.
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-label">Assumption tracking</div>
+      <div class="card-title">Live hypotheses, not background facts</div>
+      <div class="card-body">
+        Section 11 is the most valuable section in the document. Explicitly framing bets as
+        live hypotheses — with defined break conditions and test methods — is a sign of good
+        strategic discipline. Most strategy documents bury their assumptions.
+      </div>
+    </div>
+  </div>
+
+  <h3>Critical gaps and risks</h3>
+
+  <table>
+    <thead>
+      <tr><th>Gap</th><th>Why it matters now</th><th>Severity</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Ethics committee pathway</strong></td>
+        <td>
+          For university student recruitment, IRB (or equivalent) approval is not a step in the
+          process — it is the gate to Phase 1. Approval routinely takes three to six months and
+          frequently requires design changes. Until approval is in hand, the Phase 1 build has a
+          large unknown dependency. If conditions have been set, they must be designed into the
+          product now, not retrofitted.
+        </td>
+        <td><span class="badge risk">Blocker</span></td>
+      </tr>
+      <tr>
+        <td><strong>Funding structure unresolved</strong></td>
+        <td>
+          Every positive revenue option is marked open. More critically, the <em>current</em>
+          funding situation — academic research budget, self-funded, or grant-seeking? — is
+          unanswered. This is not a future question. It determines the build sequence right now.
+          Grant cycles and ethics approval timelines operate on entirely different rhythms than
+          product sprints.
+        </td>
+        <td><span class="badge risk">Blocker</span></td>
+      </tr>
+      <tr>
+        <td><strong>No numeric success targets</strong></td>
+        <td>
+          All four metric cards read "To define." The document should contain at minimum <em>working
+          hypotheses</em> for what the numbers need to be. "Experience-based learning beats reading"
+          is the foundational bet — without a measurable threshold for "beats," the first experiment
+          cannot be designed or interpreted.
+        </td>
+        <td><span class="badge decision">High</span></td>
+      </tr>
+      <tr>
+        <td><strong>Gaia narrative tone untested</strong></td>
+        <td>
+          The mythic/quest framing for analytically sceptical business school students is the biggest
+          design risk in the product. A student who finds it "not for me" in the first 90 seconds
+          does not complete the journey, does not generate research data, and does not become an
+          ambassador. A five-minute concept test with three students costs nothing and resolves
+          months of debate. This is the most urgent and cheapest test available.
+        </td>
+        <td><span class="badge decision">High</span></td>
+      </tr>
+      <tr>
+        <td><strong>Return-key identity model</strong></td>
+        <td>
+          The pseudonymous return-key system was designed for a fully anonymous general public.
+          Phase 1 users have institutional identities. High key-loss rates mean users cannot return,
+          completion data skews to single-session users, the ambassador flywheel never seeds, and
+          multi-World research data is invalid. An opt-in institutional email backup is likely
+          the right answer — but the decision must be made before the identity architecture is built.
+        </td>
+        <td><span class="badge decision">High</span></td>
+      </tr>
+      <tr>
+        <td><strong>Phase 1 → Phase 2 trigger undefined</strong></td>
+        <td>
+          "Phase 2 is the general public" is not a plan. Without a defined gate — completions
+          reached, paper submitted, awareness lift measured — Phase 2 never gets planned for
+          and Phase 1 quietly extends indefinitely. Define the condition now, even if the date
+          is uncertain.
+        </td>
+        <td><span class="badge active">Medium</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Three decisions to make before anything else</h3>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <strong>Ethics committee submission status.</strong> Has it been submitted? If not, submit
+        now. If pending, identify every condition that could require a product redesign and design
+        for those conditions immediately. Until approval is in hand, Phase 1 has no confirmed
+        start date.
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <strong>Funding structure — one sentence.</strong> Is this inside an academic research budget
+        or not? This determines whether the timeline is set by grant cycles or product decisions.
+        One sentence answers this and unblocks the build sequence.
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <strong>Narrative tone test — five students, one afternoon.</strong> Show the Gaia/mythic
+        framing to five business school students and watch their reactions — not a survey, a watching
+        session. This resolves the biggest design uncertainty before any build investment is made.
+        It cannot be skipped and should not be delayed.
+      </div>
+    </div>
+  </div>
+
+  <h3>Secondary observations</h3>
+
+  <div class="callout yellow">
+    <span class="icon">◈</span>
+    <span>
+      <strong>Urgency vs. pace tension.</strong> The "why now" argument (DSA, regulation momentum,
+      public sentiment shift) is credible — but it is in tension with nine unanswered questions and
+      a pre-build status. If the window to become the canonical platform is genuinely closing, that
+      urgency should be reflected in the speed of resolving open questions, not only in the framing
+      of the opportunity.
+    </span>
+  </div>
+
+  <div class="callout yellow">
+    <span class="icon">◈</span>
+    <span>
+      <strong>Category creation cost.</strong> The competitive landscape analysis is accurate —
+      there is no direct competitor. This is an opportunity and a risk. Category creation requires
+      more activation energy than entering an existing market, and the absence of comparable products
+      makes grant applications and partnership conversations harder to anchor. Budget extra time for
+      explaining the product before funding conversations can progress.
+    </span>
+  </div>
+
+  <div class="callout">
+    <span class="icon">→</span>
+    <span>
+      <strong>World prioritisation for students.</strong> Deal World — pricing psychology — is
+      likely the stronger first choice for a marketing-literate student cohort. Students who know
+      anchoring theory intellectually will have the most visceral realisation when they discover
+      their theoretical knowledge provides no protection in real time. That collision of <em>knowing</em>
+      and <em>feeling</em> is the specific hook this cohort offers, and it is harder to deliver
+      through Urgency World alone.
+    </span>
+  </div>
+
+  <div class="callout green">
+    <span class="icon">✓</span>
+    <span>
+      <strong>Document quality.</strong> This strategy document is well-structured, honest about
+      uncertainty, and clear about what is locked vs. open. The explicit assumptions table and the
+      decision-state dashboard in Section 12 are both above-average strategic tools. The main risk
+      is treating open questions as future decisions when several are blocking decisions right now.
+    </span>
+  </div>
+
+</div>
+</body>
+</html>

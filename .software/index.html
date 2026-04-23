@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <title>Engineering Docs — Eden Playground</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0e0e16;
+      --surface: #16161f;
+      --surface-2: #1c1c28;
+      --border: rgba(255,255,255,0.07);
+      --accent: #7c6fff;
+      --accent-dim: rgba(124,111,255,0.12);
+      --green: #3dd68c;
+      --green-dim: rgba(61,214,140,0.12);
+      --text: #e8e8f0;
+      --text-secondary: #9090aa;
+      --text-muted: #5a5a72;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1.75;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 1.5rem;
+    }
+
+    .page {
+      max-width: 680px;
+      width: 100%;
+    }
+
+    .eyebrow {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.6rem;
+    }
+
+    h1 {
+      font-size: 1.9rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.2;
+      margin-bottom: 0.6rem;
+    }
+
+    .subtitle {
+      color: var(--text-secondary);
+      font-size: 0.94rem;
+      line-height: 1.65;
+      margin-bottom: 3rem;
+    }
+
+    .doc-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+    }
+
+    .doc-card {
+      display: flex;
+      align-items: stretch;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      text-decoration: none;
+      overflow: hidden;
+      transition: border-color 0.15s, background 0.15s;
+    }
+
+    .doc-card:hover {
+      border-color: rgba(124,111,255,0.35);
+      background: var(--surface-2);
+    }
+
+    .doc-card:hover .doc-arrow { color: var(--accent); }
+
+    .doc-accent-bar {
+      width: 3px;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .doc-accent-bar.green { background: var(--green); }
+
+    .doc-body {
+      flex: 1;
+      padding: 1.1rem 1.3rem;
+    }
+
+    .doc-label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.3rem;
+    }
+
+    .doc-title {
+      font-size: 0.96rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.3rem;
+    }
+
+    .doc-desc {
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      line-height: 1.55;
+    }
+
+    .doc-arrow {
+      display: flex;
+      align-items: center;
+      padding: 0 1.2rem;
+      color: var(--text-muted);
+      font-size: 1rem;
+      transition: color 0.15s;
+      flex-shrink: 0;
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 2.5rem 0;
+    }
+
+    .footer {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <div class="eyebrow">Marketing for Betterment · Eden Playground</div>
+  <h1>Engineering Docs</h1>
+  <p class="subtitle">
+    Internal documentation for the Eden Playground build. Product strategy, MVP1 feature
+    scope, and software architecture — in that order.
+  </p>
+
+  <div class="doc-list">
+
+    <a href="product_strategy.html" class="doc-card">
+      <div class="doc-accent-bar green"></div>
+      <div class="doc-body">
+        <div class="doc-label">01 &nbsp;·&nbsp; Strategy</div>
+        <div class="doc-title">Product Strategy</div>
+        <div class="doc-desc">
+          The problem, the mission, the experience, the Worlds, the research model,
+          success metrics, market position, go-to-market, business model, risks, and open questions.
+          Read this before making any product decision.
+        </div>
+      </div>
+      <div class="doc-arrow">→</div>
+    </a>
+
+    <a href="mvp1_features_list.html" class="doc-card">
+      <div class="doc-accent-bar"></div>
+      <div class="doc-body">
+        <div class="doc-label">02 &nbsp;·&nbsp; Scope</div>
+        <div class="doc-title">MVP1 Feature List</div>
+        <div class="doc-desc">
+          Every feature in the first real build — and everything explicitly out of scope.
+          Identity, consent, Gaia Invitation, World 1, debrief, token, journey state,
+          invite codes, and research basics.
+        </div>
+      </div>
+      <div class="doc-arrow">→</div>
+    </a>
+
+    <a href="software_architecture.html" class="doc-card">
+      <div class="doc-accent-bar"></div>
+      <div class="doc-body">
+        <div class="doc-label">03 &nbsp;·&nbsp; Architecture</div>
+        <div class="doc-title">Software Architecture</div>
+        <div class="doc-desc">
+          Technology choices, system diagram, session lifecycle, API routes, data schema,
+          experiment assignment, world bundle format, event vocabulary, deployment topology,
+          and GitHub repository strategy.
+        </div>
+      </div>
+      <div class="doc-arrow">→</div>
+    </a>
+
+  </div>
+
+  <hr class="divider">
+  <p class="footer">Eden Playground · Pre-build · April 2026</p>
+
+</div>
+</body>
+</html>

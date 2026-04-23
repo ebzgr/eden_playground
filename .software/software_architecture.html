@@ -1,0 +1,1577 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <title>Software Architecture — Eden Playground</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0e0e16;
+      --surface: #16161f;
+      --surface-2: #1c1c28;
+      --border: rgba(255,255,255,0.07);
+      --accent: #7c6fff;
+      --accent-dim: rgba(124,111,255,0.12);
+      --green: #3dd68c;
+      --green-dim: rgba(61,214,140,0.12);
+      --yellow: #f5c842;
+      --yellow-dim: rgba(245,200,66,0.12);
+      --red: #f56262;
+      --red-dim: rgba(245,98,98,0.12);
+      --orange: #f5943a;
+      --orange-dim: rgba(245,148,58,0.12);
+      --blue: #5bc4f5;
+      --blue-dim: rgba(91,196,245,0.10);
+      --text: #e8e8f0;
+      --text-secondary: #9090aa;
+      --text-muted: #5a5a72;
+      --code: #b5a8ff;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1.75;
+      padding: 3.5rem 1.5rem 6rem;
+    }
+
+    .page { max-width: 900px; margin: 0 auto; }
+
+    .eyebrow {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.6rem;
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.2;
+      margin-bottom: 0.75rem;
+    }
+
+    .doc-meta {
+      display: flex;
+      gap: 1.5rem;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .subtitle {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      max-width: 700px;
+      line-height: 1.65;
+      margin-bottom: 3rem;
+    }
+
+    h2 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text);
+      margin: 3rem 0 0.85rem;
+      padding-bottom: 0.45rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    h2 .section-num {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    h3 {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 1.8rem 0 0.6rem;
+    }
+
+    p { color: var(--text-secondary); margin-bottom: 0.8rem; }
+    strong { color: var(--text); }
+
+    code {
+      font-family: ui-monospace, 'Cascadia Code', 'SF Mono', monospace;
+      font-size: 0.82em;
+      color: var(--code);
+      background: rgba(124,111,255,0.08);
+      padding: 0.1em 0.35em;
+      border-radius: 3px;
+    }
+
+    /* CALLOUT */
+    .callout {
+      display: flex;
+      gap: 0.85rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      padding: 0.9rem 1.1rem;
+      margin: 1rem 0;
+      font-size: 0.86rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+    .callout .icon { flex-shrink: 0; margin-top: 0.05rem; }
+    .callout.green  { border-left-color: var(--green);  background: var(--green-dim); }
+    .callout.yellow { border-left-color: var(--yellow); background: var(--yellow-dim); }
+    .callout.red    { border-left-color: var(--red);    background: var(--red-dim); }
+    .callout.orange { border-left-color: var(--orange); background: var(--orange-dim); }
+    .callout.blue   { border-left-color: var(--blue);   background: var(--blue-dim); }
+
+    /* TABLE */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.84rem;
+      margin: 0.9rem 0 1.1rem;
+    }
+    th, td {
+      border: 1px solid var(--border);
+      padding: 0.65rem 0.9rem;
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      background: var(--surface);
+      color: var(--text);
+      font-weight: 600;
+      font-size: 0.8rem;
+    }
+    td { color: var(--text-secondary); }
+
+    /* BADGES */
+    .badge {
+      display: inline-block;
+      padding: 0.15rem 0.55rem;
+      border-radius: 999px;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+    }
+    .badge.decided   { background: var(--green-dim);   color: var(--green); }
+    .badge.open      { background: var(--orange-dim);  color: var(--orange); }
+    .badge.deferred  { background: rgba(255,255,255,0.05); color: var(--text-muted); }
+    .badge.mvp1      { background: var(--accent-dim);  color: var(--accent); }
+    .badge.phase2    { background: rgba(255,255,255,0.05); color: var(--text-muted); }
+
+    /* CARDS */
+    .card-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 0.8rem;
+      margin: 1rem 0;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.1rem 1.2rem;
+    }
+
+    .card-label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.4rem;
+    }
+
+    .card-title {
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.35rem;
+    }
+
+    .card-body {
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* MERMAID WRAPPER */
+    .mermaid-wrap {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem 1rem;
+      margin: 1.2rem 0;
+      overflow-x: auto;
+      display: flex;
+      justify-content: center;
+    }
+    .mermaid-wrap .mermaid { width: 100%; max-width: 820px; }
+
+    /* CODE BLOCK */
+    .code-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.2rem 1.4rem;
+      margin: 0.9rem 0;
+      font-family: ui-monospace, 'Cascadia Code', 'SF Mono', monospace;
+      font-size: 0.8rem;
+      line-height: 1.75;
+      color: var(--text-secondary);
+      overflow-x: auto;
+    }
+
+    .code-block .kw   { color: var(--accent); }
+    .code-block .str  { color: var(--green); }
+    .code-block .cm   { color: var(--text-muted); font-style: italic; }
+    .code-block .ty   { color: var(--blue); }
+    .code-block .num  { color: var(--orange); }
+
+    /* ROUTE TABLE */
+    .route-group { margin-bottom: 1.5rem; }
+
+    .route-row {
+      display: grid;
+      grid-template-columns: 80px 1fr 2fr auto;
+      gap: 0;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 0.4rem;
+      background: var(--surface);
+      font-size: 0.82rem;
+    }
+
+    .r-method {
+      padding: 0.6rem 0.8rem;
+      font-family: ui-monospace, monospace;
+      font-size: 0.72rem;
+      font-weight: 700;
+      border-right: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+    }
+    .r-method.get  { color: var(--green); }
+    .r-method.post { color: var(--accent); }
+    .r-method.del  { color: var(--red); }
+
+    .r-path {
+      padding: 0.6rem 0.9rem;
+      font-family: ui-monospace, monospace;
+      font-size: 0.78rem;
+      color: var(--text);
+      border-right: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+    }
+
+    .r-desc {
+      padding: 0.6rem 0.9rem;
+      color: var(--text-secondary);
+      border-right: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      line-height: 1.4;
+    }
+
+    .r-scope {
+      padding: 0.6rem 0.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      min-width: 90px;
+    }
+
+    /* SCHEMA TABLE */
+    .schema-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 0.9rem 0;
+    }
+    .schema-title {
+      padding: 0.6rem 1rem;
+      background: var(--surface-2);
+      border-bottom: 1px solid var(--border);
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--accent);
+      font-family: ui-monospace, monospace;
+    }
+    .schema-row {
+      display: grid;
+      grid-template-columns: 160px 120px 1fr;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.8rem;
+    }
+    .schema-row:last-child { border-bottom: none; }
+    .schema-row.header { background: rgba(255,255,255,0.02); }
+    .s-col {
+      padding: 0.55rem 1rem;
+      border-right: 1px solid var(--border);
+    }
+    .s-col:last-child { border-right: none; }
+    .schema-row.header .s-col { color: var(--text-muted); font-size: 0.68rem; letter-spacing: 0.07em; text-transform: uppercase; }
+    .s-name { color: var(--text); font-family: ui-monospace, monospace; font-size: 0.78rem; }
+    .s-type { color: var(--blue); font-family: ui-monospace, monospace; font-size: 0.75rem; }
+    .s-note { color: var(--text-secondary); }
+
+    /* DECISION LIST */
+    .decision-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+      gap: 0.8rem;
+      margin: 1rem 0;
+    }
+    .decision-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem 1.1rem;
+    }
+    .decision-card .dc-label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.35rem;
+    }
+    .decision-card .dc-value {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.2rem;
+    }
+    .decision-card .dc-note {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    ul.plain { list-style: none; margin: 0.5rem 0 1rem; }
+    ul.plain li {
+      position: relative;
+      padding: 0.22rem 0 0.22rem 1.4rem;
+      color: var(--text-secondary);
+      font-size: 0.86rem;
+    }
+    ul.plain li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+    }
+
+    hr { border: none; border-top: 1px solid var(--border); margin: 3rem 0; }
+
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'dark',
+      fontFamily: "'Inter', sans-serif",
+      fontSize: 13,
+      themeVariables: {
+        background:            '#0e0e16',
+        mainBkg:               '#16161f',
+        primaryColor:          '#1c1c28',
+        primaryTextColor:      '#e8e8f0',
+        primaryBorderColor:    'rgba(124,111,255,0.45)',
+        lineColor:             '#5a5a72',
+        secondaryColor:        '#16161f',
+        tertiaryColor:         '#0e0e16',
+        clusterBkg:            'rgba(124,111,255,0.06)',
+        clusterBorder:         'rgba(255,255,255,0.09)',
+        titleColor:            '#7c6fff',
+        edgeLabelBackground:   '#1c1c28',
+        nodeTextColor:         '#e8e8f0',
+        /* sequence */
+        actorBkg:              '#1c1c28',
+        actorBorder:           'rgba(124,111,255,0.45)',
+        actorTextColor:        '#e8e8f0',
+        actorLineColor:        '#5a5a72',
+        activationBkgColor:    'rgba(124,111,255,0.15)',
+        activationBorderColor: '#7c6fff',
+        sequenceNumberColor:   '#7c6fff',
+        loopTextColor:         '#9090aa',
+        noteBkgColor:          '#1c1c28',
+        noteBorderColor:       'rgba(245,200,66,0.4)',
+        noteTextColor:         '#e8e8f0',
+        labelBoxBkgColor:      '#16161f',
+        labelBoxBorderColor:   'rgba(255,255,255,0.07)',
+        labelTextColor:        '#9090aa',
+        signalColor:           '#5a5a72',
+        signalTextColor:       '#e8e8f0'
+      }
+    });
+  </script>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="eyebrow">Eden Playground · Engineering</div>
+  <h1>Software Architecture</h1>
+  <div class="doc-meta">
+    <span>Audience: Engineering, Co-founders</span>
+    <span>Last reviewed: April 2026</span>
+    <span>Status: Pre-build · MVP1 scope</span>
+  </div>
+  <p class="subtitle">
+    The implementation-level architecture for Eden Playground MVP1. Technology choices, data
+    schema, API surface, world bundle format, deployment topology, and the open decisions that
+    still block specific implementation choices. Read the
+    <a href="product_strategy.html" style="color: var(--accent);">product strategy</a> and
+    <a href="mvp1_features_list.html" style="color: var(--accent);">MVP1 feature list</a> first.
+  </p>
+
+  <div class="callout green">
+    <span class="icon">✓</span>
+    <span>
+      <strong>Scope boundary:</strong> This document covers MVP1 only — 50 university students,
+      Gaia Invitation + one content World, A/B experiment, basic event log, invite codes, and data export.
+      Everything marked Phase 2 (LOLA adaptive algorithm, research dashboard UI, admin UI, ambassador flow)
+      is noted but not specified here.
+    </span>
+  </div>
+
+
+  <!-- ─── 01. TECHNOLOGY CHOICES ─── -->
+  <h2><span class="section-num">01</span> Technology choices</h2>
+
+  <p>
+    One constraint drives all choices: a two-person team must be able to build, run, and debug
+    this without a dedicated DevOps function. Everything below optimises for operability at
+    small scale. When scale demands a change, the change is made then — not speculatively now.
+  </p>
+
+  <div class="decision-row">
+    <div class="decision-card">
+      <div class="dc-label">Platform API</div>
+      <div class="dc-value">Python · FastAPI</div>
+      <div class="dc-note">Same language as batch analysis. Strong typing with Pydantic. Auto-generates OpenAPI docs. Async-ready.</div>
+    </div>
+    <div class="decision-card">
+      <div class="dc-label">Database</div>
+      <div class="dc-value">PostgreSQL 16</div>
+      <div class="dc-note">Single operational database. JSONB for event metadata. Supabase for hosted managed Postgres on free/pro tier.</div>
+    </div>
+    <div class="decision-card">
+      <div class="dc-label">World bundles</div>
+      <div class="dc-value">Static HTML / JS</div>
+      <div class="dc-note">No framework required. Versioned by path. Hosted on Vercel (free tier, global CDN, zero config).</div>
+    </div>
+    <div class="decision-card">
+      <div class="dc-label">API hosting</div>
+      <div class="dc-value">Railway</div>
+      <div class="dc-note">Docker-based. Simple env var config. Free tier covers MVP1 traffic. One-command deploys.</div>
+    </div>
+    <div class="decision-card">
+      <div class="dc-label">Batch analysis</div>
+      <div class="dc-value">Python · Pandas · Statsmodels</div>
+      <div class="dc-note">Jupyter notebooks for exploratory work. Scripts for scheduled runs. No separate compute platform needed at MVP1 scale.</div>
+    </div>
+    <div class="decision-card">
+      <div class="dc-label">Dashboards (Phase 2)</div>
+      <div class="dc-value">Jinja2 templates</div>
+      <div class="dc-note">Server-rendered HTML from FastAPI. No separate frontend build. Admin and research metrics served from the same app on protected routes.</div>
+    </div>
+  </div>
+
+  <div class="callout yellow">
+    <span class="icon">◈</span>
+    <span>
+      <strong>Decision not yet made:</strong> The player-facing shell (the app users load before
+      entering a World — journey map, return key entry, consent screen) needs a choice. Options are
+      (a) static HTML with vanilla JS, (b) a lightweight framework like Preact or Svelte, or
+      (c) server-rendered Jinja2 pages from the Platform API. This is the highest-impact undecided
+      technology choice. See Section 11.
+    </span>
+  </div>
+
+
+  <!-- ─── 02. SYSTEM DIAGRAM ─── -->
+  <h2><span class="section-num">02</span> System diagram</h2>
+
+  <h3>Components and data flow</h3>
+
+  <div class="mermaid-wrap">
+    <div class="mermaid">
+flowchart TD
+    subgraph Browser["User Browser"]
+        Shell["Player Shell\nJourney map · return-key entry · consent"]
+        WB["World Bundle\nVersioned static HTML / JS"]
+    end
+
+    subgraph API["Platform API  —  FastAPI on Railway"]
+        A1["Identity and Return-key"]
+        A2["Journey and Progress"]
+        A3["Experiment Assignment"]
+        A4["Event Ingest"]
+        A5["World Manifest Resolver"]
+        A6["Admin and Export Routes"]
+    end
+
+    subgraph CDN["Static Host  —  Vercel CDN"]
+        C1["gaia-invitation / v1a"]
+        C2["deal-world / v1a"]
+        C3["deal-world / v1b"]
+    end
+
+    DB[("PostgreSQL\nSupabase")]
+
+    subgraph Batch["Batch Analysis  —  Python local"]
+        B1["export.py\nCSV / Parquet"]
+        B2["Jupyter Notebooks"]
+    end
+
+    Shell -->|"REST calls"| API
+    WB -->|"POST /events"| A4
+    Shell -->|"load bundle"| CDN
+    API -->|"read / write"| DB
+    DB -->|"offline read"| Batch
+    B1 --> B2
+    </div>
+  </div>
+
+  <h3>Session lifecycle</h3>
+
+  <div class="mermaid-wrap">
+    <div class="mermaid">
+sequenceDiagram
+    actor User
+    participant Shell as Player Shell
+    participant API as Platform API
+    participant DB as PostgreSQL
+    participant CDN as World Bundle
+
+    User->>Shell: enter invite code
+    Shell->>+API: POST /sessions
+    API->>DB: validate invite, assign arm
+    DB-->>API: session created
+    API-->>-Shell: return_key + journey_state
+    Shell-->>User: Your key: silver-compass-3f7a
+
+    User->>Shell: complete consent
+    Shell->>+API: POST /sessions/me/consent
+    API->>DB: log consent (immutable write)
+    API-->>-Shell: acknowledged
+
+    User->>Shell: enter first World
+    Shell->>+API: GET /worlds/gaia/manifest
+    API-->>-Shell: bundle_url + session_token
+    Shell->>CDN: load bundle
+    CDN-->>User: World experience begins
+
+    loop During World play
+        CDN->>API: POST /events
+        API->>DB: append events
+    end
+
+    CDN->>+API: POST /worlds/gaia/complete
+    API->>DB: validate + award token
+    API-->>-CDN: token_earned
+    CDN-->>User: debrief + token ceremony
+    </div>
+  </div>
+
+
+  <!-- ─── 03. PLATFORM API ─── -->
+  <h2><span class="section-num">03</span> Platform API — module breakdown</h2>
+
+  <p>
+    FastAPI application with a single <code>main.py</code> entry point and feature-based
+    module structure. All route groups share one database connection pool. No microservices
+    at MVP1. Run with <code>uvicorn</code> behind a reverse proxy on Railway.
+  </p>
+
+  <div class="code-block">
+    <span class="cm"># Repository structure</span><br>
+    api/<br>
+    &nbsp;&nbsp;main.py&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm"># app factory, mounts routers</span><br>
+    &nbsp;&nbsp;db.py&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm"># async pg pool (asyncpg or psycopg3)</span><br>
+    &nbsp;&nbsp;config.py&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm"># env vars via pydantic-settings</span><br>
+    &nbsp;&nbsp;routers/<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;sessions.py&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm"># POST /sessions, POST /sessions/resume</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;journey.py&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm"># GET  /sessions/me/journey</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;consent.py&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm"># POST /sessions/me/consent</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;worlds.py&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm"># GET  /worlds/{id}/manifest</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;events.py&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm"># POST /events  (batch ingest)</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;completions.py&nbsp;&nbsp;&nbsp;<span class="cm"># POST /sessions/me/worlds/{id}/complete</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;invites.py&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm"># admin: generate + list invite codes</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;export.py&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm"># GET  /internal/export (CSV download)</span><br>
+    &nbsp;&nbsp;models/<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;session.py&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm"># Pydantic request/response schemas</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;event.py<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;experiment.py<br>
+    &nbsp;&nbsp;services/<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;assignment.py&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm"># deterministic arm assignment logic</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;key_gen.py&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm"># return-key generation (UUID + wordlist)</span><br>
+    analysis/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm"># Python batch jobs — not part of API</span><br>
+    &nbsp;&nbsp;export.py<br>
+    &nbsp;&nbsp;ab_analysis.ipynb<br>
+    worlds/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm"># static world bundles (deployed to Vercel)</span><br>
+    &nbsp;&nbsp;gaia-invitation/<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;v1a/index.html<br>
+    &nbsp;&nbsp;deal-world/<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;v1a/index.html<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;v1b/index.html
+  </div>
+
+
+  <!-- ─── 04. API ROUTES ─── -->
+  <h2><span class="section-num">04</span> API routes — MVP1</h2>
+
+  <h3>Identity and sessions</h3>
+  <div class="route-group">
+    <div class="route-row">
+      <div class="r-method post">POST</div>
+      <div class="r-path">/sessions</div>
+      <div class="r-desc">Create a new session from a valid invite code. Returns a return key. Assigns experiment arm. Does not log consent — that comes next.</div>
+      <div class="r-scope"><span class="badge mvp1">MVP1</span></div>
+    </div>
+    <div class="route-row">
+      <div class="r-method post">POST</div>
+      <div class="r-path">/sessions/resume</div>
+      <div class="r-desc">Validate a return key and resume the session. Returns full journey state.</div>
+      <div class="r-scope"><span class="badge mvp1">MVP1</span></div>
+    </div>
+    <div class="route-row">
+      <div class="r-method post">POST</div>
+      <div class="r-path">/sessions/me/consent</div>
+      <div class="r-desc">Record informed consent. Immutable write — logs key, timestamp, consent version shown, and the explicit action taken. No data is stored before this endpoint is called.</div>
+      <div class="r-scope"><span class="badge mvp1">MVP1</span></div>
+    </div>
+    <div class="route-row">
+      <div class="r-method get">GET</div>
+      <div class="r-path">/sessions/me/journey</div>
+      <div class="r-desc">Return current journey state: worlds completed, tokens earned, current position, experiment arm. Used by the shell on every return.</div>
+      <div class="r-scope"><span class="badge mvp1">MVP1</span></div>
+    </div>
+  </div>
+
+  <h3>Worlds and experiments</h3>
+  <div class="route-group">
+    <div class="route-row">
+      <div class="r-method get">GET</div>
+      <div class="r-path">/worlds/{world_id}/manifest</div>
+      <div class="r-desc">Returns the static bundle base URL for the user's assigned experiment arm. This is the only route the World needs to know about the platform.</div>
+      <div class="r-scope"><span class="badge mvp1">MVP1</span></div>
+    </div>
+    <div class="route-row">
+      <div class="r-method post">POST</div>
+      <div class="r-path">/sessions/me/worlds/{world_id}/complete</div>
+      <div class="r-desc">Mark a World complete. Validates that the required events are present (debrief reached, comprehension check recorded). Awards token. Updates journey state.</div>
+      <div class="r-scope"><span class="badge mvp1">MVP1</span></div>
+    </div>
+  </div>
+
+  <h3>Events</h3>
+  <div class="route-group">
+    <div class="route-row">
+      <div class="r-method post">POST</div>
+      <div class="r-path">/events</div>
+      <div class="r-desc">Batch ingest of behavioural events. Append-only. Authenticated by return key in header. Max 50 events per call. World bundles call this endpoint directly.</div>
+      <div class="r-scope"><span class="badge mvp1">MVP1</span></div>
+    </div>
+    <div class="route-row">
+      <div class="r-method post">POST</div>
+      <div class="r-path">/sessions/me/opt-out</div>
+      <div class="r-desc">User-initiated data deletion. Soft-deletes the session and all associated events (marks deleted, does not purge from append log). Sends acknowledgement.</div>
+      <div class="r-scope"><span class="badge mvp1">MVP1</span></div>
+    </div>
+  </div>
+
+  <h3>Operational (invite codes + export)</h3>
+  <div class="route-group">
+    <div class="route-row">
+      <div class="r-method post">POST</div>
+      <div class="r-path">/admin/invites/generate</div>
+      <div class="r-desc">Generate a batch of single-use invite codes. Body: <code>{ count: int, batch_label: str }</code>. Returns the codes as a JSON array. Admin-key authenticated.</div>
+      <div class="r-scope"><span class="badge mvp1">MVP1</span></div>
+    </div>
+    <div class="route-row">
+      <div class="r-method get">GET</div>
+      <div class="r-path">/admin/invites</div>
+      <div class="r-desc">List all invite codes with status (unused / used / expired). Admin-key authenticated.</div>
+      <div class="r-scope"><span class="badge mvp1">MVP1</span></div>
+    </div>
+    <div class="route-row">
+      <div class="r-method get">GET</div>
+      <div class="r-path">/internal/export/events</div>
+      <div class="r-desc">Download the full event log as CSV. Researcher-key authenticated. No PII — pseudonymous keys only.</div>
+      <div class="r-scope"><span class="badge mvp1">MVP1</span></div>
+    </div>
+    <div class="route-row">
+      <div class="r-method get">GET</div>
+      <div class="r-path">/internal/metrics/experiments/{id}</div>
+      <div class="r-desc">Per-experiment enrolment counts, arm split, and funnel summary. Basis for future research dashboard UI.</div>
+      <div class="r-scope"><span class="badge phase2">Phase 2</span></div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <span class="icon">→</span>
+    <span>
+      <strong>Authentication strategy:</strong> Three token types in MVP1.
+      (1) <strong>Session token</strong> — the return key, passed in <code>Authorization: Bearer &lt;key&gt;</code>,
+      authenticates all <code>/sessions/me/*</code> and <code>/events</code> routes.
+      (2) <strong>Admin key</strong> — a static secret in env vars, used for <code>/admin/*</code>.
+      (3) <strong>Researcher key</strong> — a separate static secret, used for <code>/internal/export/*</code>.
+      No OAuth, no JWTs, no cookie sessions — this is sufficient for MVP1 scale.
+    </span>
+  </div>
+
+
+  <!-- ─── 05. DATA SCHEMA ─── -->
+  <h2><span class="section-num">05</span> Data schema</h2>
+
+  <p>
+    Five tables. One database. No separate analytics store at MVP1. The event log is
+    the research data. Aggregates are computed offline by the Python batch jobs.
+  </p>
+
+  <div class="schema-block">
+    <div class="schema-title">sessions</div>
+    <div class="schema-row header">
+      <div class="s-col">column</div>
+      <div class="s-col">type</div>
+      <div class="s-col">notes</div>
+    </div>
+    <div class="schema-row">
+      <div class="s-col"><span class="s-name">key</span></div>
+      <div class="s-col"><span class="s-type">text PK</span></div>
+      <div class="s-col"><span class="s-note">pseudonymous return key — the user's only identity</span></div>
+    </div>
+    <div class="schema-row">
+      <div class="s-col"><span class="s-name">invite_code</span></div>
+      <div class="s-col"><span class="s-type">text FK</span></div>
+      <div class="s-col"><span class="s-note">which invite code was used to create this session</span></div>
+    </div>
+    <div class="schema-row">
+      <div class="s-col"><span class="s-name">consented_at</span></div>
+      <div class="s-col"><span class="s-type">timestamptz</span></div>
+      <div class="s-col"><span class="s-note">null until consent is given — gate for all data writes</span></div>
+    </div>
+    <div class="schema-row">
+      <div class="s-col"><span class="s-name">consent_version</span></div>
+      <div class="s-col"><span class="s-type">text</span></div>
+      <div class="s-col"><span class="s-note">slug of the consent text shown (e.g. "v1.0") — traceability for ethics committee</span></div>
+    </div>
+    <div class="schema-row">
+      <div class="s-col"><span class="s-name">created_at</span></div>
+      <div class="s-col"><span class="s-type">timestamptz</span></div>
+      <div class="s-col"><span class="s-note">session created (invite used)</span></div>
+    </div>
+    <div class="schema-row">
+      <div class="s-col"><span class="s-name">opted_out_at</span></div>
+      <div class="s-col"><span class="s-type">timestamptz</span></div>
+      <div class="s-col"><span class="s-note">null unless user opted out — soft delete flag</span></div>
+    </div>
+    <div class="schema-row">
+      <div class="s-col"><span class="s-name">journey</span></div>
+      <div class="s-col"><span class="s-type">jsonb</span></div>
+      <div class="s-col"><span class="s-note">worlds_completed[], tokens_earned[], current_world — updated on each completion</span></div>
+    </div>
+  </div>
+
+  <div class="schema-block">
+    <div class="schema-title">experiment_assignments</div>
+    <div class="schema-row header">
+      <div class="s-col">column</div>
+      <div class="s-col">type</div>
+      <div class="s-col">notes</div>
+    </div>
+    <div class="schema-row">
+      <div class="s-col"><span class="s-name">session_key</span></div>
+      <div class="s-col"><span class="s-type">text FK</span></div>
+      <div class="s-col"><span class="s-note">references sessions.key</span></div>
+    </div>
+    <div class="schema-row">
+      <div class="s-col"><span class="s-name">world_id</span></div>
+      <div class="s-col"><span class="s-type">text</span></div>
+      <div class="s-col"><span class="s-note">e.g. "gaia-invitation", "deal-world"</span></div>
+    </div>
+    <div class="schema-row">
+      <div class="s-col"><span class="s-name">arm_id</span></div>
+      <div class="s-col"><span class="s-type">text</span></div>
+      <div class="s-col"><span class="s-note">e.g. "v1a", "v1b" — sticky, never changes after assignment</span></div>
+    </div>
+    <div class="schema-row">
+      <div class="s-col"><span class="s-name">assigned_at</span></div>
+      <div class="s-col"><span class="s-type">timestamptz</span></div>
+      <div class="s-col"><span class="s-note">when the arm was assigned (session creation)</span></div>
+    </div>
+    <div class="schema-row">
+      <div class="s-col"><span class="s-name">experiment_id</span></div>
+      <div class="s-col"><span class="s-type">text FK</span></div>
+      <div class="s-col"><span class="s-note">references experiments.id — which experiment definition was active at assignment time</span></div>
+    </div>
+  </div>
+
+  <div class="schema-block">
+    <div class="schema-title">events</div>
+    <div class="schema-row header">
+      <div class="s-col">column</div>
+      <div class="s-col">type</div>
+      <div class="s-col">notes</div>
+    </div>
+    <div class="schema-row">
+      <div class="s-col"><span class="s-name">id</span></div>
+      <div class="s-col"><span class="s-type">bigserial PK</span></div>
+      <div class="s-col"><span class="s-note">append-only — no updates, no deletes (except soft opt-out flag)</span></div>
+    </div>
+    <div class="schema-row">
+      <div class="s-col"><span class="s-name">session_key</span></div>
+      <div class="s-col"><span class="s-type">text FK</span></div>
+      <div class="s-col"><span class="s-note">pseudonymous — no PII</span></div>
+    </div>
+    <div class="schema-row">
+      <div class="s-col"><span class="s-name">world_id</span></div>
+      <div class="s-col"><span class="s-type">text</span></div>
+      <div class="s-col"><span class="s-note">which World the event occurred in</span></div>
+    </div>
+    <div class="schema-row">
+      <div class="s-col"><span class="s-name">arm_id</span></div>
+      <div class="s-col"><span class="s-type">text</span></div>
+      <div class="s-col"><span class="s-note">which experiment arm — denormalised for query convenience</span></div>
+    </div>
+    <div class="schema-row">
+      <div class="s-col"><span class="s-name">event_type</span></div>
+      <div class="s-col"><span class="s-type">text</span></div>
+      <div class="s-col"><span class="s-note">namespaced slug: "world.entered", "choice.made", "debrief.viewed", "token.earned", "consent.given", "opt_out.requested", "selfReport.submitted"</span></div>
+    </div>
+    <div class="schema-row">
+      <div class="s-col"><span class="s-name">occurred_at</span></div>
+      <div class="s-col"><span class="s-type">timestamptz</span></div>
+      <div class="s-col"><span class="s-note">client-reported timestamp (UTC). Server receive time also stored for comparison.</span></div>
+    </div>
+    <div class="schema-row">
+      <div class="s-col"><span class="s-name">payload</span></div>
+      <div class="s-col"><span class="s-type">jsonb</span></div>
+      <div class="s-col"><span class="s-note">event-specific data — choice_id, option_selected, time_taken_ms, self_report_score, technique_identified (bool), etc. Typed per event_type in Python models.</span></div>
+    </div>
+    <div class="schema-row">
+      <div class="s-col"><span class="s-name">opted_out</span></div>
+      <div class="s-col"><span class="s-type">bool default false</span></div>
+      <div class="s-col"><span class="s-note">set to true on opt-out — excludes from analysis exports</span></div>
+    </div>
+  </div>
+
+  <div class="schema-block">
+    <div class="schema-title">invite_codes</div>
+    <div class="schema-row header">
+      <div class="s-col">column</div>
+      <div class="s-col">type</div>
+      <div class="s-col">notes</div>
+    </div>
+    <div class="schema-row">
+      <div class="s-col"><span class="s-name">code</span></div>
+      <div class="s-col"><span class="s-type">text PK</span></div>
+      <div class="s-col"><span class="s-note">random short code (e.g. "EDEN-7X3K"). Single-use by default.</span></div>
+    </div>
+    <div class="schema-row">
+      <div class="s-col"><span class="s-name">batch_label</span></div>
+      <div class="s-col"><span class="s-type">text</span></div>
+      <div class="s-col"><span class="s-note">e.g. "essec-mktg-2026-04" — groups codes for reporting without identifying users</span></div>
+    </div>
+    <div class="schema-row">
+      <div class="s-col"><span class="s-name">created_at</span></div>
+      <div class="s-col"><span class="s-type">timestamptz</span></div>
+      <div class="s-col"><span class="s-note"></span></div>
+    </div>
+    <div class="schema-row">
+      <div class="s-col"><span class="s-name">used_at</span></div>
+      <div class="s-col"><span class="s-type">timestamptz</span></div>
+      <div class="s-col"><span class="s-note">null until redeemed</span></div>
+    </div>
+    <div class="schema-row">
+      <div class="s-col"><span class="s-name">expires_at</span></div>
+      <div class="s-col"><span class="s-type">timestamptz</span></div>
+      <div class="s-col"><span class="s-note">optional expiry — codes for a specific cohort intake can be time-bounded</span></div>
+    </div>
+  </div>
+
+  <div class="schema-block">
+    <div class="schema-title">experiments</div>
+    <div class="schema-row header">
+      <div class="s-col">column</div>
+      <div class="s-col">type</div>
+      <div class="s-col">notes</div>
+    </div>
+    <div class="schema-row">
+      <div class="s-col"><span class="s-name">id</span></div>
+      <div class="s-col"><span class="s-type">text PK</span></div>
+      <div class="s-col"><span class="s-note">slug e.g. "deal-world-v1" — human readable, immutable once sessions exist</span></div>
+    </div>
+    <div class="schema-row">
+      <div class="s-col"><span class="s-name">world_id</span></div>
+      <div class="s-col"><span class="s-type">text</span></div>
+      <div class="s-col"><span class="s-note">which World this experiment runs on</span></div>
+    </div>
+    <div class="schema-row">
+      <div class="s-col"><span class="s-name">arms</span></div>
+      <div class="s-col"><span class="s-type">jsonb</span></div>
+      <div class="s-col"><span class="s-note">array of { arm_id, bundle_path, traffic_weight, hypothesis } — defines the split and what each arm does</span></div>
+    </div>
+    <div class="schema-row">
+      <div class="s-col"><span class="s-name">status</span></div>
+      <div class="s-col"><span class="s-type">text</span></div>
+      <div class="s-col"><span class="s-note">"draft" | "active" | "paused" | "complete" — only "active" experiments accept new assignments</span></div>
+    </div>
+    <div class="schema-row">
+      <div class="s-col"><span class="s-name">started_at</span></div>
+      <div class="s-col"><span class="s-type">timestamptz</span></div>
+      <div class="s-col"><span class="s-note">when first user was assigned</span></div>
+    </div>
+    <div class="schema-row">
+      <div class="s-col"><span class="s-name">guardrails</span></div>
+      <div class="s-col"><span class="s-type">jsonb</span></div>
+      <div class="s-col"><span class="s-note">thresholds that auto-pause the experiment: e.g. { max_distress_rate: 0.05, min_debrief_reach: 1.0 }</span></div>
+    </div>
+  </div>
+
+
+  <!-- ─── 06. EXPERIMENT ASSIGNMENT ─── -->
+  <h2><span class="section-num">06</span> Experiment assignment flow</h2>
+
+  <p>
+    Assignment is deterministic and sticky. A session's arm is chosen at creation, written
+    to <code>experiment_assignments</code>, and never changes. The World manifest endpoint
+    reads the stored assignment — it never re-randomises.
+  </p>
+
+  <div class="mermaid-wrap">
+    <div class="mermaid">
+flowchart LR
+    A([Session created]) --> B["SHA-256\nsession_key + experiment_id\n→ float 0.0 to 1.0"]
+    B --> C{"Walk weighted arms\ncumulative sum"}
+    C -->|"val less than 0.5"| D["Assign: Arm A\nwrite to DB"]
+    C -->|"val ≥ 0.5"| E["Assign: Arm B\nwrite to DB"]
+    D --> F["Serve arm_A bundle\nvia /manifest"]
+    E --> G["Serve arm_B bundle\nvia /manifest"]
+    F --> H([Sticky forever\nnever re-randomised])
+    G --> H
+    </div>
+  </div>
+
+  <div class="code-block">
+    <span class="cm"># services/assignment.py</span><br>
+    <span class="kw">import</span> hashlib<br>
+    <br>
+    <span class="kw">def</span> <span class="ty">assign_arm</span>(session_key: <span class="ty">str</span>, experiment_id: <span class="ty">str</span>, arms: <span class="ty">list</span>) -> <span class="ty">str</span>:<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span class="cm"># Deterministic: same key + experiment always → same arm</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span class="cm"># Hash the key+experiment to a float in [0, 1)</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;h = hashlib.sha256(<span class="str">f"{session_key}:{experiment_id}"</span>.encode()).digest()<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;val = <span class="ty">int</span>.from_bytes(h[:<span class="num">4</span>], <span class="str">"big"</span>) / <span class="num">0xFFFFFFFF</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span class="cm"># Walk weighted arms until val falls in range</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;cumulative = <span class="num">0.0</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">for</span> arm <span class="kw">in</span> arms:<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cumulative += arm[<span class="str">"traffic_weight"</span>]<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">if</span> val < cumulative:<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">return</span> arm[<span class="str">"arm_id"</span>]<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">return</span> arms[-<span class="num">1</span>][<span class="str">"arm_id"</span>]&nbsp;&nbsp;<span class="cm"># fallback to last arm</span>
+  </div>
+
+  <div class="callout">
+    <span class="icon">→</span>
+    <span>
+      The hash-based approach means if a user somehow loses their key and starts over with a new
+      key, they get a fresh random arm — not the same arm. This is the correct behaviour for
+      research integrity. It is also why key loss matters: you lose the ability to link their
+      new session to their prior data.
+    </span>
+  </div>
+
+
+  <!-- ─── 07. WORLD BUNDLE FORMAT ─── -->
+  <h2><span class="section-num">07</span> World bundle format</h2>
+
+  <p>
+    A World is a versioned folder of static assets. Each arm of an experiment has its own
+    folder. The Platform API's manifest endpoint tells the player shell which folder to load.
+    The World does not know which arm it is — it just runs.
+  </p>
+
+  <div class="code-block">
+    <span class="cm"># Vercel deployment structure</span><br>
+    worlds/<br>
+    &nbsp;&nbsp;gaia-invitation/<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;v1a/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm"># arm A of the gaia experiment</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;index.html<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;world.js&nbsp;&nbsp;&nbsp;<span class="cm"># self-contained, no external deps</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;assets/<br>
+    &nbsp;&nbsp;deal-world/<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;v1a/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm"># arm A: anchoring without explicit price reveal</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;index.html<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;v1b/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm"># arm B: anchoring with decoy pricing added</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;index.html<br>
+    <br>
+    <span class="cm"># Manifest response from Platform API:</span><br>
+    {<br>
+    &nbsp;&nbsp;<span class="str">"world_id"</span>: <span class="str">"deal-world"</span>,<br>
+    &nbsp;&nbsp;<span class="str">"arm_id"</span>: <span class="str">"v1a"</span>,<br>
+    &nbsp;&nbsp;<span class="str">"bundle_url"</span>: <span class="str">"https://worlds.eden.gg/deal-world/v1a/"</span>,<br>
+    &nbsp;&nbsp;<span class="str">"session_token"</span>: <span class="str">"&lt;return_key&gt;"</span>,&nbsp;&nbsp;&nbsp;<span class="cm"># passed through so World can call /events</span><br>
+    &nbsp;&nbsp;<span class="str">"api_base"</span>: <span class="str">"https://api.eden.gg"</span><br>
+    }
+  </div>
+
+  <p>
+    The World receives <code>session_token</code> and <code>api_base</code> via the manifest
+    response (or query params on the iframe load — to be decided). It uses these to call
+    <code>POST /events</code> directly. No other API surface is needed from within a World.
+  </p>
+
+  <div class="callout yellow">
+    <span class="icon">◈</span>
+    <span>
+      <strong>Open decision:</strong> how the player shell passes credentials to the World bundle.
+      Three options: (a) URL query params on the iframe src, (b) <code>postMessage</code> after
+      iframe loads, (c) localStorage with a shared domain. Option (b) is cleanest for security
+      but requires a handshake protocol. This must be decided before the first World is built.
+      See Section 11.
+    </span>
+  </div>
+
+
+  <!-- ─── 08. EVENT VOCABULARY ─── -->
+  <h2><span class="section-num">08</span> Event vocabulary — MVP1</h2>
+
+  <p>
+    Event types are namespaced slugs. Defining them up front prevents drift and ensures
+    the Python analysis code has a stable schema to work against. New event types must be
+    reviewed before a World ships — ad-hoc events added in the field make analysis brittle.
+  </p>
+
+  <table>
+    <thead>
+      <tr><th>event_type</th><th>When emitted</th><th>Key payload fields</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>session.created</code></td>
+        <td>Invite code redeemed, session key returned</td>
+        <td><code>invite_batch_label</code></td>
+      </tr>
+      <tr>
+        <td><code>consent.given</code></td>
+        <td>User explicitly proceeds through consent gate</td>
+        <td><code>consent_version, action_taken</code></td>
+      </tr>
+      <tr>
+        <td><code>world.entered</code></td>
+        <td>User loads a World bundle</td>
+        <td><code>world_id, arm_id</code></td>
+      </tr>
+      <tr>
+        <td><code>choice.presented</code></td>
+        <td>A decision point is shown to the user</td>
+        <td><code>choice_id, technique_tag, options[]</code></td>
+      </tr>
+      <tr>
+        <td><code>choice.made</code></td>
+        <td>User selects an option</td>
+        <td><code>choice_id, option_selected, time_taken_ms</code></td>
+      </tr>
+      <tr>
+        <td><code>debrief.started</code></td>
+        <td>Debrief sequence begins</td>
+        <td><code>world_id, technique_cluster</code></td>
+      </tr>
+      <tr>
+        <td><code>debrief.completed</code></td>
+        <td>User reaches end of debrief</td>
+        <td><code>world_id, time_on_debrief_ms</code></td>
+      </tr>
+      <tr>
+        <td><code>selfReport.submitted</code></td>
+        <td>Optional comprehension check answered</td>
+        <td><code>technique_identified (bool), surprise_score (1–5), wellbeing_score (1–5)</code></td>
+      </tr>
+      <tr>
+        <td><code>token.earned</code></td>
+        <td>World completion confirmed, token awarded</td>
+        <td><code>world_id, token_name</code></td>
+      </tr>
+      <tr>
+        <td><code>session.paused</code></td>
+        <td>User explicitly exits mid-World</td>
+        <td><code>world_id, position_slug</code></td>
+      </tr>
+      <tr>
+        <td><code>opt_out.requested</code></td>
+        <td>User requests data deletion</td>
+        <td><code>reason (optional, free text)</code></td>
+      </tr>
+      <tr>
+        <td><code>wellbeing.flagged</code></td>
+        <td>User activates wellbeing checkpoint</td>
+        <td><code>world_id, action_taken (continued / exited)</code></td>
+      </tr>
+    </tbody>
+  </table>
+
+
+  <!-- ─── 09. DEPLOYMENT ─── -->
+  <h2><span class="section-num">09</span> Deployment topology</h2>
+
+  <p>
+    Four services. Three hosting platforms. One researcher's laptop for analysis.
+    Nothing is deployed that does not need to be deployed.
+  </p>
+
+  <div class="mermaid-wrap">
+    <div class="mermaid">
+flowchart TB
+    subgraph GH["GitHub  ·  eden-playground  monorepo"]
+        direction LR
+        c_api["/api"]
+        c_shell["/shell"]
+        c_worlds["/worlds"]
+        c_analysis["/analysis"]
+    end
+
+    subgraph RW["Railway"]
+        svc_api["Platform API\napi.eden.gg\nFastAPI · Docker · free tier"]
+    end
+
+    subgraph VC["Vercel"]
+        svc_shell["Player Shell\nworlds.eden.gg"]
+        svc_worlds["World Bundles\nworlds.eden.gg/worlds/..."]
+    end
+
+    subgraph SB["Supabase"]
+        svc_db[("PostgreSQL 16\n500 MB free tier")]
+    end
+
+    subgraph LC["Local  ·  researcher machine"]
+        svc_batch["Python Batch Jobs\nexport.py  ·  notebooks"]
+    end
+
+    c_api    -->|"push to main\nauto-deploy"| svc_api
+    c_shell  -->|"push to main\nauto-deploy"| svc_shell
+    c_worlds -->|"push to main\nauto-deploy"| svc_worlds
+
+    svc_shell  -->|"REST + Bearer token"| svc_api
+    svc_worlds -->|"POST /events"| svc_api
+    svc_api   <-->|"asyncpg · read / write"| svc_db
+    svc_db    -->|"offline pg export"| svc_batch
+    </div>
+  </div>
+
+  <table>
+    <thead>
+      <tr><th>Service</th><th>Host</th><th>Domain</th><th>Deploy trigger</th><th>MVP1 cost</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Platform API</strong></td>
+        <td>Railway</td>
+        <td><code>api.eden.gg</code></td>
+        <td>Push to <code>main</code> — Railway GitHub integration watches <code>/api</code></td>
+        <td>Free tier (&lt;500h/mo)</td>
+      </tr>
+      <tr>
+        <td><strong>Player Shell</strong></td>
+        <td>Vercel</td>
+        <td><code>worlds.eden.gg</code></td>
+        <td>Push to <code>main</code> — Vercel project root: <code>/shell</code></td>
+        <td>Free tier</td>
+      </tr>
+      <tr>
+        <td><strong>World Bundles</strong></td>
+        <td>Vercel</td>
+        <td><code>worlds.eden.gg/worlds/...</code></td>
+        <td>Push to <code>main</code> — same Vercel project, <code>/worlds</code> served under path prefix via <code>vercel.json</code> rewrites</td>
+        <td>Free tier</td>
+      </tr>
+      <tr>
+        <td><strong>Database</strong></td>
+        <td>Supabase</td>
+        <td>Internal (no public domain)</td>
+        <td>Schema migrations run manually via <code>alembic upgrade head</code></td>
+        <td>Free tier (500 MB)</td>
+      </tr>
+      <tr>
+        <td><strong>Batch Analysis</strong></td>
+        <td>Local</td>
+        <td>n/a</td>
+        <td>Researcher runs scripts manually after a cohort completes</td>
+        <td>Free</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Per-service detail</h3>
+
+  <div class="card-row">
+    <div class="card">
+      <div class="card-label">Platform API</div>
+      <div class="card-title">Railway · Docker</div>
+      <div class="card-body">
+        <code>Dockerfile</code> in repo root. Railway auto-deploys from <code>main</code>. Env vars
+        (DB URL, admin key, researcher key) set in Railway dashboard. Free tier covers MVP1
+        traffic (estimate: &lt;5K req/day).
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-label">Database</div>
+      <div class="card-title">Supabase · PostgreSQL 16</div>
+      <div class="card-body">
+        Managed Postgres. Free tier: 500MB, sufficient for MVP1. Migrations via
+        <code>alembic</code> in the API repo. Row-level security not needed — the API
+        owns all DB access; no direct client connections.
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-label">World bundles + shell</div>
+      <div class="card-title">Vercel · Static</div>
+      <div class="card-body">
+        Push to <code>/worlds</code> directory deploys. Vercel generates versioned CDN URLs.
+        No build step needed — raw HTML/JS. Free tier covers the traffic.
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-label">Batch analysis</div>
+      <div class="card-title">Local · Python scripts</div>
+      <div class="card-body">
+        Researcher runs <code>python analysis/export.py</code> locally to pull the event
+        log. Analysis runs in Jupyter notebooks. No cloud compute at MVP1 scale — 50 users
+        is milliseconds of CPU.
+      </div>
+    </div>
+  </div>
+
+  <div class="callout blue">
+    <span class="icon">→</span>
+    <span>
+      <strong>Domain setup:</strong> Two subdomains. <code>api.eden.gg</code> points to Railway
+      (Platform API). <code>worlds.eden.gg</code> points to Vercel (static bundles + shell).
+      CORS on the API allows <code>worlds.eden.gg</code> only. Both serve HTTPS — Vercel and
+      Railway handle certs automatically.
+    </span>
+  </div>
+
+  <h3>Environment variables — Platform API</h3>
+
+  <div class="code-block">
+    <span class="cm"># config.py (pydantic-settings)</span><br>
+    DATABASE_URL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm"># postgres://... (Supabase connection string)</span><br>
+    ADMIN_API_KEY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm"># static secret for /admin/* routes</span><br>
+    RESEARCHER_API_KEY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm"># static secret for /internal/* routes</span><br>
+    ALLOWED_ORIGINS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm"># "https://worlds.eden.gg" (CORS)</span><br>
+    ENVIRONMENT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm"># "development" | "production"</span>
+  </div>
+
+
+  <!-- ─── 10. RETURN KEY FORMAT ─── -->
+  <h2><span class="section-num">10</span> Return key format</h2>
+
+  <p>
+    The return key is the user's only persistent identity. It must be easy to write down
+    (students may lose a downloaded file), hard to guess, and unique. A wordlist-based
+    key balances memorability and entropy.
+  </p>
+
+  <div class="code-block">
+    <span class="cm"># services/key_gen.py</span><br>
+    <span class="cm"># Format: [adjective]-[noun]-[4-digit-hex]</span><br>
+    <span class="cm"># Example: silver-compass-3f7a</span><br>
+    <span class="cm"># Entropy: ~800 adjectives × ~1000 nouns × 65536 = ~52 billion combinations</span><br>
+    <span class="cm"># Sufficient for MVP1; upgrade to longer format if cohort exceeds 100K</span><br>
+    <br>
+    <span class="kw">import</span> secrets<br>
+    <br>
+    <span class="kw">def</span> <span class="ty">generate_return_key</span>() -> <span class="ty">str</span>:<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;adj = secrets.choice(ADJECTIVES)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;noun = secrets.choice(NOUNS)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;suffix = secrets.token_hex(<span class="num">2</span>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm"># 4 hex chars</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">return</span> <span class="str">f"{adj}-{noun}-{suffix}"</span>
+  </div>
+
+  <div class="callout">
+    <span class="icon">→</span>
+    <span>
+      Present the key to users as: <strong>"Your Traveller's Token is <code>silver-compass-3f7a</code>.
+      Write it down or save it — this is the only way to return to your journey."</strong>
+      The mythic framing ("Traveller's Token") makes storing it feel meaningful, not like a chore.
+    </span>
+  </div>
+
+
+  <!-- ─── 11. OPEN DECISIONS ─── -->
+  <h2><span class="section-num">11</span> Open decisions blocking implementation</h2>
+
+  <p>
+    These are not preferences. Each one blocks a specific implementation choice. They need
+    an answer before the relevant module can be built.
+  </p>
+
+  <table>
+    <thead>
+      <tr><th>Decision</th><th>Options</th><th>What it blocks</th><th>Status</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Player shell technology</strong></td>
+        <td>(a) Static HTML + vanilla JS &nbsp; (b) Preact/Svelte SPA &nbsp; (c) FastAPI + Jinja2 server-render</td>
+        <td>The entire front-end build pipeline and how the shell talks to the API.</td>
+        <td><span class="badge open">open</span></td>
+      </tr>
+      <tr>
+        <td><strong>Shell → World credential passing</strong></td>
+        <td>(a) Query params on iframe src &nbsp; (b) <code>postMessage</code> handshake &nbsp; (c) Shared localStorage (same subdomain)</td>
+        <td>The <code>worlds.js</code> SDK contract and how World bundles call <code>/events</code>.</td>
+        <td><span class="badge open">open</span></td>
+      </tr>
+      <tr>
+        <td><strong>Key loss recovery policy</strong></td>
+        <td>(a) Optional institutional email backup &nbsp; (b) Admin recovery via coordinator &nbsp; (c) No recovery</td>
+        <td>The consent flow UI, the sessions schema (email_backup_hash column), and the admin routes needed.</td>
+        <td><span class="badge open">open</span></td>
+      </tr>
+      <tr>
+        <td><strong>Which World goes first (Deal vs Urgency)</strong></td>
+        <td>Deal World (pricing psychology) or Urgency World (artificial scarcity)</td>
+        <td>The content of Section 05 of the feature list — all World-specific design work. Cannot begin until this is decided.</td>
+        <td><span class="badge open">open</span></td>
+      </tr>
+      <tr>
+        <td><strong>Experiment arm definitions for MVP1</strong></td>
+        <td>What specifically differs between arm A and arm B in the content World? (Different technique version? Different debrief timing? Different intensity?)</td>
+        <td>The <code>experiments</code> table seed data and the World bundle specifications. The A/B split is meaningless without defined hypotheses per arm.</td>
+        <td><span class="badge open">open</span></td>
+      </tr>
+      <tr>
+        <td><strong>Language scope</strong></td>
+        <td>English-only for MVP1, or French + English for ESSEC student cohort</td>
+        <td>Whether world bundles need localised versions. Multiplies content work by 2x if multilingual.</td>
+        <td><span class="badge open">open</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout orange">
+    <span class="icon">◈</span>
+    <span>
+      <strong>Recommended build sequence once decisions are made:</strong>
+      (1) Database schema + migrations &rarr; (2) Platform API core (sessions, consent, events) &rarr;
+      (3) Invite code system &rarr; (4) Gaia Invitation World bundle + manifest endpoint &rarr;
+      (5) Deal or Urgency World bundle (A and B arms) &rarr; (6) Debrief + token + completion endpoint &rarr;
+      (7) Data export for analysis. Do not start on any step until the step before it works with a real user flow.
+    </span>
+  </div>
+
+
+  <!-- ─── 12. EXPLICITLY DEFERRED ─── -->
+  <h2><span class="section-num">12</span> Explicitly deferred to Phase 2</h2>
+
+  <table>
+    <thead>
+      <tr><th>Component</th><th>Why it waits</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Research metrics dashboard (web UI)</strong></td>
+        <td>Data export to CSV is sufficient for the first 50-user cohort. A dashboard adds build time and operational overhead before there is enough data to warrant it.</td>
+      </tr>
+      <tr>
+        <td><strong>Admin dashboard (web UI)</strong></td>
+        <td>Invite code generation and experiment config can be done via direct API calls at MVP1 scale. A UI is convenience, not a requirement.</td>
+      </tr>
+      <tr>
+        <td><strong>LOLA adaptive algorithm</strong></td>
+        <td>Adaptive content optimisation requires a baseline of behavioural data. Running it on 50 users produces noise. Introduce after Phase 1 data has been analysed — minimum 500 sessions with valid experiment assignments.</td>
+      </tr>
+      <tr>
+        <td><strong>Second narrative theme (sci-fi)</strong></td>
+        <td>Theme is a research variable. Theme 1 must produce a complete experiment result before Theme 2 is introduced as a comparison condition.</td>
+      </tr>
+      <tr>
+        <td><strong>Ambassador / sharing flow</strong></td>
+        <td>Requires Shield of Eden, which requires all Worlds. Cannot exist until the full journey is completable.</td>
+      </tr>
+      <tr>
+        <td><strong>Email / notification system</strong></td>
+        <td>The return-key model deliberately avoids email as an identity mechanism. Any email system for nudging users to return requires a separate opt-in and a consent amendment — not appropriate for MVP1.</td>
+      </tr>
+    </tbody>
+  </table>
+
+
+
+  <!-- ─── 13. GITHUB REPOSITORY STRATEGY ─── -->
+  <h2><span class="section-num">13</span> GitHub repository strategy</h2>
+
+  <p>
+    One repository. Not three. At two people and MVP1 scale, a monorepo eliminates
+    the overhead of cross-repo PRs for changes that touch the API and the shell simultaneously —
+    which is almost every meaningful change at this stage. Split when there is a concrete reason
+    to split, not before.
+  </p>
+
+  <div class="callout green">
+    <span class="icon">✓</span>
+    <span>
+      <strong>Decision: monorepo.</strong> Repository name: <code>eden-playground</code>.
+      All source code, migrations, world bundles, analysis scripts, and internal docs in one place.
+      Railway and Vercel both support per-subdirectory deploys from a monorepo natively.
+    </span>
+  </div>
+
+  <h3>Folder structure and what each folder owns</h3>
+
+  <div class="mermaid-wrap">
+    <div class="mermaid">
+flowchart LR
+    subgraph Repo["eden-playground"]
+        direction TB
+        d_api["/api\nFastAPI app\nDockerfile\nalembic/\npyproject.toml"]
+        d_shell["/shell\nPlayer app\nindex.html  app.js\nassets/"]
+        d_worlds["/worlds\ngaia-invitation/\n  v1a/index.html\ndeal-world/\n  v1a/index.html\n  v1b/index.html"]
+        d_analysis["/analysis\nexport.py\nab_analysis.ipynb\nrequirements.txt"]
+        d_infra["/infra\ndocker-compose.yml\n.env.example\nnginx.conf  optional"]
+        d_gaz["/.gaz\nstrategy + architecture docs\nnot deployed anywhere"]
+    end
+
+    d_api      --> Ra["Railway\napi.eden.gg"]
+    d_shell    --> Ve["Vercel  worlds.eden.gg"]
+    d_worlds   --> Ve
+    d_analysis --> Lo["Local only"]
+    d_infra    -.->|"reference only"| Ra
+    </div>
+  </div>
+
+  <h3>Branch strategy</h3>
+
+  <div class="mermaid-wrap">
+    <div class="mermaid">
+gitGraph
+    commit id: "init"
+    branch feature/session-api
+    checkout feature/session-api
+    commit id: "POST /sessions"
+    commit id: "POST /sessions/resume"
+    checkout main
+    merge feature/session-api id: "merge: session API"
+    branch feature/gaia-world
+    checkout feature/gaia-world
+    commit id: "gaia bundle v1a"
+    commit id: "manifest endpoint"
+    checkout main
+    merge feature/gaia-world id: "merge: gaia world"
+    commit id: "tag: mvp1-cohort-1"
+    </div>
+  </div>
+
+  <table>
+    <thead>
+      <tr><th>Branch</th><th>Purpose</th><th>Deploys to</th><th>Rules</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>main</code></td>
+        <td>Production. Always deployable. Only merged PRs land here.</td>
+        <td>Railway (production API) + Vercel (production shell + worlds)</td>
+        <td>Require PR + passing CI. No direct pushes.</td>
+      </tr>
+      <tr>
+        <td><code>feature/*</code></td>
+        <td>All active development. Short-lived, one feature per branch.</td>
+        <td>Vercel preview URL (automatic per PR). Railway does not deploy previews.</td>
+        <td>Branch off <code>main</code>. Delete after merge. Name: <code>feature/[short-slug]</code>.</td>
+      </tr>
+      <tr>
+        <td><code>world/[name]-[version]</code></td>
+        <td>World bundle content development. Treated like a feature branch but may live longer during content authoring.</td>
+        <td>Vercel preview URL for visual review before merge.</td>
+        <td>Must pass human content review before merging to <code>main</code>. World bundles are research instruments — content review is an ethics gate, not just a code review.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>CI / CD — GitHub Actions</h3>
+
+  <p>Two workflows. Kept simple. Add more only when manual steps become a bottleneck.</p>
+
+  <div class="code-block">
+    <span class="cm"># .github/workflows/api.yml</span><br>
+    <span class="cm"># Triggers: push to main or PR touching /api/**</span><br>
+    <span class="cm"># Steps: ruff lint → pytest → Railway deploy (via Railway CLI action)</span><br>
+    <br>
+    <span class="cm"># .github/workflows/static.yml</span><br>
+    <span class="cm"># Triggers: push to main or PR touching /shell/** or /worlds/**</span><br>
+    <span class="cm"># Steps: Vercel deploy (via Vercel action) → preview URL on PR, production on main</span>
+  </div>
+
+  <div class="callout yellow">
+    <span class="icon">◈</span>
+    <span>
+      <strong>World content is not just code.</strong> A new World arm (<code>worlds/deal-world/v1b/</code>)
+      going to <code>main</code> means it can be served to real users. The CI check for world branches
+      should require a human review approval in the PR — not just passing tests — before the merge is allowed.
+      Configure this as a required GitHub PR reviewer (the researcher or co-founder) on any PR that modifies
+      <code>/worlds/**</code>.
+    </span>
+  </div>
+
+  <h3>Secrets and environment variables in GitHub</h3>
+
+  <table>
+    <thead>
+      <tr><th>Secret name</th><th>Used by</th><th>Where set</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>RAILWAY_TOKEN</code></td>
+        <td>api.yml CI workflow — Railway deploy step</td>
+        <td>GitHub repo secrets</td>
+      </tr>
+      <tr>
+        <td><code>VERCEL_TOKEN</code>, <code>VERCEL_ORG_ID</code>, <code>VERCEL_PROJECT_ID</code></td>
+        <td>static.yml CI workflow — Vercel deploy step</td>
+        <td>GitHub repo secrets</td>
+      </tr>
+      <tr>
+        <td><code>DATABASE_URL</code></td>
+        <td>Platform API at runtime — never in CI</td>
+        <td>Railway environment variables dashboard</td>
+      </tr>
+      <tr>
+        <td><code>ADMIN_API_KEY</code>, <code>RESEARCHER_API_KEY</code></td>
+        <td>Platform API at runtime — never in CI</td>
+        <td>Railway environment variables dashboard</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout red">
+    <span class="icon">✗</span>
+    <span>
+      <strong>Never commit secrets.</strong> Add <code>.env</code> and <code>*.local</code> to
+      <code>.gitignore</code> on day one. Use <code>/infra/.env.example</code> with placeholder
+      values as the only committed reference. The <code>DATABASE_URL</code> contains Supabase
+      credentials — if it leaks, rotate immediately in the Supabase dashboard.
+    </span>
+  </div>
+
+</div>
+</body>
+</html>
