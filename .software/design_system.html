@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Design System — Eden Playground</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      /* Gaia palette — primary */
+      --bg:           #080f0c;
+      --surface:      #0f1a15;
+      --surface-2:    #162019;
+      --border:       rgba(106,171,126,0.10);
+      --border-warm:  rgba(232,201,109,0.12);
+
+      --canopy:       #6aab7e;
+      --canopy-dim:   rgba(106,171,126,0.10);
+      --moss:         #4a7c59;
+      --earth:        #2e4a2e;
+      --amber:        #c9883a;
+      --amber-dim:    rgba(201,136,58,0.12);
+      --gold:         #e8c96d;
+      --gold-dim:     rgba(232,201,109,0.10);
+      --stone:        #8a8a7a;
+
+      --text:         #d4e0d0;
+      --text-secondary: #7a9e82;
+      --text-muted:   #3d5c47;
+      --text-gaia:    #c8d8c4;
+
+      /* Product UI palette — used only in demo screens */
+      --ui-bg:        #0e0e16;
+      --ui-surface:   #16161f;
+      --ui-accent:    #7c6fff;
+      --ui-text:      #e8e8f0;
+      --ui-muted:     #5a5a72;
+
+      /* Danger/caution */
+      --red:          #f56262;
+      --red-dim:      rgba(245,98,98,0.10);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1.75;
+      padding: 0 0 8rem;
+    }
+
+    .page { max-width: 860px; margin: 0 auto; padding: 0 1.5rem; }
+
+    /* ─── MASTHEAD ─── */
+    .masthead {
+      padding: 5rem 1.5rem 4rem;
+      max-width: 860px;
+      margin: 0 auto;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .eyebrow {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--canopy);
+      margin-bottom: 1.1rem;
+    }
+
+    .masthead h1 {
+      font-family: 'EB Garamond', serif;
+      font-size: 3rem;
+      font-weight: 400;
+      font-style: italic;
+      color: var(--text-gaia);
+      line-height: 1.15;
+      margin-bottom: 1.1rem;
+    }
+
+    .doc-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 1.2rem;
+    }
+
+    .subtitle {
+      color: var(--text-secondary);
+      font-size: 0.93rem;
+      max-width: 600px;
+      line-height: 1.7;
+    }
+
+    /* ─── SECTION HEADERS ─── */
+    h2 {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--canopy);
+      margin: 4rem 0 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    h2::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    h3 {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 2rem 0 0.6rem;
+    }
+
+    p { color: var(--text-secondary); margin-bottom: 0.85rem; line-height: 1.75; }
+    strong { color: var(--text); }
+
+    /* ─── CARDS ─── */
+    .card-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 0.8rem;
+      margin: 1rem 0;
+    }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.1rem 1.2rem;
+    }
+    .card-label {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.4rem;
+    }
+    .card-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.35rem;
+    }
+    .card-body {
+      font-size: 0.81rem;
+      color: var(--text-secondary);
+      line-height: 1.65;
+    }
+
+    /* ─── CALLOUTS ─── */
+    .callout {
+      display: flex;
+      gap: 0.85rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--canopy);
+      border-radius: 0 10px 10px 0;
+      padding: 0.9rem 1.1rem;
+      margin: 1rem 0;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.65;
+    }
+    .callout .icon { flex-shrink: 0; margin-top: 0.05rem; color: var(--canopy); }
+    .callout.amber { border-left-color: var(--amber); background: var(--amber-dim); }
+    .callout.amber .icon { color: var(--amber); }
+    .callout.red   { border-left-color: var(--red); background: var(--red-dim); }
+    .callout.red .icon { color: var(--red); }
+    .callout.gold  { border-left-color: var(--gold); background: var(--gold-dim); }
+    .callout.gold .icon { color: var(--gold); }
+
+    /* ─── TABLE ─── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.83rem;
+      margin: 1rem 0 1.2rem;
+    }
+    th, td {
+      border: 1px solid var(--border);
+      padding: 0.65rem 0.9rem;
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      background: var(--surface);
+      color: var(--text);
+      font-weight: 600;
+      font-size: 0.78rem;
+      letter-spacing: 0.02em;
+    }
+    td { color: var(--text-secondary); }
+
+    /* ─── LISTS ─── */
+    ul.plain { list-style: none; margin: 0.5rem 0 1rem; }
+    ul.plain li {
+      position: relative;
+      padding: 0.22rem 0 0.22rem 1.4rem;
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+    }
+    ul.plain li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--canopy);
+    }
+
+    /* ─── BADGES ─── */
+    .badge {
+      display: inline-block;
+      padding: 0.15rem 0.55rem;
+      border-radius: 999px;
+      font-size: 0.67rem;
+      font-weight: 600;
+    }
+    .badge.gaia   { background: var(--canopy-dim); color: var(--canopy); }
+    .badge.amber  { background: var(--amber-dim);  color: var(--amber); }
+    .badge.open   { background: rgba(255,255,255,0.04); color: var(--text-muted); }
+    .badge.risk   { background: var(--red-dim); color: var(--red); }
+
+    hr { border: none; border-top: 1px solid var(--border); margin: 3.5rem 0; }
+
+
+    /* ══════════════════════════════════════════
+       DEMO COMPONENTS
+    ══════════════════════════════════════════ */
+
+    .demo-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .demo-label::before {
+      content: 'DEMO';
+      background: var(--canopy-dim);
+      color: var(--canopy);
+      padding: 0.1rem 0.45rem;
+      border-radius: 4px;
+      font-size: 0.6rem;
+    }
+
+    /* ── INVITATION DEMO ── */
+    .demo-invitation {
+      background: #040a07;
+      border: 1px solid rgba(106,171,126,0.15);
+      border-radius: 16px;
+      padding: 3.5rem 3rem 3rem;
+      margin: 1.2rem 0 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .demo-invitation::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 30% 0%, rgba(74,124,89,0.08) 0%, transparent 65%),
+                  radial-gradient(ellipse at 80% 100%, rgba(46,74,46,0.06) 0%, transparent 55%);
+      pointer-events: none;
+    }
+    .demo-invitation .inv-eyebrow {
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--canopy);
+      margin-bottom: 2rem;
+      opacity: 0.7;
+    }
+    .demo-invitation .inv-text {
+      font-family: 'EB Garamond', serif;
+      font-size: 1.15rem;
+      color: var(--text-gaia);
+      line-height: 1.95;
+      font-style: italic;
+      max-width: 560px;
+    }
+    .demo-invitation .inv-text em {
+      font-style: normal;
+      color: var(--gold);
+    }
+    .demo-invitation .inv-cta {
+      margin-top: 2.5rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      font-style: normal;
+      color: var(--text-gaia);
+      border: 1px solid rgba(106,171,126,0.3);
+      border-radius: 8px;
+      padding: 0.6rem 1.1rem;
+      letter-spacing: 0.02em;
+      cursor: default;
+      opacity: 0.85;
+    }
+    .demo-invitation .inv-cta::after { content: '→'; color: var(--canopy); }
+
+    /* ── LETTER DEMO ── */
+    .demo-letter {
+      background: #060d09;
+      border: 1px solid rgba(106,171,126,0.12);
+      border-top: 2px solid var(--canopy);
+      border-radius: 0 0 14px 14px;
+      padding: 2rem 2.2rem 1.8rem;
+      margin: 1.2rem 0 2rem;
+      max-width: 540px;
+    }
+    .demo-letter .letter-from {
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--canopy);
+      margin-bottom: 1.3rem;
+      opacity: 0.75;
+    }
+    .demo-letter .letter-body {
+      font-family: 'EB Garamond', serif;
+      font-size: 1.05rem;
+      color: var(--text-gaia);
+      line-height: 1.9;
+      font-style: italic;
+    }
+    .demo-letter .letter-body em {
+      font-style: normal;
+      color: var(--gold);
+    }
+
+    /* ── TOKEN REVEAL DEMO ── */
+    .demo-token {
+      background: #060d09;
+      border: 1px solid rgba(201,136,58,0.2);
+      border-radius: 16px;
+      padding: 2.8rem 2rem;
+      margin: 1.2rem 0 2rem;
+      max-width: 340px;
+      text-align: center;
+    }
+    .demo-token .token-orb {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      margin: 0 auto 1.5rem;
+      background: radial-gradient(circle at 35% 35%, #e8c96d, #c9883a 55%, #7a4e1a);
+      box-shadow: 0 0 28px rgba(201,136,58,0.25), 0 0 6px rgba(232,201,109,0.15);
+    }
+    .demo-token .token-orb.moss {
+      background: radial-gradient(circle at 35% 35%, #8fd4a0, #4a7c59 55%, #1e3d28);
+      box-shadow: 0 0 28px rgba(74,124,89,0.25), 0 0 6px rgba(106,171,126,0.15);
+    }
+    .demo-token .token-label {
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.6rem;
+    }
+    .demo-token .token-name {
+      font-family: 'EB Garamond', serif;
+      font-size: 1.4rem;
+      color: var(--text-gaia);
+      font-style: italic;
+      line-height: 1.3;
+      margin-bottom: 0.8rem;
+    }
+    .demo-token .token-desc {
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      max-width: 240px;
+      margin: 0 auto;
+    }
+
+    /* ── SHIELD DEMO ── */
+    .demo-shield {
+      background: #060d09;
+      border: 1px solid rgba(232,201,109,0.18);
+      border-radius: 16px;
+      padding: 3rem 3rem 2.5rem;
+      margin: 1.2rem 0 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .demo-shield::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 0%, rgba(232,201,109,0.06) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .demo-shield .shield-icon {
+      font-size: 2.8rem;
+      margin-bottom: 1.2rem;
+      filter: drop-shadow(0 0 12px rgba(232,201,109,0.3));
+    }
+    .demo-shield .shield-title {
+      font-family: 'EB Garamond', serif;
+      font-size: 1.6rem;
+      font-style: italic;
+      color: var(--gold);
+      line-height: 1.3;
+      margin-bottom: 1rem;
+    }
+    .demo-shield .shield-text {
+      font-family: 'EB Garamond', serif;
+      font-size: 0.98rem;
+      font-style: italic;
+      color: var(--text-gaia);
+      line-height: 1.9;
+      max-width: 420px;
+      margin: 0 auto 1.8rem;
+    }
+    .demo-shield .shield-text em {
+      font-style: normal;
+      color: var(--gold);
+    }
+    .demo-shield .shield-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--gold);
+      border: 1px solid rgba(232,201,109,0.25);
+      border-radius: 8px;
+      padding: 0.55rem 1.1rem;
+      cursor: default;
+      letter-spacing: 0.03em;
+    }
+
+    /* ── COLOUR SWATCHES ── */
+    .swatch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 0.8rem;
+      margin: 1rem 0;
+    }
+    .swatch {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .swatch-chip {
+      height: 72px;
+      width: 100%;
+    }
+    .swatch-info {
+      padding: 0.65rem 0.75rem;
+    }
+    .swatch-name {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.15rem;
+    }
+    .swatch-hex {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      font-family: monospace;
+      letter-spacing: 0.02em;
+    }
+    .swatch-use {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      margin-top: 0.2rem;
+      line-height: 1.4;
+    }
+
+    /* ── TYPE SPECIMENS ── */
+    .type-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.8rem 2rem;
+      margin: 0.8rem 0;
+    }
+    .type-meta {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+      display: flex;
+      gap: 1rem;
+    }
+    .type-specimen-gaia {
+      font-family: 'EB Garamond', serif;
+      font-size: 1.55rem;
+      color: var(--text-gaia);
+      line-height: 1.5;
+      font-style: italic;
+    }
+    .type-specimen-gaia-sm {
+      font-family: 'EB Garamond', serif;
+      font-size: 1.05rem;
+      color: var(--text-gaia);
+      line-height: 1.8;
+      font-style: italic;
+      margin-top: 0.8rem;
+    }
+    .type-specimen-ui {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.88rem;
+      color: #9090aa;
+      line-height: 1.65;
+    }
+    .type-specimen-ui strong {
+      color: #e8e8f0;
+      font-weight: 600;
+    }
+    .type-sub {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-top: 0.75rem;
+      line-height: 1.5;
+    }
+
+    /* ── NOT/IS ── */
+    .not-is {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.8rem;
+      margin: 1rem 0;
+    }
+    .not-is-col {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.1rem 1.2rem;
+    }
+    .not-is-col.is   { border-top: 2px solid var(--canopy); }
+    .not-is-col.not  { border-top: 2px solid var(--red); }
+    .not-is-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 0.8rem;
+    }
+    .not-is-col.is .not-is-label  { color: var(--canopy); }
+    .not-is-col.not .not-is-label { color: var(--red); }
+    .not-is-col li {
+      list-style: none;
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      padding: 0.18rem 0;
+    }
+
+    /* ── PRESENCE TIMELINE ── */
+    .timeline { margin: 1.2rem 0; }
+    .timeline-item {
+      display: flex;
+      gap: 1.2rem;
+      padding-bottom: 1.4rem;
+      position: relative;
+    }
+    .timeline-item:not(:last-child) .tl-line {
+      position: absolute;
+      left: 4px;
+      top: 14px;
+      bottom: 0;
+      width: 1px;
+      background: var(--border);
+    }
+    .tl-dot {
+      min-width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--canopy);
+      margin-top: 0.55rem;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 1;
+    }
+    .tl-dot.amber { background: var(--amber); }
+    .tl-dot.gold  { background: var(--gold); }
+    .tl-body { font-size: 0.84rem; color: var(--text-secondary); }
+    .tl-body strong { color: var(--text); }
+
+  </style>
+</head>
+<body>
+
+  <!-- ─── MASTHEAD ─── -->
+  <div class="masthead">
+    <div class="eyebrow">Eden Playground · Design System</div>
+    <h1>What Gaia means</h1>
+    <div class="doc-meta">
+      <span>Audience: Product, Creative, Co-founders</span>
+      <span>Last reviewed: April 2026</span>
+      <span>Status: Proposal — open for discussion</span>
+    </div>
+    <p class="subtitle">
+      This document defines Gaia — not as a character description, but as a design system.
+      Her meaning, her voice, her visual language, and the principles that keep her from
+      becoming kitsch in front of a sceptical audience. The page itself is styled in her register.
+    </p>
+  </div>
+
+<div class="page">
+
+  <!-- ─── 1. THE CONCEPT ─── -->
+  <h2>01 &nbsp; What Gaia means in this product</h2>
+
+  <p>
+    Gaia is the primordial Greek earth goddess — not the goddess of nature in a pastoral sense,
+    but the <strong>first thing that existed</strong>. Before commerce. Before manufactured desire.
+    Before the machinery of persuasion was built. She is the state that precedes the problem.
+  </p>
+  <p>
+    In Eden Playground, Gaia is not a mascot. She is not a helpful assistant. She is the
+    <strong>personification of the world before it was optimised against you</strong> — and she
+    is calling you back to a version of yourself that can see clearly.
+  </p>
+
+  <div class="callout">
+    <span class="icon">◈</span>
+    <span>
+      <strong>The core tension Gaia holds:</strong> She is ancient but the problem she addresses is
+      modern. She is mythic but the audience is analytical. She is serious but the product uses wit.
+      The design system holds all three without collapsing into any one of them.
+    </span>
+  </div>
+
+  <div class="card-row">
+    <div class="card">
+      <div class="card-label">Etymology</div>
+      <div class="card-title">The original ground</div>
+      <div class="card-body">
+        Gaia (Γαῖα) means "land" or "earth" — not in the ecological sense,
+        but the original substrate. The thing everything else stands on. The world before it was built over.
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-label">Mythological role</div>
+      <div class="card-title">The first witness</div>
+      <div class="card-body">
+        Gaia preceded the Olympians. She was not created — she emerged. She is the oldest thing,
+        which means she has watched the entire arc of human commerce from before it began.
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-label">In this product</div>
+      <div class="card-title">The one who names it</div>
+      <div class="card-body">
+        She doesn't protect you from manipulation. She teaches you to see it. Her gift is
+        vocabulary and pattern-recognition — not a shield you carry, but a lens you can't
+        unsee once it's been given to you.
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ─── 2. IS / IS NOT ─── -->
+  <h2>02 &nbsp; What she is — and is not</h2>
+
+  <p>
+    The Gaia framing will fail with an analytical, sceptical student audience if it drifts
+    into the wrong registers. These distinctions are design constraints, not aesthetic preferences.
+  </p>
+
+  <div class="not-is">
+    <div class="not-is-col is">
+      <div class="not-is-label">Gaia is</div>
+      <ul>
+        <li>Ancient — predating commerce</li>
+        <li>Witnessing — she has seen it all</li>
+        <li>Dignified — not warm or approachable</li>
+        <li>Precise — she names things exactly</li>
+        <li>Wry — sees the absurdity clearly</li>
+        <li>Serious about the stakes</li>
+        <li>Slightly eerie — otherworldly</li>
+        <li>Earning the user's respect</li>
+      </ul>
+    </div>
+    <div class="not-is-col not">
+      <div class="not-is-label">Gaia is not</div>
+      <ul>
+        <li>Nature-hippie / eco-activist</li>
+        <li>Maternal / warm / nurturing</li>
+        <li>A guide or assistant</li>
+        <li>Cheerful or encouraging</li>
+        <li>Moralising or preachy</li>
+        <li>Fantastical / fairy-tale</li>
+        <li>Vague or mysterious for mystery's sake</li>
+        <li>Performing urgency</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout amber">
+    <span class="icon">◈</span>
+    <span>
+      <strong>The student risk:</strong> A business school student's self-image is sharp,
+      analytical, slightly cynical. If Gaia reads as "nature goddess wellness content," she
+      loses them in 90 seconds. She has to be stranger than that — older, colder, more
+      precise. She respects them by not softening the message.
+    </span>
+  </div>
+
+
+  <!-- ─── 3. VOICE ─── -->
+  <h2>03 &nbsp; Gaia's voice</h2>
+
+  <p>
+    Gaia speaks once to invite the user in, and again between Worlds — brief letters that arrive
+    when a World is completed. Her voice is the primary carrier of the mythic register. Getting
+    it right is the difference between the frame working and the frame being skipped.
+  </p>
+
+  <div class="card-row">
+    <div class="card">
+      <div class="card-label">Principle 1</div>
+      <div class="card-title">Serene, not urgent</div>
+      <div class="card-body">
+        She does not chase the user. She does not plead. She states. The invitation is
+        an offer — take it or leave it. Her calm is the deliberate opposite of every
+        manipulative system she is describing.
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-label">Principle 2</div>
+      <div class="card-title">Long view, short sentences</div>
+      <div class="card-body">
+        She has existed since before recorded time. She is not in a hurry. Short declarative
+        sentences. No hedging. No softening. She says what is true and stops.
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-label">Principle 3</div>
+      <div class="card-title">Precise about the enemy</div>
+      <div class="card-body">
+        She names manipulative techniques without emotion. Not angry, not alarmed — the way
+        an ancient thing describes a recent annoyance. Precision is what gives her
+        credibility with an analytical audience.
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-label">Principle 4</div>
+      <div class="card-title">The wry undercurrent</div>
+      <div class="card-body">
+        She finds the absurdity in it. Humans spent millennia building civilisation, and now
+        they click countdown timers because a number is going down. She finds this
+        somewhere between tragic and faintly ridiculous.
+      </div>
+    </div>
+  </div>
+
+  <h3>The Invitation — as it appears to the user</h3>
+
+  <div class="demo-label">Gaia's Invitation screen</div>
+  <div class="demo-invitation">
+    <div class="inv-eyebrow">A message for you</div>
+    <div class="inv-text">
+      I have watched this world for a long time.<br><br>
+      I watched when you first learned to want things. I watched when wanting became
+      a science. I watched the science become an industry. I watched the industry
+      hire people whose entire purpose was to study <em>you</em> — your hesitations,
+      your vanities, your small fears — and build systems that use what they found.<br><br>
+      You move through those systems every day. Most of the time, you do not notice.<br><br>
+      I am not here to alarm you. I am here because noticing is a skill,
+      and skills can be learned. What I am offering you is a particular kind of sight —
+      the ability to recognise, in real time, the shape of what is being done to you.<br><br>
+      The Worlds ahead are not safe. They are <em>honest</em>. That is rarer.
+    </div>
+    <div class="inv-cta">Enter the first World</div>
+  </div>
+
+  <div class="callout">
+    <span class="icon">→</span>
+    <span>
+      <strong>Why this works for students:</strong> It doesn't flatter them. It acknowledges
+      their knowledge and then calmly shows them its limits. "You move through those systems
+      every day. Most of the time, you do not notice" — that's the line that lands for someone
+      who believes their marketing degree makes them immune.
+    </span>
+  </div>
+
+  <h3>Between Worlds — the letter</h3>
+
+  <div class="demo-label">After Deal World</div>
+  <div class="demo-letter">
+    <div class="letter-from">From Gaia · After Deal World</div>
+    <div class="letter-body">
+      You studied pricing psychology.<br><br>
+      You knew what anchoring was. You could have drawn it on a whiteboard.<br><br>
+      And then a number appeared — crossed out, replaced by a smaller number — and
+      something in you moved before you thought about it. <em>That</em> is the gap
+      this place exists to close.<br><br>
+      Knowing the name of a thing is not the same as being free from it.
+      You are learning the difference.
+    </div>
+  </div>
+
+  <div class="callout">
+    <span class="icon">→</span>
+    <span>
+      The between-World letters do not restate the technique — the debrief did that.
+      They name the <em>experience</em> the user just had. They make the realisation land.
+      They are short. They do not congratulate.
+    </span>
+  </div>
+
+
+  <!-- ─── 4. VISUAL IDENTITY ─── -->
+  <h2>04 &nbsp; Visual identity</h2>
+
+  <p>
+    When Gaia appears — invitation, letters, token reveal — the world changes register.
+    The UI recedes. Something older surfaces. The visual system for her presence is
+    distinct from the product shell.
+  </p>
+
+  <h3>Gaia colour palette</h3>
+
+  <p>
+    Earth tones, deep and unsaturated. Not ecological greens (too activist), not jewel-tone
+    fantasy (too game). Muted, old, as if the colours have been there a long time.
+  </p>
+
+  <div class="swatch-grid">
+    <div class="swatch">
+      <div class="swatch-chip" style="background: #080f0c;"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Deep</div>
+        <div class="swatch-hex">#080f0c</div>
+        <div class="swatch-use">Page background, invitation screen</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-chip" style="background: #2e4a2e;"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Earth</div>
+        <div class="swatch-hex">#2e4a2e</div>
+        <div class="swatch-use">Borders, structural depth</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-chip" style="background: #4a7c59;"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Moss</div>
+        <div class="swatch-hex">#4a7c59</div>
+        <div class="swatch-use">Secondary accents, Urgency orb</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-chip" style="background: #6aab7e;"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Canopy</div>
+        <div class="swatch-hex">#6aab7e</div>
+        <div class="swatch-use">Primary accent, headings, links</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-chip" style="background: #8a8a7a;"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Stone</div>
+        <div class="swatch-hex">#8a8a7a</div>
+        <div class="swatch-use">Muted text, Social orb</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-chip" style="background: #c9883a;"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Amber</div>
+        <div class="swatch-hex">#c9883a</div>
+        <div class="swatch-use">Warnings, Deal orb (Vision)</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-chip" style="background: #e8c96d;"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Gold</div>
+        <div class="swatch-hex">#e8c96d</div>
+        <div class="swatch-use">Shield of Eden, emphasis in voice</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-chip" style="background: #c8d8c4;"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Mist</div>
+        <div class="swatch-hex">#c8d8c4</div>
+        <div class="swatch-use">Gaia's voice text colour</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <span class="icon">→</span>
+    <span>
+      <strong>How the palettes relate:</strong> The product UI uses the standard dark scheme
+      (purple accent, neutral surfaces). When Gaia is present, the palette shifts — deeper
+      background, muted greens, amber and gold highlights. The visual transition signals that
+      the user has moved from the product layer to something older.
+    </span>
+  </div>
+
+  <h3>Typography — two registers</h3>
+
+  <div class="type-block">
+    <div class="type-meta">
+      <span>Gaia's register</span>
+      <span>EB Garamond · Italic · 16–22px · line-height 1.85</span>
+    </div>
+    <div class="type-specimen-gaia">
+      Knowing the name of a thing<br>is not the same as being free from it.
+    </div>
+    <div class="type-specimen-gaia-sm">
+      The Worlds ahead are not safe. They are honest. That is rarer.
+    </div>
+    <div class="type-sub">
+      Used for: Invitation text · Between-World letters · Token reveal · Shield ceremony<br>
+      Never used for: Navigation, instructions, debrief body text, UI labels
+    </div>
+  </div>
+
+  <div class="type-block">
+    <div class="type-meta">
+      <span>Product register</span>
+      <span>Inter · Regular / Semibold · 13–16px · line-height 1.6</span>
+    </div>
+    <div class="type-specimen-ui">
+      <strong>Deal World</strong> · Pricing psychology · 15–30 min<br>
+      Mission: The Bargain — navigate a checkout and spot every manipulation before you click.
+    </div>
+    <div class="type-sub">
+      Used for: Navigation · World cards · Debrief text · Instructions · Metrics · All UI chrome<br>
+      Never used for: Gaia's voice, token names, the Shield ceremony
+    </div>
+  </div>
+
+  <p>
+    The typeface shift is the most immediate signal that register has changed. Garamond carries
+    age, patience, and weight that sans-serif cannot. Gaia never speaks in Inter. The product
+    never uses Garamond for navigation.
+  </p>
+
+  <h3>The orbs — tokens of understanding</h3>
+
+  <p>
+    Each World grants an orb — a named capacity, not a trophy. The name is the debrief in one word.
+  </p>
+
+  <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin: 1.2rem 0 2rem;">
+    <div class="demo-token">
+      <div class="token-orb"></div>
+      <div class="token-label">Deal World · earned</div>
+      <div class="token-name">Orb of Vision</div>
+      <div class="token-desc">The ability to see price as construction, not fact.</div>
+    </div>
+    <div class="demo-token">
+      <div class="token-orb moss"></div>
+      <div class="token-label">Urgency World · earned</div>
+      <div class="token-name">Orb of Patience</div>
+      <div class="token-desc">The ability to feel urgency and not act from it.</div>
+    </div>
+  </div>
+
+  <table>
+    <thead>
+      <tr><th>World</th><th>Orb name</th><th>What it represents</th><th>Colour</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Deal World</strong></td>
+        <td>Orb of Vision</td>
+        <td>See price as construction, not fact</td>
+        <td>Amber — things seen clearly in old light</td>
+      </tr>
+      <tr>
+        <td><strong>Urgency World</strong></td>
+        <td>Orb of Patience</td>
+        <td>Feel urgency and not act from it</td>
+        <td>Deep moss — steady, rooted, unhurried</td>
+      </tr>
+      <tr>
+        <td><strong>Social World</strong></td>
+        <td>Orb of Discernment</td>
+        <td>Distinguish genuine consensus from manufactured</td>
+        <td>Stone — neutral, unmoved by crowd</td>
+      </tr>
+      <tr>
+        <td><strong>Gamification World</strong></td>
+        <td>Orb of Stillness</td>
+        <td>Notice the compulsion loop and step outside it</td>
+        <td>Canopy green — living but not competing</td>
+      </tr>
+    </tbody>
+  </table>
+
+
+  <!-- ─── 5. PRESENCE ─── -->
+  <h2>05 &nbsp; Where Gaia appears</h2>
+
+  <p>
+    Gaia is not ambient. She appears at specific moments — never mid-World, never during
+    the debrief. Her presence marks transitions. The rarity of her appearances is part of
+    what makes them land.
+  </p>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="tl-dot"></div>
+      <div class="tl-line"></div>
+      <div class="tl-body">
+        <strong>The Invitation.</strong> The user's first encounter with the platform. Full-screen,
+        earth palette, Garamond. She states the stakes without softening them. Consent is woven
+        into the narrative — she explains what the user is agreeing to as part of the call.
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-dot"></div>
+      <div class="tl-line"></div>
+      <div class="tl-body">
+        <strong>Between Worlds — the letter.</strong> After completing a World, the user receives
+        a brief letter. Short, precise, named after what they just experienced. Not
+        congratulations — recognition. She tells them what they now know that they didn't before.
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-dot amber"></div>
+      <div class="tl-line"></div>
+      <div class="tl-body">
+        <strong>Token reveal.</strong> When the orb is earned, Gaia names it. A single line in
+        Garamond over the ambient earth palette. The name of the orb is the summary of what the
+        World was for. It arrives as revelation, not reward.
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-dot gold"></div>
+      <div class="tl-body">
+        <strong>The Shield of Eden.</strong> The final ceremony. Gaia addresses the user directly.
+        She names what they have done. The Shield is granted with weight — not celebration.
+        What it means to carry it. What it means to bring someone else in.
+      </div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <span class="icon">→</span>
+    <span>
+      <strong>What she never does:</strong> She does not appear inside the Worlds. While manipulation
+      is live, she has no presence. Her silence during the deception is deliberate. She only speaks
+      when the veil is lifted.
+    </span>
+  </div>
+
+  <h3>The Shield of Eden — ceremony demo</h3>
+
+  <div class="demo-label">Shield of Eden screen</div>
+  <div class="demo-shield">
+    <div class="shield-icon">🛡</div>
+    <div class="shield-title">The Shield of Eden</div>
+    <div class="shield-text">
+      You have walked through each of the Worlds. You have felt the pull of every technique —
+      the anchored price, the countdown, the manufactured crowd — and you have learned to name
+      what was happening while it was happening.<br><br>
+      That is not a small thing. Most people never do it.<br><br>
+      The Shield is yours. What you do with it is <em>bring someone else in</em>.
+    </div>
+    <div class="shield-cta">Invite someone into the journey</div>
+  </div>
+
+
+  <!-- ─── 6. STUDENT CALIBRATION ─── -->
+  <h2>06 &nbsp; Making Gaia land with business school students</h2>
+
+  <p>
+    This is the live design risk. A student who reads the Invitation and thinks "this isn't
+    for me" does not complete the journey. The mythic register is a deliberate creative bet —
+    it needs to be tested before it is built at scale.
+  </p>
+
+  <h3>Why the framing could work for this cohort</h3>
+  <ul class="plain">
+    <li>Gaia's directness respects their knowledge — she doesn't pretend they're naive.</li>
+    <li>The "knowing isn't protection" frame is intellectually provocative for someone who believes knowledge is their advantage.</li>
+    <li>The ancient/modern contrast is strange enough to be interesting — a student hasn't seen this register in a marketing context.</li>
+    <li>She's wry, not earnest. Analytical students distrust earnestness. They respond to precision and irony.</li>
+  </ul>
+
+  <h3>Why it could fail</h3>
+  <ul class="plain">
+    <li>If Gaia reads as eco-wellness content, the frame breaks immediately for this audience.</li>
+    <li>If the Garamond + earth palette reads as "literary fiction cosplay," it becomes ironic in the wrong direction.</li>
+    <li>If the mythology feels decorative rather than load-bearing — flavour rather than meaning — students will skip past it.</li>
+    <li>If the invitation is too long before the first World, engagement will drop before the hook lands.</li>
+  </ul>
+
+  <div class="callout amber">
+    <span class="icon">◈</span>
+    <span>
+      <strong>The test that resolves this:</strong> Read the Invitation draft aloud to five
+      business school students. Don't ask them if they like it. Watch their faces at the line
+      <em>"Knowing the name of a thing is not the same as being free from it."</em>
+      If they lean in, the frame is working. If they glance away, the register is wrong.
+      One afternoon. Cannot be skipped.
+    </span>
+  </div>
+
+  <h3>Design guardrails — keeping Gaia from drifting</h3>
+
+  <table>
+    <thead>
+      <tr><th>If it starts to feel like…</th><th>The problem</th><th>The correction</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>An environmentalism campaign</strong></td>
+        <td>Earth palette read as ecological cause, not primordial age</td>
+        <td>Remove foliage / leaf iconography. Keep palette ancient not natural. Stone and shadow over leaves and stems.</td>
+      </tr>
+      <tr>
+        <td><strong>A fantasy game</strong></td>
+        <td>Quests, tokens, and shield read as game mechanics, not earned insight</td>
+        <td>Token naming carries the weight — "Orb of Vision" not "Level Complete." Ceremony over celebration.</td>
+      </tr>
+      <tr>
+        <td><strong>Self-help / personal development</strong></td>
+        <td>Gaia sounds encouraging, growth-oriented, warm</td>
+        <td>Remove second-person affirmations. She observes; she does not coach. She states; she does not motivate.</td>
+      </tr>
+      <tr>
+        <td><strong>Academic framing wearing a costume</strong></td>
+        <td>Mythic layer feels bolted on — users see the research study underneath</td>
+        <td>The narrative arrives before any research framing. Gaia's invitation precedes consent screens — consent is woven in, not prepended.</td>
+      </tr>
+    </tbody>
+  </table>
+
+
+  <!-- ─── 7. OPEN DECISIONS ─── -->
+  <h2>07 &nbsp; Open design decisions</h2>
+
+  <table>
+    <thead>
+      <tr><th>Decision</th><th>What it affects</th><th>How to resolve</th><th>Status</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Does the Gaia frame land with business school students?</strong></td>
+        <td>Everything — the entire MVP1 register is built on this bet</td>
+        <td>Five-student watching session with the Invitation draft. One afternoon.</td>
+        <td><span class="badge risk">Must test first</span></td>
+      </tr>
+      <tr>
+        <td><strong>Does Gaia have a visual form, or is she voice only?</strong></td>
+        <td>Invitation screen design, letter UI, Shield ceremony</td>
+        <td>Voice-only is safer and faster. Any visual representation risks the wrong register. Proposed: voice only for MVP1.</td>
+        <td><span class="badge amber">Proposed: voice only</span></td>
+      </tr>
+      <tr>
+        <td><strong>How long is the Invitation?</strong></td>
+        <td>Drop-off before World 1, research data validity</td>
+        <td>Test a full version and a 40% shorter version. Watch for skip behaviour.</td>
+        <td><span class="badge open">Test both lengths</span></td>
+      </tr>
+      <tr>
+        <td><strong>Are the between-World letters skippable?</strong></td>
+        <td>Whether the narrative feels like a choice or a checkpoint</td>
+        <td>Proposed: mandatory, but skippable after 10 seconds with explicit acknowledgement.</td>
+        <td><span class="badge open">Proposed: mandatory + skip</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+</body>
+</html>

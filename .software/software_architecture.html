@@ -474,8 +474,8 @@
     </div>
     <div class="decision-card">
       <div class="dc-label">World bundles</div>
-      <div class="dc-value">Static HTML / JS</div>
-      <div class="dc-note">No framework required. Versioned by path. Hosted on Vercel (free tier, global CDN, zero config).</div>
+      <div class="dc-value">React · Vite</div>
+      <div class="dc-note">Each World is a small React app built with Vite. Versioned by path. Build output is static HTML/JS deployed to Vercel CDN.</div>
     </div>
     <div class="decision-card">
       <div class="dc-label">API hosting</div>
@@ -488,20 +488,24 @@
       <div class="dc-note">Jupyter notebooks for exploratory work. Scripts for scheduled runs. No separate compute platform needed at MVP1 scale.</div>
     </div>
     <div class="decision-card">
+      <div class="dc-label">Player shell</div>
+      <div class="dc-value">React + Tailwind CSS</div>
+      <div class="dc-note">Vite build. Component-driven UI for journey map, consent screen, return-key entry, and token ceremony. Tailwind for rapid styling without a design system overhead.</div>
+    </div>
+    <div class="decision-card">
       <div class="dc-label">Dashboards (Phase 2)</div>
       <div class="dc-value">Jinja2 templates</div>
       <div class="dc-note">Server-rendered HTML from FastAPI. No separate frontend build. Admin and research metrics served from the same app on protected routes.</div>
     </div>
   </div>
 
-  <div class="callout yellow">
-    <span class="icon">◈</span>
+  <div class="callout green">
+    <span class="icon">✓</span>
     <span>
-      <strong>Decision not yet made:</strong> The player-facing shell (the app users load before
-      entering a World — journey map, return key entry, consent screen) needs a choice. Options are
-      (a) static HTML with vanilla JS, (b) a lightweight framework like Preact or Svelte, or
-      (c) server-rendered Jinja2 pages from the Platform API. This is the highest-impact undecided
-      technology choice. See Section 11.
+      <strong>Decision made:</strong> The player-facing shell uses <strong>React + Tailwind CSS</strong>,
+      built with Vite. This gives a proper component model for the journey map, consent flow, return-key
+      entry, and token ceremony without the overhead of a full design system. The build output is static
+      HTML/JS deployed to Vercel — no server rendering required. See Section 11.
     </span>
   </div>
 
@@ -789,6 +793,11 @@ sequenceDiagram
       <div class="s-col"><span class="s-type">jsonb</span></div>
       <div class="s-col"><span class="s-note">worlds_completed[], tokens_earned[], current_world — updated on each completion</span></div>
     </div>
+    <div class="schema-row">
+      <div class="s-col"><span class="s-name">email_backup_hash</span></div>
+      <div class="s-col"><span class="s-type">text nullable</span></div>
+      <div class="s-col"><span class="s-note">SHA-256 of lowercased email. Null if user skipped backup. Used only for self-service key recovery — never exposed in admin or researcher exports. No plaintext email is ever stored.</span></div>
+    </div>
   </div>
 
   <div class="schema-block">
@@ -1004,24 +1013,30 @@ flowchart LR
   <h2><span class="section-num">07</span> World bundle format</h2>
 
   <p>
-    A World is a versioned folder of static assets. Each arm of an experiment has its own
-    folder. The Platform API's manifest endpoint tells the player shell which folder to load.
+    A World is a versioned React app built with Vite. Each arm of an experiment lives in its
+    own folder under <code>/worlds</code>. The build output is static HTML/JS deployed to Vercel.
+    The Platform API's manifest endpoint tells the player shell which arm folder to load.
     The World does not know which arm it is — it just runs.
   </p>
 
   <div class="code-block">
-    <span class="cm"># Vercel deployment structure</span><br>
+    <span class="cm"># Source structure (pre-build)</span><br>
     worlds/<br>
     &nbsp;&nbsp;gaia-invitation/<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;v1a/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm"># arm A of the gaia experiment</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;v1a/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm"># arm A — React + Vite project</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;src/<br>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;index.html<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;world.js&nbsp;&nbsp;&nbsp;<span class="cm"># self-contained, no external deps</span><br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;assets/<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vite.config.js<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dist/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm"># Vite build output → served from Vercel CDN</span><br>
     &nbsp;&nbsp;deal-world/<br>
     &nbsp;&nbsp;&nbsp;&nbsp;v1a/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm"># arm A: anchoring without explicit price reveal</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;src/<br>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;index.html<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vite.config.js<br>
     &nbsp;&nbsp;&nbsp;&nbsp;v1b/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm"># arm B: anchoring with decoy pricing added</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;src/<br>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;index.html<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vite.config.js<br>
     <br>
     <span class="cm"># Manifest response from Platform API:</span><br>
     {<br>
@@ -1192,14 +1207,14 @@ flowchart TB
         <td><strong>Player Shell</strong></td>
         <td>Vercel</td>
         <td><code>worlds.eden.gg</code></td>
-        <td>Push to <code>main</code> — Vercel project root: <code>/shell</code></td>
+        <td>Push to <code>main</code> — Vercel runs <code>vite build</code> in <code>/shell</code>, serves <code>dist/</code></td>
         <td>Free tier</td>
       </tr>
       <tr>
         <td><strong>World Bundles</strong></td>
         <td>Vercel</td>
         <td><code>worlds.eden.gg/worlds/...</code></td>
-        <td>Push to <code>main</code> — same Vercel project, <code>/worlds</code> served under path prefix via <code>vercel.json</code> rewrites</td>
+        <td>Push to <code>main</code> — Vercel runs <code>vite build</code> per arm, serves <code>dist/</code> under path prefix via <code>vercel.json</code> rewrites</td>
         <td>Free tier</td>
       </tr>
       <tr>
@@ -1241,11 +1256,19 @@ flowchart TB
       </div>
     </div>
     <div class="card">
-      <div class="card-label">World bundles + shell</div>
-      <div class="card-title">Vercel · Static</div>
+      <div class="card-label">Player shell</div>
+      <div class="card-title">Vercel · React + Tailwind</div>
       <div class="card-body">
-        Push to <code>/worlds</code> directory deploys. Vercel generates versioned CDN URLs.
-        No build step needed — raw HTML/JS. Free tier covers the traffic.
+        Vite builds <code>/shell</code> to static HTML/JS. Vercel runs the build on push to
+        <code>main</code>. Preview deployments on every PR. Free tier covers the traffic.
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-label">World bundles</div>
+      <div class="card-title">Vercel · React + Vite</div>
+      <div class="card-body">
+        Each World arm is a Vite-built React app. Vercel builds each arm on push to
+        <code>main</code>. Output is static HTML/JS served from CDN. Free tier covers the traffic.
       </div>
     </div>
     <div class="card">
@@ -1331,9 +1354,9 @@ flowchart TB
     <tbody>
       <tr>
         <td><strong>Player shell technology</strong></td>
-        <td>(a) Static HTML + vanilla JS &nbsp; (b) Preact/Svelte SPA &nbsp; (c) FastAPI + Jinja2 server-render</td>
+        <td><strong>React + Tailwind CSS, built with Vite.</strong> Static output deployed to Vercel. Component model handles journey map, consent, return-key entry, and token ceremony. Tailwind avoids a separate design system dependency.</td>
         <td>The entire front-end build pipeline and how the shell talks to the API.</td>
-        <td><span class="badge open">open</span></td>
+        <td><span class="badge decided">decided</span></td>
       </tr>
       <tr>
         <td><strong>Shell → World credential passing</strong></td>
@@ -1444,7 +1467,7 @@ flowchart LR
     subgraph Repo["eden-playground"]
         direction TB
         d_api["/api\nFastAPI app\nDockerfile\nalembic/\npyproject.toml"]
-        d_shell["/shell\nPlayer app\nindex.html  app.js\nassets/"]
+        d_shell["/shell\nReact + Tailwind · Vite\nsrc/  index.html\ntailwind.config.js\nvite.config.js"]
         d_worlds["/worlds\ngaia-invitation/\n  v1a/index.html\ndeal-world/\n  v1a/index.html\n  v1b/index.html"]
         d_analysis["/analysis\nexport.py\nab_analysis.ipynb\nrequirements.txt"]
         d_infra["/infra\ndocker-compose.yml\n.env.example\nnginx.conf  optional"]
@@ -1518,7 +1541,7 @@ gitGraph
     <br>
     <span class="cm"># .github/workflows/static.yml</span><br>
     <span class="cm"># Triggers: push to main or PR touching /shell/** or /worlds/**</span><br>
-    <span class="cm"># Steps: Vercel deploy (via Vercel action) → preview URL on PR, production on main</span>
+    <span class="cm"># Steps: npm ci → vite build (shell + each world arm) → Vercel deploy → preview URL on PR, production on main</span>
   </div>
 
   <div class="callout yellow">
