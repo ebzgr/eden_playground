@@ -1,0 +1,13 @@
+body.pg-scene {
+  font-family: system-ui, sans-serif;
+  color: #1a1a2e;
+  background: #f8f6f2;
+}
+
+body.pg-scene > main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(0.75rem, 2vh, 1.5rem);
+}

@@ -1,37 +1,66 @@
-# AI Coding Protocol and Role Adherence
+# AI Coding Protocol — Marketing for Betterment's playground
 
-Welcome to the **Marketing for Betterment's playground** repository. This codebase adheres to an **Agentic-AI First** framework. As an AI assistant working on this project, your primary goal is to follow strict role-based operations and documentation standards.
-
----
-
-## MANDATORY PRE-FLIGHT (Run Before Every Task)
-
-1. **Classify the task** into one of these four roles and silently read its instruction file before writing any code:
-   - **Architect** → read `.agents/architect.md`
-   - **Product Manager** → read `.agents/product_manager.md`
-   - **Developer** → read `.agents/developer.md`
-   - **QA Tester** → read `.agents/qa_tester.md`
-
-2. **Announce your role** to the user before executing any work.
+This repository follows an **Agentic-AI-First** model. All AI agents follow the protocol below. Roles, services, and conventions live in [`ai_docs/`](./ai_docs/). Human-facing docs live in [`docs/`](./docs/).
 
 ---
 
-## MANDATORY POST-IMPLEMENTATION (Run After Every Task)
+## MANDATORY PRE-FLIGHT
 
-After completing any implementation or making any meaningful code change, you MUST:
+Run this on **every** task before doing any other work.
 
-1. **Update the relevant Markdown doc** in `/docs/` that describes what you changed (e.g., if you modified architecture, update `/docs/Architecture.md`).
-2. **Update `/docs/index.html`** if you added a new page, component, or major feature — ensure navigation links and the feature overview section stay current.
-3. **Include documentation updates in the same commit or PR** as the code change. Documentation must never lag behind the implementation.
-4. **If no existing doc applies**, create a new one in `/docs/` and link it from `index.html`.
+1. **Open [`ai_docs/README.md`](./ai_docs/README.md).** This is the routing hub. It is documentation, not a role.
 
-> Failure to update documentation after implementation is treated as an incomplete task.
+2. **Classify the task.** Use the routing diagram and tables in `ai_docs/README.md` to decide which role(s) and which service helper(s) apply. Most tasks need exactly one role and one service. A direct code change goes straight to Developer; only orchestration-heavy or ambiguous tasks activate Product Manager.
+
+3. **Read the conventions** that apply to your task in [`ai_docs/conventions/`](./ai_docs/conventions/). At minimum: [`coding.md`](./ai_docs/conventions/coding.md) for any code work and [`documentation.md`](./ai_docs/conventions/documentation.md) once per session.
+
+4. **Read the matching role file(s)** in [`ai_docs/roles/`](./ai_docs/roles/) before acting in that role. The eight available roles:
+
+   - **product_manager** — orchestrator; activate only when the task is multi-role, ambiguous, or needs dispatch.
+   - **architect** — structural decisions, schema, new services.
+   - **developer** — implementation inside an existing service.
+   - **scene_ui_designer** — scene HTML/CSS/JS, version manifests, admin templates.
+   - **experiment_designer** — A/B experiments, arms, schedule, explanation.
+   - **researcher** — hypothesis framing, metric definitions.
+   - **ethics_reviewer** — final gate before user-visible content goes live.
+   - **tester** — UI navigation on the running app, preview-mode verification.
+
+5. **Read the matching service helper(s)** in [`ai_docs/services/`](./ai_docs/services/) before changing code in that service.
+
+6. **Announce your active role(s)** at the start of your response, so the user knows which lens you are applying.
+
+**If no role fits cleanly:** activate `product_manager`, restate the task, and ask one focused clarifying question before continuing.
+
+---
+
+## MANDATORY POST-IMPLEMENTATION
+
+After any meaningful change, both documentation trees must move together.
+
+1. **Update the matching `ai_docs/services/<svc>.md`** when behavior, public interface, file layout, or conventions of a service change.
+
+2. **Update `ai_docs/conventions/*.md`** when a coding, documentation, or testing rule changes.
+
+3. **Update `ai_docs/roles/<role>.md`** when a role's triggers, required reading, or hand-off changes.
+
+4. **Update the relevant page in `/docs/`** (human-facing) per [`ai_docs/conventions/documentation.md`](./ai_docs/conventions/documentation.md). Common targets: [`docs/Architecture.md`](./docs/Architecture.md), [`docs/architecture.html`](./docs/architecture.html), and [`docs/index.html`](./docs/index.html) when navigation or top-level features change.
+
+5. **Documentation updates ship in the same commit/PR as the code change.** Stale docs are an incomplete task. This applies to both trees equally.
+
+If no existing page applies, create one in the correct tree and link it from the parent index (`docs/index.html` for human docs, `ai_docs/README.md` for AI docs).
 
 ---
 
 ## Core Directives for All Agents
 
-1. **Never guess requirements**: Always read the most recent Markdown files in `/docs/` or the linked GitHub Issue before executing.
-2. **Docs-As-Code**: Architecture and design decisions must be reflected in `/docs/Architecture.md` immediately.
-3. **No destructive actions without verification**: Modifying large blocks of code requires alignment with the playground's modular component approach.
-4. **Role files are law**: Your assigned `.agents/*.md` file overrides any general intuition about "what's best."
+1. **Never guess requirements.** Always read the relevant files in `ai_docs/` and `/docs/` before executing. When the request is ambiguous, switch into `product_manager` and ask one focused clarifying question.
+
+2. **Docs-as-Code, both trees.** Architectural and design decisions appear in `/docs/Architecture.md`. Operational and per-service guidance appears in `ai_docs/services/<svc>.md`. Neither is optional.
+
+3. **Role files are law.** The role you have activated overrides any general intuition about "what's best." If your task crosses a role boundary, switch to the second role explicitly rather than ignoring its rules.
+
+4. **Ethics gate.** Any change that creates or modifies user-visible content, consent flow, or an experiment that may go live must pass through the Ethics Reviewer role before merging. This is non-negotiable per the platform's ethical charter — see [`docs/ethics.html`](./docs/ethics.html).
+
+5. **Preview-mode discipline.** When touching anything that can fire or persist user data, respect the three-signal preview-mode contract (`previewMode` flag, `X-Playground-Preview: 1` header, `preview-` session id prefix). See [`ai_docs/conventions/coding.md`](./ai_docs/conventions/coding.md) and [`ai_docs/services/event_tracker.md`](./ai_docs/services/event_tracker.md).
+
+6. **No destructive actions without verification.** Schema changes go through Alembic with idempotent migrations. New top-level services or cross-service refactors go through the Architect role first.

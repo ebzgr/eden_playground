@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block title %}Users{% endblock %}
+{% block extra_head %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+{% endblock %}
+{% block content %}
+<h1 class="h3 mb-4">Users <span class="text-muted fs-6">(pseudonymous)</span></h1>
+
+{% with chart_id="users-daily-chart", chart_title="New users per day", chart_subtitle="Last 30 days (UTC)", chart_data_json=chart_json, chart_dataset_label="New users" %}
+{% include "_daily_chart.html" %}
+{% endwith %}
+
+<div class="accordion mb-4" id="users-filters">
+  <div class="accordion-item shadow-sm border-0">
+    <h2 class="accordion-header">
+      <button class="accordion-button {% if not filters.active() %}collapsed{% endif %}" type="button"
+              data-bs-toggle="collapse" data-bs-target="#users-filters-body">
+        Filters{% if filters.active() %} <span class="badge text-bg-primary ms-2">active</span>{% endif %}
+      </button>
+    </h2>
+    <div id="users-filters-body" class="accordion-collapse collapse {% if filters.active() %}show{% endif %}">
+      <div class="accordion-body">
+        <form method="get" action="/admin/users" class="row g-3 align-items-end">
+          <input type="hidden" name="page" value="1"/>
+          <div class="col-md-3">
+            <label class="form-label small">Created from (UTC)</label>
+            <input type="date" class="form-control form-control-sm" name="date_start"
+                   value="{{ filters.date_start.isoformat() if filters.date_start else '' }}"/>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label small">Created to (UTC)</label>
+            <input type="date" class="form-control form-control-sm" name="date_end"
+                   value="{{ filters.date_end.isoformat() if filters.date_end else '' }}"/>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label small">Consent</label>
+            <select class="form-select form-select-sm" name="consent_state">
+              <option value="">Any</option>
+              {% for s in filter_options.consent_states %}
+              <option value="{{ s }}" {% if filters.consent_state == s %}selected{% endif %}>{{ s }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-md-2">
+            <label class="form-label small">Per page</label>
+            <select class="form-select form-select-sm" name="page_size">
+              {% for n in [25, 50, 100] %}
+              <option value="{{ n }}" {% if pagination.page_size == n %}selected{% endif %}>{{ n }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-12">
+            <button type="submit" class="btn btn-primary btn-sm">Apply</button>
+            <a class="btn btn-outline-secondary btn-sm" href="/admin/users">Clear</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card border-0 shadow-sm">
+  <div class="table-responsive">
+    <table class="table table-hover mb-0">
+      <thead class="table-light">
+        <tr><th>User ID</th><th>Hash prefix</th><th>Consent</th><th>Created</th><th></th></tr>
+      </thead>
+      <tbody>
+        {% for u in users %}
+        <tr>
+          <td class="small"><code>{{ u.id }}</code></td>
+          <td>{{ u.user_id_hash[:12] }}…</td>
+          <td><span class="badge {% if u.consent_state == 'granted' %}text-bg-success{% else %}text-bg-warning{% endif %}">{{ u.consent_state }}</span></td>
+          <td class="small text-nowrap">{{ u.created_at }}</td>
+          <td><a class="btn btn-sm btn-outline-secondary" href="/admin/users/{{ u.id }}/state">State</a></td>
+        </tr>
+        {% else %}
+        <tr><td colspan="5" class="text-muted text-center py-4">No users match these filters.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% include "_pagination.html" %}
+</div>
+{% endblock %}

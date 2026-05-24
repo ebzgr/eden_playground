@@ -1,0 +1,20 @@
+length: 800
+scrub: 1
+pin: true
+
+layers:
+  - id: only
+    type: div
+    class: fixture-a
+    initial: { opacity: 0 }
+
+verses: []
+
+timeline:
+  - { target: only, at: 0.0, to: 0.5, kind: show, device: desktop }
+  - { target: only, at: 0.0, to: 0.5, kind: fade, props: { opacity: 1 }, device: mobile }
+
+mobile:
+  max_width: 768
+  timeline:
+    - { target: only, at: 0.0, to: 1.0, kind: zoom, props: { scale: 2 } }

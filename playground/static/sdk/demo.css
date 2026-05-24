@@ -1,0 +1,158 @@
+/* Demo SDK — scroll-enabled demo scenes with hidden scrollbar */
+
+html.pg-scene--demo,
+body.pg-scene.pg-scene--demo {
+  scrollbar-width: none;
+}
+
+html.pg-scene--demo::-webkit-scrollbar,
+body.pg-scene.pg-scene--demo::-webkit-scrollbar {
+  display: none;
+}
+
+/* Scroll on <html>, not <body>: the scene shell sets body overflow, but
+   ScrollTrigger tracks window scroll — body-only scroll never advances the timeline. */
+html.pg-scene--demo {
+  height: auto;
+  min-height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+body.pg-scene.pg-scene--demo.pg-scene--scroll {
+  overflow: visible;
+  height: auto;
+  min-height: 100%;
+}
+
+body.pg-scene.pg-scene--demo.pg-scene--scroll > main {
+  height: auto;
+  min-height: 100%;
+  max-height: none;
+  overflow: visible;
+}
+
+.demo-root {
+  position: relative;
+  width: 100%;
+}
+
+.demo-scroll-spacer {
+  width: 100%;
+  pointer-events: none;
+}
+
+.demo-stage {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.demo-stage-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.demo-layers {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.demo-layer-wrap {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  will-change: transform;
+  pointer-events: none;
+}
+
+.demo-layer-inner {
+  position: relative;
+  transform-origin: center center;
+  will-change: transform, opacity, filter;
+}
+
+.demo-layer-inner img {
+  display: block;
+  max-width: min(90vw, 480px);
+  height: auto;
+}
+
+.demo-verses {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(0.75rem, 3vw, 2rem);
+  box-sizing: border-box;
+}
+
+.demo-verse {
+  position: absolute;
+  max-width: min(36rem, 92vw);
+  text-align: center;
+  opacity: 0;
+  visibility: hidden;
+  margin: 0;
+  font-family: "Palatino Linotype", Palatino, Georgia, serif;
+  line-height: 1.45;
+  color: #f4efe8;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.45);
+}
+
+.demo-verse--title {
+  font-size: clamp(1.5rem, 5vw, 2.5rem);
+  font-weight: 600;
+}
+
+.demo-verse--poem {
+  font-size: clamp(1.1rem, 3.5vw, 1.65rem);
+  font-style: italic;
+}
+
+.demo-verse--caption {
+  font-size: clamp(0.85rem, 2.5vw, 1rem);
+  opacity: 0.85;
+}
+
+.demo-verse .demo-split-word,
+.demo-verse .demo-split-char {
+  display: inline-block;
+  opacity: 0;
+}
+
+.demo-text-layer {
+  font-family: system-ui, sans-serif;
+  font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+  color: #ece8f5;
+  text-align: center;
+  max-width: min(28rem, 90vw);
+}
+
+.demo-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  width: 0%;
+  z-index: 10000;
+  background: linear-gradient(90deg, #c8b3ff, #9b6ee8);
+  pointer-events: none;
+  transition: width 0.05s linear;
+}
+
+body.pg-scene[data-preview="true"] .demo-progress {
+  top: 2.25rem;
+}

@@ -1,0 +1,22 @@
+{# Expects: pagination, export_url (optional) #}
+{% if pagination.total > 0 %}
+<div class="card-footer d-flex justify-content-between align-items-center flex-wrap gap-2">
+  <span class="small text-muted">
+    Showing page {{ pagination.page }} of {{ pagination.total_pages }}
+    ({{ pagination.total }} total, {{ pagination.page_size }} per page)
+  </span>
+  <nav aria-label="Pagination">
+    <ul class="pagination pagination-sm mb-0">
+      <li class="page-item {% if not pagination.has_prev %}disabled{% endif %}">
+        <a class="page-link" href="{{ pagination.prev_url or '#' }}">Previous</a>
+      </li>
+      <li class="page-item disabled">
+        <span class="page-link">{{ pagination.page }} / {{ pagination.total_pages }}</span>
+      </li>
+      <li class="page-item {% if not pagination.has_next %}disabled{% endif %}">
+        <a class="page-link" href="{{ pagination.next_url or '#' }}">Next</a>
+      </li>
+    </ul>
+  </nav>
+</div>
+{% endif %}

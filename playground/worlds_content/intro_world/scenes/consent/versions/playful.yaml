@@ -1,0 +1,23 @@
+description: |
+  Light and funny consent copy.
+  Acknowledges the meta-irony of running an A/B test on a study about marketing tricks.
+
+patches:
+  - { op: setText, selector: ".consent-title",     value: "The Tiny Print ✨" }
+  - { op: setText, selector: ".consent-lead",      value: "We're researchers studying how marketing tricks work — so yes, this very page is part of the experiment. No emails, no stalking. Just a friendly pseudonymous ID watching where you click. Meta enough?" }
+  - { op: setText, selector: ".consent-readmore",  value: "Wait, what are we actually doing? →" }
+  - { op: setText, selector: ".consent-agree",     value: "Sure — track my clicks for science." }
+  - { op: setText, selector: ".consent-start",     value: "Let's get curious" }
+
+css_append: |
+  .consent-card {
+    border-color: rgba(255, 200, 140, 0.35);
+    box-shadow: 0 12px 40px rgba(120, 60, 20, 0.35);
+  }
+  .consent-start {
+    background: linear-gradient(180deg, #ffd29a, #ff8a4a);
+    transition: transform 0.15s ease;
+  }
+  .consent-start:hover:not(:disabled) {
+    transform: translateY(-1px);
+  }

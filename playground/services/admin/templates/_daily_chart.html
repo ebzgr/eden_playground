@@ -1,0 +1,41 @@
+{# Expects: chart_id, chart_title, chart_subtitle, chart_data_json #}
+<div class="card border-0 shadow-sm mb-4">
+  <div class="card-body">
+    <h2 class="h6 card-title mb-1">{{ chart_title }}</h2>
+    {% if chart_subtitle %}<p class="text-muted small mb-3">{{ chart_subtitle }}</p>{% endif %}
+    <div style="position: relative; height: 220px;">
+      <canvas id="{{ chart_id }}"></canvas>
+    </div>
+  </div>
+</div>
+<script>
+(function () {
+  const cfg = {{ chart_data_json | safe }};
+  const el = document.getElementById("{{ chart_id }}");
+  if (!el || typeof Chart === "undefined") return;
+  new Chart(el, {
+    type: "line",
+    data: {
+      labels: cfg.labels,
+      datasets: [{
+        label: "{{ chart_dataset_label | default('Count') }}",
+        data: cfg.values,
+        borderColor: "rgb(13, 110, 253)",
+        backgroundColor: "rgba(13, 110, 253, 0.12)",
+        fill: true,
+        tension: 0.25,
+        pointRadius: 2,
+      }],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { ticks: { maxRotation: 45, autoSkip: true, maxTicksLimit: 10 } },
+        y: { beginAtZero: true, ticks: { precision: 0 } },
+      },
+    },
+  });
+})();
+</script>

@@ -1,0 +1,49 @@
+length: 1200
+scrub: 1
+pin: true
+default_ease: power2.inOut
+
+layers:
+  - id: a
+    type: div
+    class: fixture-a
+    html: "<p>Box A with a <strong>paragraph</strong> inside.</p>"
+    z: 2
+    initial: { x: "50%", y: "50%", scale: 0.5, opacity: 0 }
+  - id: b
+    type: div
+    class: fixture-b
+    z: 1
+    initial: { x: "-100%", y: "50%", opacity: 1 }
+    parallax: { y: 0.4, x: 0.1 }
+  - id: caption
+    type: text
+    text: "A small caption."
+    class: fixture-caption
+    initial: { y: "80%", opacity: 0 }
+
+verses:
+  - { id: v1, text: "Hello, world.", style: title }
+
+timeline:
+  - { target: a, at: 0.00, to: 0.20, kind: show }
+  - { target: v1, at: 0.05, to: 0.25, kind: show, text_reveal: words, stagger: 0.05 }
+  - { target: a, at: 0.25, to: 0.30, kind: set, props: { z: 5 } }
+  - { target: a, at: 0.30, to: 0.55, kind: zoom, props: { scale: 1.2 } }
+  - { target: b, at: 0.40, to: 0.80, kind: move, props: { x: "50%" }, device: desktop }
+  - { target: b, at: 0.40, to: 0.80, kind: move, props: { y: "20%" }, device: mobile }
+  - { target: caption, at: 0.50, to: 0.70, kind: show }
+  - { target: "#fixture-cta", at: 0.65, to: 0.80, kind: show }
+  - { target: a, at: 0.70, to: 0.75, kind: pause }
+  - { target: a, at: 0.75, to: 0.85, kind: fade, props: { opacity: 0.3 } }
+  - { target: v1, at: 0.80, to: 0.95, kind: hide }
+  - { target: a, at: 0.85, to: 1.00, kind: hide }
+
+mobile:
+  max_width: 768
+  length: 900
+  layers:
+    a:
+      initial: { scale: 0.4 }
+    b:
+      parallax: 0.2

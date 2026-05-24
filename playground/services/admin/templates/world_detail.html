@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}{{ world.name if world else "World" }}{% endblock %}
+{% block content %}
+{% if world %}
+<div class="mb-4">
+  <a href="/admin/worlds" class="text-muted text-decoration-none small"><i class="bi bi-arrow-left"></i> Worlds</a>
+  <h1 class="h3 mt-2 mb-1">{{ world.name }}</h1>
+  <p class="text-muted small font-monospace mb-0">{{ world.id }}</p>
+</div>
+
+<div class="vstack gap-3">
+  {% for scene in world.scenes %}
+  <div class="card border-0 shadow-sm">
+    <div class="card-header bg-white border-bottom-0 py-3">
+      <div class="d-flex justify-content-between align-items-center">
+        <h2 class="h6 mb-0"><code>{{ scene.id }}</code></h2>
+        {% if scene.has_variants %}
+        <span class="badge text-bg-light text-dark">{{ scene.versions|length }} versions</span>
+        {% else %}
+        <span class="badge text-bg-secondary">base only</span>
+        {% endif %}
+      </div>
+    </div>
+    <div class="card-body pt-0">
+      <div class="table-responsive">
+        <table class="table table-sm align-middle mb-0">
+          <thead class="table-light">
+            <tr><th>Version</th><th class="text-end">Preview</th></tr>
+          </thead>
+          <tbody>
+            {% for v in scene.versions %}
+            <tr>
+              <td><code>{{ v }}</code>{% if v == 'base' %} <span class="text-muted small">default</span>{% endif %}</td>
+              <td class="text-end">
+                <a class="btn btn-sm btn-outline-primary"
+                   href="/admin/worlds/{{ world.id }}/scenes/{{ scene.id }}/preview?version={{ v }}"
+                   target="_blank" rel="noopener">Open</a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  {% else %}
+  <p class="text-muted">No scenes found for this world.</p>
+  {% endfor %}
+</div>
+{% else %}
+<p class="text-muted">World not found.</p>
+<a class="btn btn-outline-secondary" href="/admin/worlds">Back</a>
+{% endif %}
+{% endblock %}

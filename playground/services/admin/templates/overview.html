@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Overview{% endblock %}
+{% block content %}
+<h1 class="h3 mb-4">Overview</h1>
+<div class="row g-3">
+  <div class="col-md-4">
+    <div class="card border-0 shadow-sm h-100">
+      <div class="card-body">
+        <div class="text-muted small">Events (24h)</div>
+        <div class="fs-2 fw-semibold">{{ stats.events_today }}</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card border-0 shadow-sm h-100">
+      <div class="card-body">
+        <div class="text-muted small">Users</div>
+        <div class="fs-2 fw-semibold">{{ stats.users_count }}</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card border-0 shadow-sm h-100">
+      <div class="card-body">
+        <div class="text-muted small">Live experiments</div>
+        <div class="fs-2 fw-semibold">{{ stats.live_experiments }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

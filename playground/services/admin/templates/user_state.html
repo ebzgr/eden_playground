@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}User state{% endblock %}
+{% block content %}
+<h1 class="h3 mb-3">Player state</h1>
+<p class="text-muted">User: <code>{{ user.id if user else user_id }}</code></p>
+<div class="card border-0 shadow-sm">
+  <div class="table-responsive">
+    <table class="table table-hover mb-0">
+      <thead class="table-light"><tr><th>Key</th><th>Value</th></tr></thead>
+      <tbody>
+        {% for row in rows %}
+        <tr>
+          <td><code>{{ row.key }}</code></td>
+          <td><pre class="mb-0 small">{{ row.value }}</pre></td>
+        </tr>
+        {% else %}
+        <tr><td colspan="2" class="text-muted text-center py-3">No state keys.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

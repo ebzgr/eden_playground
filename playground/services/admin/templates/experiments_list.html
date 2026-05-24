@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% block title %}Experiments{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h1 class="h3 mb-0">Experiments</h1>
+  <a class="btn btn-primary" href="/admin/experiments/new">Create experiment</a>
+</div>
+<p class="text-muted">Scene version A/B tests only. Past end dates are auto-marked <span class="badge text-bg-dark">done</span> on load.</p>
+
+<div class="accordion mb-4" id="exp-filters">
+  <div class="accordion-item shadow-sm border-0">
+    <h2 class="accordion-header">
+      <button class="accordion-button {% if not filters.active() %}collapsed{% endif %}" type="button"
+              data-bs-toggle="collapse" data-bs-target="#exp-filters-body">
+        Filters{% if filters.active() %} <span class="badge text-bg-primary ms-2">active</span>{% endif %}
+      </button>
+    </h2>
+    <div id="exp-filters-body" class="accordion-collapse collapse {% if filters.active() %}show{% endif %}">
+      <div class="accordion-body">
+        <form method="get" action="/admin/experiments" class="row g-3 align-items-end">
+          <input type="hidden" name="page" value="1"/>
+          <div class="col-md-2">
+            <label class="form-label small">State</label>
+            <select class="form-select form-select-sm" name="state">
+              <option value="">Any</option>
+              {% for s in filter_options.states %}
+              <option value="{{ s }}" {% if filters.state == s %}selected{% endif %}>{{ s }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-md-2">
+            <label class="form-label small">Assignment</label>
+            <select class="form-select form-select-sm" name="assignment_scope">
+              <option value="">Any</option>
+              {% for s in filter_options.assignment_scopes %}
+              <option value="{{ s }}" {% if filters.assignment_scope == s %}selected{% endif %}>{{ s }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label small">World</label>
+            <select class="form-select form-select-sm" name="world_id">
+              <option value="">Any</option>
+              {% for w in filter_options.worlds %}
+              <option value="{{ w }}" {% if filters.world_id == w %}selected{% endif %}>{{ w }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-md-2">
+            <label class="form-label small">Per page</label>
+            <select class="form-select form-select-sm" name="page_size">
+              {% for n in [25, 50, 100] %}
+              <option value="{{ n }}" {% if pagination.page_size == n %}selected{% endif %}>{{ n }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-12">
+            <button type="submit" class="btn btn-primary btn-sm">Apply</button>
+            <a class="btn btn-outline-secondary btn-sm" href="/admin/experiments">Clear</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card border-0 shadow-sm">
+  <div class="table-responsive">
+    <table class="table table-hover mb-0 align-middle">
+      <thead class="table-light">
+        <tr>
+          <th>Name</th>
+          <th>Scene</th>
+          <th>Schedule (UTC)</th>
+          <th>State</th>
+          <th>Assignment</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for exp in experiments %}
+        <tr>
+          <td>
+            <a href="/admin/experiments/{{ exp.id }}" class="fw-medium text-decoration-none">{{ exp.name }}</a>
+            <div class="small text-muted font-monospace">{{ exp.id }}</div>
+          </td>
+          <td class="small"><code>{{ exp.target.world }}</code> / <code>{{ exp.target.scene }}</code></td>
+          <td class="small text-nowrap">{{ exp.starts_at|format_dt }}<br/>→ {{ exp.ends_at|format_dt }}</td>
+          <td>
+            {% if exp.state == 'live' %}<span class="badge text-bg-success">{{ exp.state }}</span>
+            {% elif exp.state == 'paused' %}<span class="badge text-bg-warning">{{ exp.state }}</span>
+            {% elif exp.state == 'done' %}<span class="badge text-bg-dark">{{ exp.state }}</span>
+            {% else %}<span class="badge text-bg-secondary">{{ exp.state }}</span>{% endif %}
+          </td>
+          <td>{{ exp.assignment_scope }}</td>
+          <td><a class="btn btn-sm btn-outline-primary" href="/admin/experiments/{{ exp.id }}">Manage</a></td>
+        </tr>
+        {% else %}
+        <tr><td colspan="6" class="text-muted text-center py-4">No experiments match these filters.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% include "_pagination.html" %}
+</div>
+{% endblock %}

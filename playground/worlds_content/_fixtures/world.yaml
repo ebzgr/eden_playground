@@ -1,0 +1,8 @@
+id: _fixtures
+name: Test Fixtures
+default_scene: smoke
+public_scenes:
+  - smoke
+scene_versions:
+  smoke: base
+navigation: {}

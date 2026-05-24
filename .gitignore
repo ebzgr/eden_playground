@@ -19,6 +19,8 @@ yarn-error.log*
 pnpm-debug.log*
 
 # Python
+playground.db
+test_playground.db
 __pycache__/
 *.py[cod]
 .pytest_cache/
@@ -35,3 +37,4 @@ env/
 .vscode/
 .idea/
 
+legacy/

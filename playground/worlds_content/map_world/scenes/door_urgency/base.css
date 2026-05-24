@@ -1,0 +1,67 @@
+body.pg-scene {
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  color: #fff;
+}
+
+.mw-door-scene {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(0.5rem, 2vh, 1.25rem);
+  overflow: hidden;
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+}
+
+.mw-door-scene .mw-panel {
+  max-width: min(36rem, 100%);
+  max-height: 100%;
+  overflow: hidden;
+  text-align: center;
+}
+
+.mw-back {
+  min-height: 2.75rem;
+  margin-bottom: clamp(0.5rem, 2vh, 1.25rem);
+  padding: 0.5rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.2);
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.mw-door-title {
+  margin: 0 0 0.75rem;
+  font-size: clamp(1.25rem, 4.5vw, 2.25rem);
+  font-weight: 800;
+}
+
+.mw-door-text {
+  margin: 0 0 0.75rem;
+  font-size: clamp(0.9rem, 2.8vw, 1.05rem);
+  line-height: 1.45;
+}
+
+.mw-countdown {
+  font-size: clamp(1.5rem, 5vw, 2.5rem);
+  font-weight: 900;
+}
+
+.mw-shout {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: clamp(1rem, 3.5vw, 1.75rem);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.mw-stat {
+  margin: 0.35rem 0 0;
+  padding: 0.4rem 0.85rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.2);
+  font-size: clamp(0.8rem, 2.5vw, 1rem);
+  font-weight: 600;
+}

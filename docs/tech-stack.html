@@ -252,13 +252,28 @@
     </div>
 
     <div class="content-section" id="technologies">
-      <h2>Technologies</h2>
-      <p style="margin-bottom: 0;">
-        Languages, runtimes, frameworks, and hosting choices for each deployable will be recorded here.
+      <h2>Technologies (v0 — implemented)</h2>
+      <p>
+        The first runnable backend skeleton lives in the <code>playground/</code> Python package.
+        See <a href="architecture.html" style="color: var(--accent);">System Architecture (v0)</a> for full detail.
       </p>
-      <div class="placeholder-block">
-        <em>To be filled in: stacks for Platform API, static hosting, database, batch jobs, and dashboard frontends.</em>
-      </div>
+      <table class="stack-table">
+        <thead>
+          <tr><th>Component</th><th>v0 choice</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Platform API</td><td>Python 3.12, FastAPI, Uvicorn, Pydantic v2</td></tr>
+          <tr><td>Database</td><td>SQLite + SQLAlchemy async + Alembic</td></tr>
+          <tr><td>World scenes</td><td>Vanilla HTML/CSS/JS on disk + JSON version patches</td></tr>
+          <tr><td>Demo SDK</td><td>YAML-driven scroll demos — GSAP, ScrollTrigger, <code>demo.js</code> (when <code>demo.yaml</code> present)</td></tr>
+          <tr><td>Event SDK</td><td><code>tracker.js</code> (bundled static)</td></tr>
+          <tr><td>Admin UI</td><td>Jinja2 server-rendered pages, HTTP basic auth</td></tr>
+          <tr><td>Services</td><td>Identity, Event Tracker, World Builder, A/B Testing, Player State, Admin</td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top: 1rem; color: var(--text-secondary); font-size: 0.9rem;">
+        Deferred: Postgres, Docker deploy, LOLA/adaptive loops, separate static CDN, email return links, guardrail automation.
+      </p>
     </div>
 
   </main>

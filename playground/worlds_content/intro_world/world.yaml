@@ -1,0 +1,18 @@
+id: intro_world
+name: Intro World
+default_scene: lab
+public_scenes:
+  - lab
+  - about
+scene_versions:
+  lab: base
+  consent: base
+  demo: base
+  about: base
+navigation:
+  lab:
+    continue: consent
+  consent:
+    start_experience: demo
+  demo:
+    continue: welcome

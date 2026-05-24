@@ -18,7 +18,13 @@
       { "href": "research-methodology.html", "label": "Research Methodology" }
     ],
     "tech-stack.html": [
+      { "href": "architecture.html", "label": "System Architecture (v0)" },
       { "href": "conceptual.html", "label": "Conceptual Layer" },
+      { "href": "worlds.html", "label": "Worlds" },
+      { "href": "research-methodology.html", "label": "Research Methodology" }
+    ],
+    "architecture.html": [
+      { "href": "tech-stack.html", "label": "Tech Stack" },
       { "href": "worlds.html", "label": "Worlds" },
       { "href": "research-methodology.html", "label": "Research Methodology" }
     ],

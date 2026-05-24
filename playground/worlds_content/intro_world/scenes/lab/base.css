@@ -1,0 +1,151 @@
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,500;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,400;1,400;1,500&display=swap");
+
+body.pg-scene {
+  font-family: "Cormorant Garamond", "Palatino Linotype", Palatino, Georgia, serif;
+  background: radial-gradient(ellipse at 50% 30%, #1a1430 0%, #0a0815 55%, #04030a 100%);
+  color: #f4efe8;
+}
+
+.lab-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: clamp(0.75rem, 2vh, 2rem);
+  overflow: hidden;
+  position: relative;
+  gap: clamp(2rem, 8vh, 4rem);
+}
+
+.lab-aurora {
+  position: absolute;
+  inset: -25%;
+  background: conic-gradient(
+    from 220deg at 50% 50%,
+    rgba(90, 60, 142, 0.18),
+    rgba(155, 110, 232, 0.22) 25%,
+    rgba(90, 60, 142, 0.18) 50%,
+    rgba(52, 26, 106, 0.2) 75%,
+    rgba(90, 60, 142, 0.18) 100%
+  );
+  filter: blur(70px);
+  opacity: 0.65;
+  animation: lab-aurora 28s linear infinite;
+  z-index: 0;
+}
+
+@keyframes lab-aurora {
+  to { transform: rotate(360deg); }
+}
+
+.lab-glow {
+  position: absolute;
+  width: min(60vw, 32rem);
+  height: min(60vw, 32rem);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(200, 160, 255, 0.18), transparent 70%);
+  filter: blur(8px);
+  animation: lab-pulse 5s ease-in-out infinite;
+  z-index: 0;
+}
+
+@keyframes lab-pulse {
+  0%, 100% { opacity: 0.5; transform: scale(0.95); }
+  50%      { opacity: 1; transform: scale(1.08); }
+}
+
+.lab-credits {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(1.25rem, 4vh, 2.25rem);
+}
+
+.lab-line {
+  margin: 0;
+  visibility: hidden;
+  opacity: 0;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+.lab-presenter {
+  font-family: "JetBrains Mono", ui-monospace, "Menlo", monospace;
+  font-size: clamp(1.35rem, 4.8vw, 2.75rem);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #f5e8ff;
+  text-shadow:
+    0 0 24px rgba(200, 160, 255, 0.55),
+    0 0 48px rgba(120, 80, 200, 0.3);
+  max-width: min(36rem, 92vw);
+  line-height: 1.2;
+}
+
+.lab-connector {
+  font-family: "JetBrains Mono", ui-monospace, "Menlo", monospace;
+  font-style: italic;
+  font-size: clamp(0.85rem, 2.2vw, 1.05rem);
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  color: rgba(244, 239, 232, 0.5);
+}
+
+.lab-title {
+  font-family: "JetBrains Mono", ui-monospace, "Menlo", monospace;
+  font-size: clamp(1.15rem, 3.8vw, 2.35rem);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #f5e8ff;
+  text-shadow:
+    0 0 24px rgba(200, 160, 255, 0.55),
+    0 0 48px rgba(120, 80, 200, 0.3);
+  max-width: min(36rem, 92vw);
+  line-height: 1.35;
+}
+
+.lab-line.is-scrambling {
+  color: #c9b3ff;
+  text-shadow: 0 0 18px rgba(180, 140, 255, 0.65);
+}
+
+.lab-link {
+  position: relative;
+  z-index: 2;
+  padding: 0.4rem 0.75rem;
+  font-family: "Cormorant Garamond", "Palatino Linotype", serif;
+  font-style: italic;
+  font-size: clamp(1rem, 2.4vw, 1.15rem);
+  letter-spacing: 0.08em;
+  color: rgba(245, 220, 200, 0.85);
+  text-decoration: underline;
+  text-decoration-color: rgba(245, 220, 200, 0.4);
+  text-underline-offset: 0.4rem;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: color 0.25s ease, text-decoration-color 0.25s ease, transform 0.25s ease;
+}
+
+.lab-link.is-ready {
+  pointer-events: auto;
+}
+
+.lab-link.is-ready:hover,
+.lab-link.is-ready:focus-visible {
+  color: #fff3cf;
+  text-decoration-color: #fff3cf;
+  transform: translateY(-2px);
+  outline: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lab-aurora,
+  .lab-glow { animation: none; }
+  .lab-line { visibility: visible; opacity: 1; }
+  .lab-link { visibility: visible; opacity: 1; pointer-events: auto; }
+}

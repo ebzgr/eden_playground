@@ -1,0 +1,9 @@
+id: deal_world
+name: Deal World
+default_scene: intro
+default_version: base
+navigation:
+  intro:
+    cta_click: checkout
+  checkout:
+    done: intro

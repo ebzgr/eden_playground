@@ -1,0 +1,29 @@
+id: map_world
+name: Map World
+default_scene: welcome
+public_scenes: []
+scene_versions:
+  welcome: base
+  map: base
+  door_urgency: base
+  door_reward: base
+  door_social: base
+  door_deal: base
+  door_framing: base
+  door_persuasion: base
+navigation:
+  welcome:
+    open_map: map
+  map: {}
+  door_urgency:
+    back: map
+  door_reward:
+    back: map
+  door_social:
+    back: map
+  door_deal:
+    back: map
+  door_framing:
+    back: map
+  door_persuasion:
+    back: map

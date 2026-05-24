@@ -1,0 +1,13 @@
+description: Red urgency CTA for the deal intro.
+
+patches:
+  - { op: setText,  selector: "#cta", value: "Last chance — claim your deal!" }
+  - { op: addClass, selector: "#cta", value: "cta-urgent" }
+
+css_append: |
+  .cta-urgent {
+    background: #c0392b;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+  }

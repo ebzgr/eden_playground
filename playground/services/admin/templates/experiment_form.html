@@ -1,0 +1,231 @@
+{% extends "base.html" %}
+{% block title %}New experiment{% endblock %}
+{% block content %}
+<div class="pg-exp-page mx-auto" style="max-width: 52rem;">
+  <div class="mb-4">
+    <a href="/admin/experiments" class="text-muted text-decoration-none small"><i class="bi bi-arrow-left"></i> Experiments</a>
+    <h1 class="h3 mt-2 mb-1">New experiment</h1>
+    <p class="text-muted small mb-0">Scene version A/B test — pick a world, scene, and variant arms.</p>
+  </div>
+
+  <form method="post" action="/admin/experiments" id="exp-create-form" class="vstack gap-4">
+    <section class="card border-0 shadow-sm">
+      <div class="card-body">
+        <h2 class="h6 text-uppercase text-muted mb-3">Identity</h2>
+        <div class="row g-3">
+          <div class="col-md-7">
+            <label class="form-label">Name <span class="text-danger">*</span></label>
+            <input class="form-control" name="name" required placeholder="Deal intro — urgency test"/>
+            <div class="form-text">Shown in the admin UI and reports.</div>
+          </div>
+          <div class="col-md-5">
+            <label class="form-label">Technical ID <span class="text-muted">(optional)</span></label>
+            <input class="form-control font-monospace" name="id" placeholder="auto from name"/>
+            <div class="form-text">Stable key for APIs and events. Not auto-generated like user UUIDs — leave blank to derive <code>exp_…</code> from the name.</div>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Assignment</label>
+            <select class="form-select" name="assignment_scope">
+              <option value="user">User — sticky across sessions</option>
+              <option value="session">Session — new arm each visit</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Initial state</label>
+            <select class="form-select" name="state">
+              <option value="draft" selected>Draft</option>
+              <option value="live">Live</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card border-0 shadow-sm">
+      <div class="card-body">
+        <h2 class="h6 text-uppercase text-muted mb-3">Target scene</h2>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label">World</label>
+            <select class="form-select" id="world-select" name="world" required>
+              <option value="">Select world…</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Scene</label>
+            <select class="form-select" id="scene-select" name="scene" required disabled>
+              <option value="">Select scene…</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card border-0 shadow-sm">
+      <div class="card-body">
+        <h2 class="h6 text-uppercase text-muted mb-3">Schedule <span class="fw-normal text-lowercase">(UTC)</span></h2>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label">Start</label>
+            <input class="form-control" type="datetime-local" name="starts_at"
+                   value="{{ default_starts|format_dt_local }}" required/>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">End</label>
+            <input class="form-control" type="datetime-local" name="ends_at"
+                   value="{{ default_ends|format_dt_local }}" required/>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card border-0 shadow-sm">
+      <div class="card-body">
+        <h2 class="h6 text-uppercase text-muted mb-3">Explanation</h2>
+        <textarea class="form-control" name="explanation" rows="4"
+                  placeholder="Hypothesis, metrics, audience, rollout notes…"></textarea>
+      </div>
+    </section>
+
+    <section class="card border-0 shadow-sm">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h2 class="h6 text-uppercase text-muted mb-0">Arms</h2>
+          <button type="button" class="btn btn-sm btn-outline-primary" id="add-arm-btn">
+            <i class="bi bi-plus-lg"></i> Add arm
+          </button>
+        </div>
+        <p class="text-muted small">At least two arms. Weights control traffic split (e.g. 50 / 50 or 1 / 1 / 1).</p>
+        <div id="arms-container" class="vstack gap-2"></div>
+      </div>
+    </section>
+
+    <div class="d-flex gap-2 pb-4">
+      <button type="submit" class="btn btn-primary">Create experiment</button>
+      <a class="btn btn-outline-secondary" href="/admin/experiments">Cancel</a>
+    </div>
+  </form>
+</div>
+
+<template id="arm-row-template">
+  <div class="arm-row border rounded-3 p-3 bg-body-secondary bg-opacity-25">
+    <div class="row g-2 align-items-end">
+      <div class="col-md-3">
+        <label class="form-label small mb-1">Arm ID</label>
+        <input class="form-control form-control-sm arm-id-input" name="arm_id" required placeholder="control"/>
+      </div>
+      <div class="col-md-5">
+        <label class="form-label small mb-1">Scene version</label>
+        <select class="form-select form-select-sm arm-version-select" name="arm_version" required disabled>
+          <option value="">Select scene first…</option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <label class="form-label small mb-1">Weight</label>
+        <input class="form-control form-control-sm" name="arm_weight" type="number" min="1" value="50" required/>
+      </div>
+      <div class="col-md-2 text-end">
+        <button type="button" class="btn btn-sm btn-outline-danger remove-arm-btn" title="Remove arm">
+          <i class="bi bi-trash"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+(function () {
+  const catalog = {{ catalog_json|safe }};
+  const worldSelect = document.getElementById("world-select");
+  const sceneSelect = document.getElementById("scene-select");
+  const armsContainer = document.getElementById("arms-container");
+  const armTemplate = document.getElementById("arm-row-template");
+  const addArmBtn = document.getElementById("add-arm-btn");
+
+  Object.keys(catalog).sort().forEach((worldId) => {
+    const opt = document.createElement("option");
+    opt.value = worldId;
+    opt.textContent = catalog[worldId].label + " (" + worldId + ")";
+    worldSelect.appendChild(opt);
+  });
+
+  function currentVersions() {
+    const w = worldSelect.value;
+    const s = sceneSelect.value;
+    if (!w || !s || !catalog[w] || !catalog[w].scenes[s]) return [];
+    return catalog[w].scenes[s];
+  }
+
+  function fillSceneSelect() {
+    const w = worldSelect.value;
+    sceneSelect.innerHTML = '<option value="">Select scene…</option>';
+    sceneSelect.disabled = !w;
+    if (!w || !catalog[w]) return;
+    Object.keys(catalog[w].scenes).sort().forEach((sceneId) => {
+      const opt = document.createElement("option");
+      opt.value = sceneId;
+      opt.textContent = sceneId;
+      sceneSelect.appendChild(opt);
+    });
+    const def = catalog[w].default_scene;
+    if (def && catalog[w].scenes[def]) sceneSelect.value = def;
+    refreshVersionSelects();
+  }
+
+  function refreshVersionSelects() {
+    const versions = currentVersions();
+    armsContainer.querySelectorAll(".arm-version-select").forEach((sel) => {
+      const prev = sel.value;
+      sel.innerHTML = "";
+      if (!versions.length) {
+        sel.disabled = true;
+        sel.innerHTML = '<option value="">Select scene first…</option>';
+        return;
+      }
+      sel.disabled = false;
+      versions.forEach((v) => {
+        const opt = document.createElement("option");
+        opt.value = v;
+        opt.textContent = v;
+        sel.appendChild(opt);
+      });
+      if (prev && versions.includes(prev)) sel.value = prev;
+    });
+  }
+
+  function addArmRow(preset) {
+    const node = armTemplate.content.cloneNode(true);
+    const row = node.querySelector(".arm-row");
+    if (preset) {
+      row.querySelector(".arm-id-input").value = preset.id || "";
+      row.querySelector("[name=arm_weight]").value = preset.weight || 50;
+    }
+    row.querySelector(".remove-arm-btn").addEventListener("click", () => {
+      if (armsContainer.querySelectorAll(".arm-row").length <= 2) {
+        alert("Keep at least two arms.");
+        return;
+      }
+      row.remove();
+    });
+    armsContainer.appendChild(node);
+    refreshVersionSelects();
+    if (preset && preset.version) {
+      const sel = armsContainer.lastElementChild.querySelector(".arm-version-select");
+      if (sel) sel.value = preset.version;
+    }
+  }
+
+  worldSelect.addEventListener("change", fillSceneSelect);
+  sceneSelect.addEventListener("change", refreshVersionSelects);
+  addArmBtn.addEventListener("click", () => addArmRow());
+
+  addArmRow({ id: "control", version: "base", weight: 50 });
+  addArmRow({ id: "variant", version: "", weight: 50 });
+
+  if (worldSelect.options.length > 1) {
+    worldSelect.selectedIndex = 1;
+    fillSceneSelect();
+  }
+})();
+</script>
+{% endblock %}

@@ -1,0 +1,99 @@
+body.pg-scene {
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  color: #fff;
+}
+
+.mw-door-scene {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(0.5rem, 2vh, 1.25rem);
+  overflow: hidden;
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+}
+
+.mw-door-scene .mw-panel {
+  max-width: min(36rem, 100%);
+  max-height: 100%;
+  overflow: hidden;
+  text-align: center;
+}
+
+.mw-back {
+  min-height: 2.75rem;
+  margin-bottom: clamp(0.5rem, 2vh, 1.25rem);
+  padding: 0.5rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.15);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.mw-badge {
+  display: inline-block;
+  margin: 0 0 0.5rem;
+  padding: 0.3rem 0.85rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.25);
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.mw-door-title {
+  margin: 0 0 0.75rem;
+  font-size: clamp(1.15rem, 4vw, 1.85rem);
+  font-weight: 800;
+}
+
+.mw-quote {
+  margin: 0;
+  font-size: clamp(0.9rem, 2.8vw, 1.1rem);
+  font-style: italic;
+  line-height: 1.45;
+}
+
+.mw-author {
+  margin: 0.5rem 0 0;
+  font-size: clamp(0.85rem, 2.5vw, 1rem);
+  font-weight: 600;
+}
+
+.mw-ai {
+  margin: 0.35rem 0 0.5rem;
+  font-size: 0.8rem;
+  opacity: 0.85;
+}
+
+.mw-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 0.5rem 0;
+}
+
+.mw-dots button {
+  width: 0.65rem;
+  height: 0.65rem;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35);
+  cursor: pointer;
+}
+
+.mw-dots button[aria-selected="true"] {
+  background: #fff;
+  transform: scale(1.2);
+}
+
+.mw-join {
+  margin-top: 0.5rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: 0.5rem;
+  background: rgba(0, 0, 0, 0.15);
+  font-size: clamp(0.8rem, 2.4vw, 0.95rem);
+}

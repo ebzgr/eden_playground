@@ -1,0 +1,131 @@
+body.pg-scene {
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  color: #fff;
+  background: #1a1030;
+}
+
+.mw-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  padding: clamp(0.5rem, 1.5vh, 1.25rem) clamp(0.5rem, 2vw, 1rem);
+  overflow: hidden;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.mw-panel {
+  max-width: 56rem;
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(0.35rem, 1vh, 0.75rem);
+}
+
+.mw-map-title {
+  margin: 0;
+  font-size: clamp(1.25rem, 4.5vw, 2.5rem);
+  font-weight: 900;
+  line-height: 1.1;
+  background: linear-gradient(45deg, #ff6b6b, #00d4ff, #ffff00, #00ff88);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.mw-map-lead {
+  margin: 0;
+  font-size: clamp(0.8rem, 2.5vw, 1.05rem);
+  opacity: 0.95;
+}
+
+.mw-map-hint {
+  margin: 0;
+  font-size: clamp(0.75rem, 2.2vw, 0.95rem);
+  font-style: italic;
+  opacity: 0.8;
+}
+
+.mw-doors {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(0.4rem, 1.2vh, 1rem);
+  text-align: left;
+  min-height: 0;
+}
+
+.mw-door {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.2rem;
+  min-height: 0;
+  padding: clamp(0.5rem, 1.2vh, 1rem);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 0.75rem;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  cursor: pointer;
+  text-align: left;
+  color: inherit;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.mw-door:hover,
+.mw-door:focus-visible {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.45);
+  box-shadow: 0 0.5rem 1.25rem rgba(0, 0, 0, 0.25);
+  outline: none;
+}
+
+.mw-door-icon {
+  font-size: clamp(1.1rem, 3vw, 1.75rem);
+  line-height: 1;
+}
+
+.mw-door-badge {
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.15rem 0.45rem;
+  border-radius: 999px;
+  background: rgba(255, 107, 107, 0.85);
+}
+
+.mw-door-name {
+  font-size: clamp(0.85rem, 2.5vw, 1.1rem);
+  font-weight: 800;
+}
+
+.mw-door-desc {
+  font-size: clamp(0.7rem, 2vw, 0.85rem);
+  line-height: 1.35;
+  opacity: 0.9;
+  margin-top: auto;
+}
+
+.mw-door.urgency { box-shadow: inset 0 0 0 1px rgba(255, 107, 107, 0.35); }
+.mw-door.reward { box-shadow: inset 0 0 0 1px rgba(156, 136, 255, 0.35); }
+.mw-door.social { box-shadow: inset 0 0 0 1px rgba(6, 182, 212, 0.35); }
+.mw-door.deal { box-shadow: inset 0 0 0 1px rgba(46, 204, 113, 0.35); }
+.mw-door.framing { box-shadow: inset 0 0 0 1px rgba(245, 158, 11, 0.35); }
+.mw-door.persuasion { box-shadow: inset 0 0 0 1px rgba(231, 76, 60, 0.35); }
+
+@media (max-width: 52rem) {
+  .mw-doors {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 26rem) {
+  .mw-doors {
+    grid-template-columns: 1fr;
+  }
+}

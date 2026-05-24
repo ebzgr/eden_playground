@@ -1,0 +1,263 @@
+{% extends "base.html" %}
+{% block title %}Events{% endblock %}
+{% block extra_head %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h1 class="h3 mb-0">Events</h1>
+  <a class="btn btn-success" href="{{ export_url }}">
+    <i class="bi bi-download me-1"></i>Download CSV
+  </a>
+</div>
+
+<div class="card border-0 shadow-sm mb-3">
+  <div class="card-body pb-2">
+    <form method="get" action="/admin/events" class="row g-2 align-items-end" id="trend-form">
+      {% for k, v in filters.to_query_params().items() %}
+      <input type="hidden" name="{{ k }}" value="{{ v }}"/>
+      {% endfor %}
+      <input type="hidden" name="page" value="1"/>
+      <input type="hidden" name="page_size" value="{{ pagination.page_size }}"/>
+      <div class="col-md-4">
+        <label class="form-label small mb-1">Trend chart: event type</label>
+        <select class="form-select form-select-sm" name="trend_event_type" onchange="this.form.submit()">
+          <option value="">All types</option>
+          {% for t in filter_options.event_types %}
+          <option value="{{ t }}" {% if trend_event_type == t %}selected{% endif %}>{{ t }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-8">
+        <p class="text-muted small mb-0">Chart uses table filters (world, scene, dates, etc.) plus the type above. Table filter “Event type” is separate.</p>
+      </div>
+    </form>
+  </div>
+</div>
+{% with chart_id="events-daily-chart", chart_title="Events per day", chart_subtitle="Last 30 days — " ~ chart_label, chart_data_json=chart_json, chart_dataset_label="Events" %}
+{% include "_daily_chart.html" %}
+{% endwith %}
+
+<div class="accordion mb-4" id="events-filters">
+  <div class="accordion-item shadow-sm border-0">
+    <h2 class="accordion-header">
+      <button class="accordion-button {% if not filters.active() %}collapsed{% endif %}" type="button"
+              data-bs-toggle="collapse" data-bs-target="#events-filters-body">
+        Filters{% if filters.active() %} <span class="badge text-bg-primary ms-2">active</span>{% endif %}
+      </button>
+    </h2>
+    <div id="events-filters-body" class="accordion-collapse collapse {% if filters.active() %}show{% endif %}"
+         data-bs-parent="#events-filters">
+      <div class="accordion-body">
+    <p class="text-muted small mb-3">CSV export uses the same filters (up to {{ export_limit }} rows).</p>
+    <form method="get" action="/admin/events">
+      <input type="hidden" name="page" value="1"/>
+      <div class="row g-3">
+        <div class="col-md-3 col-lg-2">
+          <label class="form-label small">Date start (UTC)</label>
+          <input type="date" class="form-control form-control-sm" name="date_start"
+                 value="{{ filters.date_start.isoformat() if filters.date_start else '' }}"/>
+        </div>
+        <div class="col-md-3 col-lg-2">
+          <label class="form-label small">Date end (UTC)</label>
+          <input type="date" class="form-control form-control-sm" name="date_end"
+                 value="{{ filters.date_end.isoformat() if filters.date_end else '' }}"/>
+        </div>
+        <div class="col-md-3 col-lg-2">
+          <label class="form-label small">World</label>
+          <select class="form-select form-select-sm" name="world_id" id="filter-world">
+            <option value="">Any</option>
+            {% for w in filter_options.worlds %}
+            <option value="{{ w }}" {% if filters.world_id == w %}selected{% endif %}>{{ w }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-md-3 col-lg-2">
+          <label class="form-label small">Scene</label>
+          <select class="form-select form-select-sm" name="scene_id" id="filter-scene">
+            <option value="">Any</option>
+            {% for s in filter_options.scenes %}
+            <option value="{{ s }}" {% if filters.scene_id == s %}selected{% endif %}>{{ s }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-md-3 col-lg-2">
+          <label class="form-label small">Version</label>
+          <select class="form-select form-select-sm" name="scene_version_id">
+            <option value="">Any</option>
+            {% for v in filter_options.versions %}
+            <option value="{{ v }}" {% if filters.scene_version_id == v %}selected{% endif %}>{{ v }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-md-3 col-lg-2">
+          <label class="form-label small">Event type</label>
+          <select class="form-select form-select-sm" name="event_type">
+            <option value="">Any</option>
+            {% for t in filter_options.event_types %}
+            <option value="{{ t }}" {% if filters.event_type == t %}selected{% endif %}>{{ t }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-md-4 col-lg-3">
+          <label class="form-label small">Experiment</label>
+          <select class="form-select form-select-sm" name="experiment_id" id="filter-experiment">
+            <option value="">Any</option>
+            {% for exp in filter_options.experiments %}
+            <option value="{{ exp.id }}" {% if filters.experiment_id == exp.id %}selected{% endif %}>{{ exp.id }} ({{ exp.state }})</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-md-3 col-lg-2">
+          <label class="form-label small">Arm</label>
+          <select class="form-select form-select-sm" name="arm_id" id="filter-arm">
+            <option value="">Any</option>
+            {% for aid in filter_options.arm_ids %}
+            <option value="{{ aid }}" {% if filters.arm_id == aid %}selected{% endif %}>{{ aid }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-md-4 col-lg-3">
+          <label class="form-label small">User ID</label>
+          <input type="text" class="form-control form-control-sm" name="user_id" placeholder="UUID"
+                 value="{{ filters.user_id if filters.user_id else '' }}"/>
+        </div>
+        <div class="col-md-4 col-lg-3">
+          <label class="form-label small">Session ID</label>
+          <input type="text" class="form-control form-control-sm" name="session_id"
+                 value="{{ filters.session_id or '' }}"/>
+        </div>
+        <div class="col-md-3 col-lg-2">
+          <label class="form-label small">Per page</label>
+          <select class="form-select form-select-sm" name="page_size">
+            {% for n in [25, 50, 100] %}
+            <option value="{{ n }}" {% if pagination.page_size == n %}selected{% endif %}>{{ n }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+      <div class="mt-3 d-flex flex-wrap gap-2 align-items-center">
+        <button type="submit" class="btn btn-primary btn-sm">Apply filters</button>
+        <a class="btn btn-outline-secondary btn-sm" href="/admin/events">Clear</a>
+        <span class="text-muted small ms-2">
+          {% if filters.active() %}Filtered:{% else %}All:{% endif %}
+          <strong>{{ pagination.total }}</strong> events —
+          page {{ pagination.page }} of {{ pagination.total_pages }}
+        </span>
+      </div>
+    </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card border-0 shadow-sm">
+  <div class="table-responsive">
+    <table class="table table-sm table-hover table-events mb-0">
+      <thead class="table-light">
+        <tr>
+          <th>ID</th>
+          <th>Time (UTC)</th>
+          <th>Type</th>
+          <th>World</th>
+          <th>Scene</th>
+          <th>Version</th>
+          <th>Experiment</th>
+          <th>User</th>
+          <th>Details</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for e in events %}
+        <tr>
+          <td>{{ e.id }}</td>
+          <td class="text-nowrap small">{{ e.ts_server }}</td>
+          <td><span class="badge text-bg-secondary">{{ e.event_type }}</span></td>
+          <td>{{ e.world_id or "" }}</td>
+          <td>{{ e.scene_id or "" }}</td>
+          <td>{{ e.scene_version_id or "" }}</td>
+          <td class="small">{{ experiment_arm_label(e.experiment_arms) }}</td>
+          <td class="small" title="{{ e.user_id }}">{{ (e.user_id|string)[:8] }}…</td>
+          <td class="payload" title="{{ payload_preview(e.payload, 500) }}">{{ payload_preview(e.payload) }}</td>
+        </tr>
+        {% else %}
+        <tr><td colspan="9" class="text-center text-muted py-4">No events match these filters.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% include "_pagination.html" %}
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+(function () {
+  const pairs = {{ scene_pairs_json | safe }};
+  const experiments = {{ experiments_json | safe }};
+  const worldSel = document.getElementById("filter-world");
+  const sceneSel = document.getElementById("filter-scene");
+  const expSel = document.getElementById("filter-experiment");
+  const armSel = document.getElementById("filter-arm");
+  if (!worldSel) return;
+
+  const allSceneOptions = Array.from(sceneSel.options).slice(1).map(function (o) {
+    return { value: o.value, text: o.textContent };
+  });
+
+  function scenesForWorld(worldId) {
+    if (!worldId) return allSceneOptions;
+    const seen = new Set();
+    const out = [];
+    pairs.forEach(function (p) {
+      if (p.world_id === worldId && !seen.has(p.scene_id)) {
+        seen.add(p.scene_id);
+        out.push({ value: p.scene_id, text: p.scene_id });
+      }
+    });
+    return out.length ? out : allSceneOptions;
+  }
+
+  function refreshScenes() {
+    const current = sceneSel.value;
+    const list = scenesForWorld(worldSel.value);
+    sceneSel.innerHTML = '<option value="">Any</option>';
+    list.forEach(function (s) {
+      const o = document.createElement("option");
+      o.value = s.value;
+      o.textContent = s.text;
+      if (s.value === current) o.selected = true;
+      sceneSel.appendChild(o);
+    });
+  }
+
+  function armsForExperiment(expId) {
+    if (!expId) {
+      return experiments.flatMap(function (e) {
+        return (e.arms || []).map(function (a) { return a.id; });
+      });
+    }
+    const exp = experiments.find(function (e) { return e.id === expId; });
+    return exp ? (exp.arms || []).map(function (a) { return a.id; }) : [];
+  }
+
+  function refreshArms() {
+    const current = armSel.value;
+    const ids = [...new Set(armsForExperiment(expSel.value))].sort();
+    armSel.innerHTML = '<option value="">Any</option>';
+    ids.forEach(function (id) {
+      const o = document.createElement("option");
+      o.value = id;
+      o.textContent = id;
+      if (id === current) o.selected = true;
+      armSel.appendChild(o);
+    });
+  }
+
+  worldSel.addEventListener("change", refreshScenes);
+  expSel.addEventListener("change", refreshArms);
+  refreshScenes();
+  refreshArms();
+})();
+</script>
+{% endblock %}

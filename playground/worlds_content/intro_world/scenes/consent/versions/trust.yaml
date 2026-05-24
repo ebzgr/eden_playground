@@ -1,0 +1,23 @@
+description: |
+  Trust-building consent copy.
+  Specific privacy reassurances, calmer phrasing, withdraw-anytime promise.
+
+patches:
+  - { op: setText, selector: ".consent-title",     value: "Your privacy comes first" }
+  - { op: setText, selector: ".consent-lead",      value: "This research is run by independent scholars studying how marketing shapes decisions. We only record anonymous clicks — never your name, email, or device. You can withdraw at any time." }
+  - { op: setText, selector: ".consent-readmore",  value: "See how your data is protected →" }
+  - { op: setText, selector: ".consent-agree",     value: "I understand and agree to share anonymous research data." }
+  - { op: setText, selector: ".consent-start",     value: "Continue" }
+
+css_append: |
+  .consent-card {
+    border-color: rgba(180, 220, 240, 0.35);
+    box-shadow: 0 12px 40px rgba(20, 60, 90, 0.35);
+  }
+  .consent-title::before {
+    content: "🔒  ";
+    font-size: 0.9em;
+  }
+  .consent-start {
+    background: linear-gradient(180deg, #b8d8ff, #6b9cd8);
+  }

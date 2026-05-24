@@ -1,0 +1,333 @@
+length: 5200
+scrub: 1.5
+pin: true
+default_ease: power2.inOut
+progress_bar: true
+background:
+  type: gradient
+  value: 'radial-gradient(ellipse 140% 110% at 50% 35%, #1a1240 0%, #0d0b2c 35%, #06061a 65%, #02020a 100%)'
+
+layers:
+  # Far starfield — small dim stars, drifts very slowly with scroll
+  - id: stars_far
+    type: div
+    class: starfield
+    z: 0
+    parallax: 0.15
+    initial: { opacity: 0.85 }
+    html: |
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice" class="starfield-svg" aria-hidden="true">
+        <g fill="#ffffff">
+          <circle cx="4.2"  cy="6.7"  r="0.18" opacity="0.55"/>
+          <circle cx="11.4" cy="13.8" r="0.22" opacity="0.65"/>
+          <circle cx="17.9" cy="4.1"  r="0.16" opacity="0.5"/>
+          <circle cx="24.3" cy="22.5" r="0.2"  opacity="0.6"/>
+          <circle cx="29.5" cy="9.3"  r="0.18" opacity="0.55"/>
+          <circle cx="36.1" cy="17.6" r="0.24" opacity="0.7"/>
+          <circle cx="42.7" cy="6.9"  r="0.18" opacity="0.55"/>
+          <circle cx="48.2" cy="25.4" r="0.2"  opacity="0.6"/>
+          <circle cx="55.4" cy="11.2" r="0.18" opacity="0.55"/>
+          <circle cx="61.8" cy="19.1" r="0.22" opacity="0.65"/>
+          <circle cx="67.5" cy="5.8"  r="0.16" opacity="0.5"/>
+          <circle cx="73.2" cy="14.6" r="0.2"  opacity="0.6"/>
+          <circle cx="79.8" cy="8.4"  r="0.18" opacity="0.55"/>
+          <circle cx="86.5" cy="21.7" r="0.22" opacity="0.65"/>
+          <circle cx="93.1" cy="12.9" r="0.18" opacity="0.55"/>
+          <circle cx="3.8"  cy="32.4" r="0.2"  opacity="0.6"/>
+          <circle cx="14.6" cy="29.7" r="0.18" opacity="0.55"/>
+          <circle cx="20.5" cy="38.1" r="0.24" opacity="0.7"/>
+          <circle cx="32.4" cy="34.6" r="0.18" opacity="0.55"/>
+          <circle cx="39.8" cy="42.3" r="0.2"  opacity="0.6"/>
+          <circle cx="46.1" cy="36.8" r="0.16" opacity="0.5"/>
+          <circle cx="53.7" cy="44.2" r="0.22" opacity="0.65"/>
+          <circle cx="60.4" cy="33.5" r="0.18" opacity="0.55"/>
+          <circle cx="68.2" cy="40.8" r="0.2"  opacity="0.6"/>
+          <circle cx="75.6" cy="35.1" r="0.18" opacity="0.55"/>
+          <circle cx="82.3" cy="43.4" r="0.22" opacity="0.65"/>
+          <circle cx="89.1" cy="37.7" r="0.18" opacity="0.55"/>
+          <circle cx="96.4" cy="44.9" r="0.2"  opacity="0.6"/>
+          <circle cx="5.1"  cy="56.3" r="0.2"  opacity="0.6"/>
+          <circle cx="13.4" cy="63.8" r="0.18" opacity="0.55"/>
+          <circle cx="22.6" cy="58.1" r="0.22" opacity="0.65"/>
+          <circle cx="31.7" cy="66.4" r="0.18" opacity="0.55"/>
+          <circle cx="40.5" cy="55.9" r="0.2"  opacity="0.6"/>
+          <circle cx="49.3" cy="64.2" r="0.16" opacity="0.5"/>
+          <circle cx="58.7" cy="59.6" r="0.22" opacity="0.65"/>
+          <circle cx="67.8" cy="66.8" r="0.18" opacity="0.55"/>
+          <circle cx="76.2" cy="57.4" r="0.2"  opacity="0.6"/>
+          <circle cx="85.4" cy="65.7" r="0.18" opacity="0.55"/>
+          <circle cx="94.2" cy="60.1" r="0.22" opacity="0.65"/>
+          <circle cx="7.6"  cy="78.5" r="0.18" opacity="0.55"/>
+          <circle cx="17.2" cy="84.2" r="0.2"  opacity="0.6"/>
+          <circle cx="26.4" cy="77.8" r="0.22" opacity="0.65"/>
+          <circle cx="35.8" cy="85.6" r="0.18" opacity="0.55"/>
+          <circle cx="44.6" cy="79.3" r="0.2"  opacity="0.6"/>
+          <circle cx="53.1" cy="87.4" r="0.16" opacity="0.5"/>
+          <circle cx="62.3" cy="80.7" r="0.22" opacity="0.65"/>
+          <circle cx="71.5" cy="88.1" r="0.18" opacity="0.55"/>
+          <circle cx="80.4" cy="81.6" r="0.2"  opacity="0.6"/>
+          <circle cx="89.7" cy="89.3" r="0.22" opacity="0.65"/>
+          <circle cx="97.1" cy="82.5" r="0.18" opacity="0.55"/>
+          <circle cx="9.3"  cy="48.6" r="0.18" opacity="0.55"/>
+          <circle cx="25.7" cy="50.2" r="0.16" opacity="0.5"/>
+          <circle cx="43.8" cy="49.5" r="0.18" opacity="0.55"/>
+          <circle cx="64.5" cy="50.8" r="0.16" opacity="0.5"/>
+          <circle cx="84.6" cy="49.1" r="0.18" opacity="0.55"/>
+          <circle cx="11.8" cy="72.3" r="0.16" opacity="0.5"/>
+          <circle cx="34.9" cy="73.1" r="0.18" opacity="0.55"/>
+          <circle cx="57.6" cy="71.8" r="0.16" opacity="0.5"/>
+          <circle cx="79.1" cy="72.5" r="0.18" opacity="0.55"/>
+        </g>
+      </svg>
+
+  # Near starfield — fewer larger stars with twinkle, drifts faster
+  - id: stars_near
+    type: div
+    class: starfield
+    z: 2
+    parallax: 0.4
+    initial: { opacity: 0.95 }
+    html: |
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice" class="starfield-svg" aria-hidden="true">
+        <g fill="#fff5e1">
+          <circle class="twinkle d1" cx="14.5" cy="22.8" r="0.55" opacity="0.9"/>
+          <circle class="twinkle d2" cx="38.2" cy="14.6" r="0.7"  opacity="0.95"/>
+          <circle class="twinkle d3" cx="63.4" cy="9.5"  r="0.6"  opacity="0.9"/>
+          <circle class="twinkle d4" cx="82.7" cy="18.3" r="0.5"  opacity="0.85"/>
+          <circle class="twinkle d2" cx="7.8"  cy="38.1" r="0.65" opacity="0.92"/>
+          <circle class="twinkle d1" cx="29.6" cy="44.7" r="0.55" opacity="0.88"/>
+          <circle class="twinkle d4" cx="51.3" cy="32.5" r="0.7"  opacity="0.95"/>
+          <circle class="twinkle d3" cx="71.8" cy="42.6" r="0.6"  opacity="0.9"/>
+          <circle class="twinkle d1" cx="91.4" cy="34.9" r="0.55" opacity="0.88"/>
+          <circle class="twinkle d2" cx="16.2" cy="62.5" r="0.6"  opacity="0.9"/>
+          <circle class="twinkle d4" cx="42.1" cy="56.8" r="0.7"  opacity="0.95"/>
+          <circle class="twinkle d3" cx="68.5" cy="63.2" r="0.55" opacity="0.88"/>
+          <circle class="twinkle d1" cx="88.3" cy="58.7" r="0.65" opacity="0.92"/>
+          <circle class="twinkle d2" cx="22.7" cy="83.4" r="0.6"  opacity="0.9"/>
+          <circle class="twinkle d4" cx="48.6" cy="76.5" r="0.7"  opacity="0.95"/>
+          <circle class="twinkle d3" cx="74.2" cy="84.8" r="0.55" opacity="0.88"/>
+          <circle class="twinkle d1" cx="94.6" cy="77.1" r="0.65" opacity="0.92"/>
+        </g>
+        <g fill="#dcd0ff">
+          <circle class="twinkle d3" cx="55.7" cy="20.4" r="0.9"  opacity="0.95"/>
+          <circle class="twinkle d2" cx="20.4" cy="52.1" r="1.05" opacity="0.95"/>
+          <circle class="twinkle d4" cx="78.6" cy="51.3" r="1.0"  opacity="0.95"/>
+          <circle class="twinkle d1" cx="36.5" cy="70.2" r="0.95" opacity="0.95"/>
+          <circle class="twinkle d3" cx="62.8" cy="74.5" r="0.85" opacity="0.92"/>
+        </g>
+      </svg>
+
+  # Nebula glow centered behind the verses
+  - id: glow
+    type: div
+    class: letter-glow
+    z: 1
+    parallax: 0.25
+    initial: { opacity: 0 }
+
+verses:
+  - id: intro
+    text: "You have a letter from Mother Gaia.\nScroll to read it."
+    style: caption
+    position: center
+  - id: c01
+    text: |-
+      Dear child, step inside,
+      Here legends do reside.
+    style: poem
+    position: center
+  - id: c02
+    text: |-
+      I want to tell you a real story,
+      Listen with love and don't worry.
+    style: poem
+    position: center
+  - id: c03
+    text: |-
+      Once upon a time in wonderland,
+      All my children lived hand in hand.
+    style: poem
+    position: center
+  - id: c04
+    text: |-
+      Science, poems, math, or art,
+      They chased the songs of their heart.
+    style: poem
+    position: center
+  - id: c05
+    text: |-
+      Until one day, one sad day,
+      The greedy merchant came their way.
+    style: poem
+    position: center
+  - id: c06
+    text: |-
+      With an army in his hold,
+      All he cared for was more gold.
+    style: poem
+    position: center
+  - id: c07
+    text: |-
+      All he cared for was his love
+      To always be on top.
+    style: poem
+    position: center
+  - id: c08
+    text: |-
+      Eager to reach this goal,
+      He sold the devil his soul.
+    style: poem
+    position: center
+  - id: c09
+    text: |-
+      Instead he received a book:
+      "How to Keep a Mind on Hook"
+    style: poem
+    position: center
+  - id: c10
+    text: |-
+      Filled with thousands of tricks
+      To change the way a heart picks.
+    style: poem
+    position: center
+  - id: c11
+    text: |-
+      With an army of soulless bots
+      Taking control of my children.
+    style: poem
+    position: center
+  - id: c12
+    text: |-
+      But lovely child, don't worry,
+      Here comes the time for glory.
+    style: poem
+    position: center
+  - id: c13
+    text: |-
+      To turn the dark back bright,
+      I am raising an army of knights.
+    style: poem
+    position: center
+  - id: c14
+    text: |-
+      Together we will pass this night
+      And show the world what is right.
+    style: poem
+    position: center
+  - id: c15
+    text: |-
+      If this letter touched your heart,
+      Use this door — come stand by my side.
+    style: poem
+    position: center
+
+# Each stanza occupies 0.075 of the timeline; consecutive stanzas overlap by 0.025
+# (cadence 0.05). Verses rise from y: "30vh" (~80% from top of viewport) to
+# y: "-30vh" (~20% from top), fading in over the first 0.009 and out over the
+# last 0.009 of their range. The intro is visible at scroll 0 and shares the
+# same exit pattern so it floats away as c01 rises into view.
+timeline:
+  # Ambience — soft nebula bloom (stars are visible from the start via layer initial)
+  - { target: glow, at: 0.0, to: 0.08, kind: fade, props: { opacity: 0.7 } }
+
+  # Intro — visible immediately, drifts upward as the user starts scrolling
+  - { target: intro, at: 0.0,   kind: set,  props: { autoAlpha: 1, y: 0 } }
+  - { target: intro, at: 0.0,   to: 0.075, kind: move, props: { y: "-30vh" } }
+  - { target: intro, at: 0.066, to: 0.075, kind: hide, exit: none }
+
+  # c01
+  - { target: c01, at: 0.05,  kind: set,  props: { y: "30vh" } }
+  - { target: c01, at: 0.05,  to: 0.059, kind: show, from: none }
+  - { target: c01, at: 0.05,  to: 0.125, kind: move, props: { y: "-30vh" } }
+  - { target: c01, at: 0.116, to: 0.125, kind: hide, exit: none }
+
+  # c02
+  - { target: c02, at: 0.10,  kind: set,  props: { y: "30vh" } }
+  - { target: c02, at: 0.10,  to: 0.109, kind: show, from: none }
+  - { target: c02, at: 0.10,  to: 0.175, kind: move, props: { y: "-30vh" } }
+  - { target: c02, at: 0.166, to: 0.175, kind: hide, exit: none }
+
+  # c03
+  - { target: c03, at: 0.15,  kind: set,  props: { y: "30vh" } }
+  - { target: c03, at: 0.15,  to: 0.159, kind: show, from: none }
+  - { target: c03, at: 0.15,  to: 0.225, kind: move, props: { y: "-30vh" } }
+  - { target: c03, at: 0.216, to: 0.225, kind: hide, exit: none }
+
+  # c04
+  - { target: c04, at: 0.20,  kind: set,  props: { y: "30vh" } }
+  - { target: c04, at: 0.20,  to: 0.209, kind: show, from: none }
+  - { target: c04, at: 0.20,  to: 0.275, kind: move, props: { y: "-30vh" } }
+  - { target: c04, at: 0.266, to: 0.275, kind: hide, exit: none }
+
+  # c05
+  - { target: c05, at: 0.25,  kind: set,  props: { y: "30vh" } }
+  - { target: c05, at: 0.25,  to: 0.259, kind: show, from: none }
+  - { target: c05, at: 0.25,  to: 0.325, kind: move, props: { y: "-30vh" } }
+  - { target: c05, at: 0.316, to: 0.325, kind: hide, exit: none }
+
+  # c06
+  - { target: c06, at: 0.30,  kind: set,  props: { y: "30vh" } }
+  - { target: c06, at: 0.30,  to: 0.309, kind: show, from: none }
+  - { target: c06, at: 0.30,  to: 0.375, kind: move, props: { y: "-30vh" } }
+  - { target: c06, at: 0.366, to: 0.375, kind: hide, exit: none }
+
+  # c07
+  - { target: c07, at: 0.35,  kind: set,  props: { y: "30vh" } }
+  - { target: c07, at: 0.35,  to: 0.359, kind: show, from: none }
+  - { target: c07, at: 0.35,  to: 0.425, kind: move, props: { y: "-30vh" } }
+  - { target: c07, at: 0.416, to: 0.425, kind: hide, exit: none }
+
+  # c08
+  - { target: c08, at: 0.40,  kind: set,  props: { y: "30vh" } }
+  - { target: c08, at: 0.40,  to: 0.409, kind: show, from: none }
+  - { target: c08, at: 0.40,  to: 0.475, kind: move, props: { y: "-30vh" } }
+  - { target: c08, at: 0.466, to: 0.475, kind: hide, exit: none }
+
+  # c09
+  - { target: c09, at: 0.45,  kind: set,  props: { y: "30vh" } }
+  - { target: c09, at: 0.45,  to: 0.459, kind: show, from: none }
+  - { target: c09, at: 0.45,  to: 0.525, kind: move, props: { y: "-30vh" } }
+  - { target: c09, at: 0.516, to: 0.525, kind: hide, exit: none }
+
+  # c10
+  - { target: c10, at: 0.50,  kind: set,  props: { y: "30vh" } }
+  - { target: c10, at: 0.50,  to: 0.509, kind: show, from: none }
+  - { target: c10, at: 0.50,  to: 0.575, kind: move, props: { y: "-30vh" } }
+  - { target: c10, at: 0.566, to: 0.575, kind: hide, exit: none }
+
+  # c11
+  - { target: c11, at: 0.55,  kind: set,  props: { y: "30vh" } }
+  - { target: c11, at: 0.55,  to: 0.559, kind: show, from: none }
+  - { target: c11, at: 0.55,  to: 0.625, kind: move, props: { y: "-30vh" } }
+  - { target: c11, at: 0.616, to: 0.625, kind: hide, exit: none }
+
+  # c12
+  - { target: c12, at: 0.60,  kind: set,  props: { y: "30vh" } }
+  - { target: c12, at: 0.60,  to: 0.609, kind: show, from: none }
+  - { target: c12, at: 0.60,  to: 0.675, kind: move, props: { y: "-30vh" } }
+  - { target: c12, at: 0.666, to: 0.675, kind: hide, exit: none }
+
+  # c13
+  - { target: c13, at: 0.65,  kind: set,  props: { y: "30vh" } }
+  - { target: c13, at: 0.65,  to: 0.659, kind: show, from: none }
+  - { target: c13, at: 0.65,  to: 0.725, kind: move, props: { y: "-30vh" } }
+  - { target: c13, at: 0.716, to: 0.725, kind: hide, exit: none }
+
+  # c14
+  - { target: c14, at: 0.70,  kind: set,  props: { y: "30vh" } }
+  - { target: c14, at: 0.70,  to: 0.709, kind: show, from: none }
+  - { target: c14, at: 0.70,  to: 0.775, kind: move, props: { y: "-30vh" } }
+  - { target: c14, at: 0.766, to: 0.775, kind: hide, exit: none }
+
+  # c15
+  - { target: c15, at: 0.75,  kind: set,  props: { y: "30vh" } }
+  - { target: c15, at: 0.75,  to: 0.759, kind: show, from: none }
+  - { target: c15, at: 0.75,  to: 0.825, kind: move, props: { y: "-30vh" } }
+  - { target: c15, at: 0.816, to: 0.825, kind: hide, exit: none }
+
+  # "Meet Mother Gaia" link
+  - { target: '#link-meet-gaia', at: 0.85, to: 0.95, kind: show, from: up }
+
+mobile:
+  max_width: 768
+  length: 4400

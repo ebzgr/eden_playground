@@ -1,0 +1,111 @@
+body.pg-scene {
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  color: #fff;
+  background: #000;
+}
+
+.mw-stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(0.75rem, 2vh, 1.5rem);
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.mw-parallax {
+  position: absolute;
+  inset: 0;
+  opacity: 0.25;
+  background: radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.35), transparent 55%),
+    radial-gradient(circle at 70% 80%, rgba(255, 255, 255, 0.15), transparent 50%);
+  animation: mw-float 18s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mw-parallax {
+    animation: none;
+  }
+}
+
+@keyframes mw-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-1rem); }
+}
+
+.mw-panel {
+  position: relative;
+  z-index: 1;
+  max-width: min(40rem, 100%);
+  text-align: center;
+}
+
+.mw-kicker {
+  margin: 0 0 0.75rem;
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+
+.mw-title {
+  margin: 0 0 1.25rem;
+  font-size: clamp(1.5rem, 5.5vw, 3.25rem);
+  font-weight: 900;
+  line-height: 1.15;
+}
+
+.mw-title-line {
+  display: block;
+}
+
+.mw-highlight {
+  background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.mw-subtitle {
+  margin: 0 0 clamp(1rem, 3vh, 2rem);
+  font-size: clamp(0.95rem, 3.2vw, 1.35rem);
+  line-height: 1.55;
+  opacity: 0.95;
+}
+
+.mw-typing-a {
+  color: #ff6b6b;
+  font-weight: 700;
+}
+
+.mw-typing-b {
+  color: #4ecdc4;
+  font-weight: 700;
+}
+
+.mw-btn {
+  min-height: 2.75rem;
+  min-width: 2.75rem;
+  padding: 0.85rem 1.75rem;
+  font-size: 1rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.mw-btn-primary {
+  color: #fff;
+  background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+  box-shadow: 0 0.6rem 1.5rem rgba(255, 107, 107, 0.35);
+}
+
+.mw-btn-primary:hover {
+  transform: translateY(-2px);
+}
+
+.mw-btn-primary:active {
+  transform: translateY(0);
+}

@@ -1,0 +1,99 @@
+body.pg-scene {
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  color: #fff;
+}
+
+.mw-door-scene {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(0.5rem, 2vh, 1.25rem);
+  overflow: hidden;
+  background: #0a0a0f;
+}
+
+.mw-door-scene .mw-panel {
+  max-width: min(36rem, 100%);
+  max-height: 100%;
+  overflow: hidden;
+  text-align: center;
+}
+
+.mw-back {
+  min-height: 2.75rem;
+  margin-bottom: clamp(0.5rem, 2vh, 1.25rem);
+  padding: 0.5rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.mw-neon {
+  margin: 0 0 0.75rem;
+  font-size: clamp(1.1rem, 3.8vw, 1.85rem);
+  font-weight: 800;
+  color: #ff6ec7;
+  text-shadow: 0 0 12px #ff6ec7, 0 0 24px #7873f5;
+}
+
+.mw-lights {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.mw-lights span {
+  width: 0.65rem;
+  height: 0.65rem;
+  border-radius: 50%;
+  animation: mw-pulse 1.2s ease-in-out infinite;
+}
+
+.mw-lights span:nth-child(1) { background: #ff6ec7; animation-delay: 0s; }
+.mw-lights span:nth-child(2) { background: #7873f5; animation-delay: 0.2s; }
+.mw-lights span:nth-child(3) { background: #00f5a0; animation-delay: 0.4s; }
+.mw-lights span:nth-child(4) { background: #ffd700; animation-delay: 0.6s; }
+.mw-lights span:nth-child(5) { background: #00d4ff; animation-delay: 0.8s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .mw-lights span {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+@keyframes mw-pulse {
+  0%, 100% { opacity: 0.35; transform: scale(0.85); }
+  50% { opacity: 1; transform: scale(1.15); }
+}
+
+.mw-lead {
+  margin: 0 0 0.75rem;
+  font-size: clamp(0.9rem, 2.8vw, 1.05rem);
+  line-height: 1.45;
+}
+
+.mw-cool .mw-line {
+  margin: 0.35rem 0;
+  font-size: clamp(0.9rem, 2.6vw, 1.1rem);
+}
+
+.mw-power {
+  font-size: clamp(1rem, 3.2vw, 1.25rem);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #00f5a0;
+  text-shadow: 0 0 10px #00f5a0;
+}
+
+.mw-matrix {
+  font-size: clamp(0.95rem, 3vw, 1.15rem);
+  font-weight: 700;
+  color: #00d4ff;
+  text-shadow: 0 0 10px #00d4ff;
+}

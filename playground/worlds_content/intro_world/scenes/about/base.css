@@ -1,0 +1,60 @@
+body.pg-scene {
+  font-family: system-ui, sans-serif;
+  background: linear-gradient(160deg, #1c1830 0%, #0f0d18 100%);
+  color: #ece8f5;
+}
+
+.about-stage {
+  display: block;
+  padding: clamp(1.25rem, 3vh, 3rem) clamp(0.75rem, 3vw, 1.5rem);
+}
+
+.about-card {
+  max-width: 38rem;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(200, 180, 255, 0.22);
+  border-radius: 16px;
+  padding: clamp(1.25rem, 3vh, 2.25rem) clamp(1rem, 3vw, 2rem);
+  box-shadow: 0 10px 36px rgba(0, 0, 0, 0.3);
+}
+
+.about-eyebrow {
+  margin: 0 0 0.5rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #b9a4f5;
+}
+
+.about-title {
+  margin: 0 0 1.75rem;
+  font-size: clamp(1.25rem, 4vw, 1.6rem);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.about-block {
+  margin: 0 0 1.5rem;
+}
+
+.about-block h2 {
+  margin: 0 0 0.4rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.about-block p {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: rgba(236, 232, 245, 0.82);
+}
+
+.about-foot {
+  margin: 2rem 0 0;
+  font-size: 0.8rem;
+  color: rgba(236, 232, 245, 0.5);
+  text-align: center;
+}
