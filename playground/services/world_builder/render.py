@@ -116,6 +116,11 @@ def render_scene_page(
 
     demo_attr = ' data-demo="true"' if is_demo else ""
 
+    # GSAP for map_world scenes that animate in scene JS (must run before inline base.js).
+    vendor_gsap = ""
+    if w == "map_world" and s == "map":
+        vendor_gsap = '<script src="/static/vendor/gsap.min.js"></script>\n'
+
     return f"""<!DOCTYPE html>
 <html lang="en"{html_class}><head>
 <meta charset="utf-8"/>
@@ -131,5 +136,5 @@ def render_scene_page(
 <script src="/static/sdk/tracker.js"></script>
 <script src="/static/sdk/events.js"></script>
 {demo_scripts}
-<script>{resolved.js}</script>
+{vendor_gsap}<script>{resolved.js}</script>
 </body></html>"""

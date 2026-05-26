@@ -2,11 +2,13 @@
 
 from pathlib import Path
 
-from fastapi import APIRouter, Header, HTTPException, Query
+from typing import Annotated
+
+from fastapi import APIRouter, Depends, Header, HTTPException, Query
 from fastapi.responses import FileResponse, HTMLResponse, RedirectResponse
 
 from playground.config import get_settings
-from playground.deps import CurrentUser, DbSession, OptionalUser
+from playground.deps import CurrentUser, DbSession, OptionalUser, get_return_code
 from playground.schemas.world import SceneResolved, TransitionRequest, TransitionResponse, WorldSummary
 from playground.services.world_builder.render import render_scene_page
 from playground.services.world_builder.service import (
@@ -19,6 +21,21 @@ from playground.services.world_builder.service import (
 
 router = APIRouter(prefix="/worlds", tags=["worlds"])
 settings = get_settings()
+
+
+@router.get("/characters/{character_id}/{asset_path:path}")
+async def character_asset(
+    character_id: str,
+    asset_path: str,
+) -> FileResponse:
+    """Serve shared character art from worlds_content/characters/<id>/."""
+    base = (settings.worlds_content_dir / "characters" / character_id).resolve()
+    resolved = (base / asset_path).resolve()
+    if not str(resolved).startswith(str(base)):
+        raise HTTPException(status_code=404, detail="asset not found")
+    if not resolved.is_file():
+        raise HTTPException(status_code=404, detail="asset not found")
+    return FileResponse(resolved)
 
 
 @router.get("/{world_id}/scenes/{scene_id}/assets/{asset_path:path}")
@@ -65,6 +82,7 @@ async def view_scene(
     scene_id: str,
     user: OptionalUser = None,
     session_id: str | None = Query(None),
+    return_code: Annotated[str | None, Depends(get_return_code)] = None,
     force_version: str | None = Query(
         None,
         description="Dev/admin override: render a specific version instead of the assigned one.",
@@ -91,7 +109,16 @@ async def view_scene(
             force_version=force_version,
         )
         await db.commit()
-    return HTMLResponse(content=render_scene_page(resolved))
+    response = HTMLResponse(content=render_scene_page(resolved))
+    if return_code:
+        response.set_cookie(
+            key=settings.return_code_cookie,
+            value=return_code,
+            max_age=settings.return_code_max_age_days * 86400,
+            httponly=True,
+            samesite="lax",
+        )
+    return response
 
 
 @router.post("/{world_id}/scenes/{scene_id}/transition", response_model=TransitionResponse)

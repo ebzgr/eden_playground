@@ -3,7 +3,7 @@
 from typing import Annotated
 from uuid import UUID
 
-from fastapi import Cookie, Depends, Header, HTTPException, status
+from fastapi import Cookie, Depends, Header, HTTPException, Query, status
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -21,9 +21,12 @@ async def get_return_code(
         str | None, Cookie(alias=_settings.return_code_cookie)
     ] = None,
     x_return_code: Annotated[str | None, Header(alias="X-Return-Code")] = None,
+    return_code_query: Annotated[
+        str | None, Query(alias="return_code")
+    ] = None,
 ) -> str | None:
-    """Return code from cookie or header (for API clients and tests)."""
-    return return_code or x_return_code
+    """Return code from cookie, header, or ?return_code= (dev / test links)."""
+    return return_code or x_return_code or return_code_query
 
 
 async def get_current_user(

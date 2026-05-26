@@ -23,7 +23,8 @@ You implement. You make the code do what the upstream role asked for, without ex
 2. **Read at least one neighbor.** If you're adding a route, read another route in the same file. If you're adding a model field, read another field in the same model.
 3. **Implement to the spec.** Do not invent additional behavior the upstream role didn't ask for.
 4. **Write or extend tests** in the matching file (see [`ai_docs/conventions/testing.md`](../conventions/testing.md) for the mapping).
-5. **Run the suite**: `/tmp/eden_pg_venv/bin/pytest -q`.
+5. **Run the suite**: `.venv/bin/pytest -q` (after `pip install -e ".[dev]"` in `.venv`; see root `README.md`).
+6. **Local DB**: `.venv/bin/python -m playground db-init` for migrations + seed without starting Uvicorn; default SQLite at `/tmp/eden_playground.db`.
 6. **Fix lints.** Address linter feedback on every file you touched.
 7. **Update docs.** Update the matching `ai_docs/services/<svc>.md` if behavior, interface, or file layout changed. Update `/docs/Architecture.md` if a capability changed.
 8. **Hand off to Tester** if the change is visible in the running UI (scene, admin page, preview route).

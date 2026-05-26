@@ -40,17 +40,26 @@ All fixtures live in [`tests/conftest.py`](../../tests/conftest.py). Three you w
 
 ## Running
 
-The project venv is at `/tmp/eden_pg_venv`. Standard run:
+Use the project venv at `.venv/` (see root `README.md`). Standard run:
 
 ```bash
-/tmp/eden_pg_venv/bin/pytest -q
+source .venv/bin/activate
+pytest -q
+```
+
+Without activating:
+
+```bash
+.venv/bin/pytest -q
 ```
 
 Single file:
 
 ```bash
-/tmp/eden_pg_venv/bin/pytest -q tests/test_experiment_lifecycle.py
+.venv/bin/pytest -q tests/test_experiment_lifecycle.py
 ```
+
+If the repo lives on a mount where `.venv` cannot be created, use `/tmp/eden_pg_venv` instead (same `pip install -e ".[dev]"` step).
 
 If the test DB at `./test_playground.db` gets wedged, delete it and re-run; the `engine` fixture recreates it.
 

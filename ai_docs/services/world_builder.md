@@ -10,6 +10,7 @@ Loads worlds, scenes, and scene versions from disk; resolves which scene version
 - [`playground/services/world_builder/patcher.py`](../../playground/services/world_builder/patcher.py) — `resolve_version`, `discover_versions`, `PATCH_OPS` (the only DOM op vocabulary).
 - [`playground/services/world_builder/demo_config.py`](../../playground/services/world_builder/demo_config.py) — load/validate `demo.yaml`, mobile merge.
 - [`playground/services/world_builder/render.py`](../../playground/services/world_builder/render.py) — `render_scene_page(resolved, preview_mode=False)`: builds the `<!DOCTYPE html>`, injects `window.__PLAYGROUND__`, loads the SDK trio, and renders the preview banner when applicable. Injects GSAP + Demo SDK when `demo.yaml` is present.
+- [`playground/static/sdk/conversation.js`](../../playground/static/sdk/conversation.js) — optional SDK helper. Add `class="conversation"` to any container to animate its text word-by-word. Scene HTML loads it explicitly: `<script src="/static/sdk/conversation.js"></script>`. Buttons inside are hidden until animation ends. Click skips to end. Attributes: `data-word-delay` (ms, default 75), `data-comma-pause` (default 220), `data-period-pause` (default 400).
 - [`playground/services/world_builder/router.py`](../../playground/services/world_builder/router.py) — `GET /worlds`, `GET /worlds/{w}/scenes/{s}` (JSON), `GET /worlds/{w}/scenes/{s}/view` (HTML), `GET /worlds/{w}/scenes/{s}/assets/{path}`, `POST /worlds/{w}/scenes/{s}/transition`.
 
 Content lives under [`playground/worlds_content/<world>/`](../../playground/worlds_content/).
@@ -63,6 +64,7 @@ A scene is a **demo scene** when `scenes/<scene_id>/demo.yaml` exists. See [`ai_
 2. Minimal `base.html`: `<main id="demo-root">` plus any static controls (e.g. `#btn-continue`).
 3. Minimal `base.js`: `Demo.run(window.__DEMO__)`.
 4. Optional assets under `assets/` — served at `/worlds/<w>/scenes/<s>/assets/<file>`.
+5. **Shared character art** under [`playground/worlds_content/characters/`](../../playground/worlds_content/characters/) — served at `/worlds/characters/<character_id>/<file>` (e.g. `/worlds/characters/gaia/portrait.png`). See that folder’s `README.md`.
 5. `render_scene_page` auto-injects `demo.css`, GSAP, ScrollTrigger, `demo.js`, and `window.__DEMO__`. Non-demo scenes are unchanged.
 
 Author demos with the **demo_builder** role; do not modify the SDK from scene work.

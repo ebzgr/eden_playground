@@ -1,46 +1,111 @@
-<main class="mw-stage mw-map">
-  <div class="mw-panel">
-    <h1 class="mw-map-title">Six Marketing Worlds</h1>
-    <p class="mw-map-lead">Each door uses a different psychological trick. Pick one to step inside.</p>
-    <p class="mw-map-hint">Every door is trying to lure you in with its own charm.</p>
+<main class="mw-stage">
+  <header class="mw-header">
+    <button type="button"
+            class="mw-gaia-btn"
+            data-pg-event="map_gaia_return_clicked">
+      ← Back to Gaia
+    </button>
+    <h1 class="mw-title">Choose Your Path</h1>
+    <p class="mw-subtitle">Each orb holds a world. Which skill calls to you?</p>
+  </header>
 
-    <div class="mw-doors" role="list">
-      <button type="button" class="mw-door urgency" data-door="door_urgency" data-pg-event="map_door_urgency_clicked">
-        <span class="mw-door-icon" aria-hidden="true">⚡</span>
-        <span class="mw-door-badge">Limited time</span>
-        <span class="mw-door-name">Urgency World</span>
-        <span class="mw-door-desc">Act now or miss out forever.</span>
-      </button>
-      <button type="button" class="mw-door reward" data-door="door_reward" data-pg-event="map_door_reward_clicked">
-        <span class="mw-door-icon" aria-hidden="true">🎮</span>
-        <span class="mw-door-badge">Gold status</span>
-        <span class="mw-door-name">Reward World</span>
-        <span class="mw-door-desc">Unlimited rewards and status upgrades.</span>
-      </button>
-      <button type="button" class="mw-door social" data-door="door_social" data-pg-event="map_door_social_clicked">
-        <span class="mw-door-icon" aria-hidden="true">👥</span>
-        <span class="mw-door-badge">Most popular</span>
-        <span class="mw-door-name">Social World</span>
-        <span class="mw-door-desc">Join millions who already chose wisely.</span>
-      </button>
-      <button type="button" class="mw-door deal" data-door="door_deal" data-pg-event="map_door_deal_clicked">
-        <span class="mw-door-icon" aria-hidden="true">💰</span>
-        <span class="mw-door-badge">Save 100%</span>
-        <span class="mw-door-name">Deal World</span>
-        <span class="mw-door-desc">Was €99, now €0. Harry and save €99.</span>
-      </button>
-      <button type="button" class="mw-door framing" data-door="door_framing" data-pg-event="map_door_framing_clicked">
-        <span class="mw-door-icon" aria-hidden="true">🖼️</span>
-        <span class="mw-door-badge">Exclusive</span>
-        <span class="mw-door-name">Framing World</span>
-        <span class="mw-door-desc">We set the frame so you see things our way.</span>
-      </button>
-      <button type="button" class="mw-door persuasion" data-door="door_persuasion" data-pg-event="map_door_persuasion_clicked">
-        <span class="mw-door-icon" aria-hidden="true">✨</span>
-        <span class="mw-door-badge">Trending</span>
-        <span class="mw-door-name">Persuasion World</span>
-        <span class="mw-door-desc">Bright lights, big promises, irresistible offers.</span>
-      </button>
+  <div class="mw-slider">
+    <div class="mw-track">
+      <article class="mw-card" data-orb-id="clarity" data-orb-index="0">
+        <span class="mw-granted" aria-hidden="true">Granted</span>
+        <div class="mw-orb mw-orb--clarity" aria-hidden="true">
+          <span class="mw-orb-symbol">👁</span>
+        </div>
+        <div class="mw-card-body">
+          <h2 class="mw-card-name">Orb of Clarity</h2>
+          <p class="mw-card-tagline">Eyes that pierce the veil</p>
+          <button type="button"
+                  class="mw-enter-btn"
+                  data-pg-event="map_world_entered"
+                  data-pg-payload='{"orb_id":"clarity","orb_name":"Orb of Clarity"}'>
+            Enter World
+          </button>
+        </div>
+      </article>
+
+      <article class="mw-card" data-orb-id="presence" data-orb-index="1">
+        <span class="mw-granted" aria-hidden="true">Granted</span>
+        <div class="mw-orb mw-orb--presence" aria-hidden="true">
+          <span class="mw-orb-symbol">⚡</span>
+        </div>
+        <div class="mw-card-body">
+          <h2 class="mw-card-name">Orb of Presence</h2>
+          <p class="mw-card-tagline">Feel the storm, stay the course</p>
+          <button type="button"
+                  class="mw-enter-btn"
+                  data-pg-event="map_world_entered"
+                  data-pg-payload='{"orb_id":"presence","orb_name":"Orb of Presence"}'>
+            Enter World
+          </button>
+        </div>
+      </article>
+
+      <article class="mw-card" data-orb-id="wisdom" data-orb-index="2">
+        <span class="mw-granted" aria-hidden="true">Granted</span>
+        <div class="mw-orb mw-orb--wisdom" aria-hidden="true">
+          <span class="mw-orb-symbol">🌊</span>
+        </div>
+        <div class="mw-card-body">
+          <h2 class="mw-card-name">Orb of Wisdom</h2>
+          <p class="mw-card-tagline">Think as deep as the ocean</p>
+          <button type="button"
+                  class="mw-enter-btn"
+                  data-pg-event="map_world_entered"
+                  data-pg-payload='{"orb_id":"wisdom","orb_name":"Orb of Wisdom"}'>
+            Enter World
+          </button>
+        </div>
+      </article>
+
+      <article class="mw-card" data-orb-id="resistance" data-orb-index="3">
+        <span class="mw-granted" aria-hidden="true">Granted</span>
+        <div class="mw-orb mw-orb--resistance" aria-hidden="true">
+          <span class="mw-orb-symbol">⛰️</span>
+        </div>
+        <div class="mw-card-body">
+          <h2 class="mw-card-name">Orb of Resistance</h2>
+          <p class="mw-card-tagline">Still as a mountain, free as the wind</p>
+          <button type="button"
+                  class="mw-enter-btn"
+                  data-pg-event="map_world_entered"
+                  data-pg-payload='{"orb_id":"resistance","orb_name":"Orb of Resistance"}'>
+            Enter World
+          </button>
+        </div>
+      </article>
+
+      <article class="mw-card" data-orb-id="authenticity" data-orb-index="4">
+        <span class="mw-granted" aria-hidden="true">Granted</span>
+        <div class="mw-orb mw-orb--authenticity" aria-hidden="true">
+          <span class="mw-orb-symbol">🌳</span>
+        </div>
+        <div class="mw-card-body">
+          <h2 class="mw-card-name">Orb of Authenticity</h2>
+          <p class="mw-card-tagline">Rooted like an ancient tree</p>
+          <button type="button"
+                  class="mw-enter-btn"
+                  data-pg-event="map_world_entered"
+                  data-pg-payload='{"orb_id":"authenticity","orb_name":"Orb of Authenticity"}'>
+            Enter World
+          </button>
+        </div>
+      </article>
     </div>
+
+    <button type="button" class="mw-nav mw-nav--prev" aria-label="Previous orb">&#8249;</button>
+    <button type="button" class="mw-nav mw-nav--next" aria-label="Next orb">&#8250;</button>
+  </div>
+
+  <div class="mw-dots" role="tablist" aria-label="Orb navigation">
+    <button class="mw-dot" role="tab" aria-label="Orb of Clarity" data-dot-index="0"></button>
+    <button class="mw-dot" role="tab" aria-label="Orb of Presence" data-dot-index="1"></button>
+    <button class="mw-dot" role="tab" aria-label="Orb of Wisdom" data-dot-index="2"></button>
+    <button class="mw-dot" role="tab" aria-label="Orb of Resistance" data-dot-index="3"></button>
+    <button class="mw-dot" role="tab" aria-label="Orb of Authenticity" data-dot-index="4"></button>
   </div>
 </main>

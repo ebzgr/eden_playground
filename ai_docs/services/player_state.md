@@ -28,6 +28,8 @@ GET /state/<key>
 → {"key": "<key>", "value": <value-or-null>}
 ```
 
+Scene JS: `Playground.getState("journey.orbs")` after `postIdentity()` (see [`playground.js`](../../playground/static/sdk/playground.js)). Map scene uses this list to mark granted orbs (`is-granted` class). Orb ids: `clarity`, `presence`, `wisdom`, `resistance`, `authenticity`.
+
 ### Set a key
 
 ```

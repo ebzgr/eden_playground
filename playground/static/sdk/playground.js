@@ -17,16 +17,39 @@
     return cfg().apiBase || "";
   }
 
+  function ensureReturnCodeFromUrl() {
+    if (isPreview()) return;
+    try {
+      const rc = new URLSearchParams(global.location.search).get("return_code");
+      if (rc) localStorage.setItem("return_code", rc);
+    } catch (_) {}
+  }
+
   function headers() {
     const h = { "Content-Type": "application/json" };
     if (isPreview()) h["X-Playground-Preview"] = "1";
+    ensureReturnCodeFromUrl();
     const code = localStorage.getItem("return_code");
     if (code) h["X-Return-Code"] = code;
     return h;
   }
 
+  async function getState(key) {
+    if (isPreview()) return null;
+    ensureReturnCodeFromUrl();
+    const res = await fetch(apiBase() + "/state/" + encodeURIComponent(key), {
+      method: "GET",
+      credentials: "include",
+      headers: headers(),
+    });
+    if (!res.ok) return null;
+    const data = await res.json();
+    return data.value ?? null;
+  }
+
   async function postIdentity() {
     if (isPreview()) return { consent_state: "preview", preview: true };
+    ensureReturnCodeFromUrl();
     const code = localStorage.getItem("return_code");
     const res = await fetch(apiBase() + "/identity", {
       method: "POST",
@@ -168,6 +191,8 @@
   global.Playground = {
     postIdentity,
     postConsent,
+    ensureReturnCodeFromUrl,
+    getState,
     ensureWorldSession,
     getWorldSession,
     sceneViewUrl,

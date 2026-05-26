@@ -2,23 +2,42 @@
 
 FastAPI platform for event tracking, world/scene delivery, A/B testing, player state, and admin.
 
+## Database and seed
+
+- Default DB: `/tmp/eden_playground.db` (see `playground/config.py`). Set `DATABASE_URL` to override.
+- **Startup:** `uvicorn` runs `init_db()` (Alembic) then `seed_database()` automatically.
+- **Explicit init** (migrations + sync worlds from disk + demo experiment if missing):
+
+```bash
+python -m playground db-init
+```
+
+- **Reset dev DB:** `rm -f /tmp/eden_playground.db*` then `python -m playground db-init`.
+
+Seed reads `playground/worlds_content/*/world.yaml` and scene `versions/*.yaml` into ORM rows; it does not overwrite existing rows.
+
 ## Run locally
+
+See the root [README.md](../README.md) for full first-time setup. Short version:
 
 ```bash
 cd /path/to/eden_playground
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -e ".[dev]"
-
 uvicorn playground.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
 - API docs: http://localhost:8000/docs
 - Admin: http://localhost:8000/admin/ (no login by default; set `ADMIN_AUTH_ENABLED=true` and `ADMIN_USERNAME` / `ADMIN_PASSWORD` to require basic auth)
-- **Entry (player journey):** http://localhost:8000/ → intro lab → consent → demo → map (Gaia welcome)
+- **Entry (player journey):** http://localhost:8000/ → intro lab → consent → demo → map
+- **Map welcome (Gaia):** http://localhost:8000/worlds/map_world/scenes/welcome/view
+- **Map scene (orbs):** http://localhost:8000/worlds/map_world/scenes/map/view
 - Dev sample: http://localhost:8000/worlds/deal_world/scenes/intro/view
 
 ## Tests
+
+With `.venv` activated:
 
 ```bash
 pytest
